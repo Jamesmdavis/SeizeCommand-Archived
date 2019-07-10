@@ -11,11 +11,19 @@ namespace SeizeCommand.Networking
         public override void Start()
         {
             base.Start();
+            SetupEvents();
         }
 
         public override void Update()
         {
             base.Update();
+        }
+
+        private void SetupEvents()
+        {
+            On("open", (callBack) => {
+                Debug.Log("Connection Made to the Server");
+            });
         }
     }
 }
