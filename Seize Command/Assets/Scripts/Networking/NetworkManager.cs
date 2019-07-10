@@ -2,20 +2,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using SocketIO;
 
 namespace SeizeCommand.Networking
 {
-    public class NetworkManager : SocketIOComponent
+    public class NetworkManager : MonoBehaviour
     {
-        public override void Start()
+        [Serializable]
+        public class MovementSendPackage
         {
-            base.Start();
+            public float horizontal;
+            public float vertical;
+            public float timeStamp;
         }
 
-        public override void Update()
+        [Serializable]
+        public class MovementReceivePackage
         {
-            base.Update();
+            public float x;
+            public float y;
+            public float z;
+            public float timeStamp;
         }
     }
 }
