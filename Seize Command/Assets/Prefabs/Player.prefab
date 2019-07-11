@@ -198,6 +198,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gun: {fileID: 3085805901309814881}
+  networkIdentity: {fileID: 654283526}
 --- !u!50 &2867688735482780146
 Rigidbody2D:
   serializedVersion: 4

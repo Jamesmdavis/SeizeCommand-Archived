@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,11 +12,20 @@ namespace SeizeCommand.Attack
         [Header("Class References")]
         [SerializeField] protected AbstractGun gun;
 
+        public event Action OnAttack;
+
         protected virtual void FixedUpdate()
         {
-            Attack();
+            CheckAttack();
         }
 
-        protected abstract void Attack();
+        protected virtual void Attack()
+        {
+            gun.Fire();
+
+            OnAttack();
+        }
+
+         protected abstract void CheckAttack();
     }
 }

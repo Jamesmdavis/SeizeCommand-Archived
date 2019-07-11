@@ -4,14 +4,13 @@ using UnityEngine;
 
 namespace SeizeCommand.Attack
 {
-    public class PlayerAttack : AbstractAttack
+    public class PlayerAttack : AbstractNetworkAttack
     {
-        protected override void Attack()
+        protected override void CheckAttack()
         {
             if(Input.GetMouseButtonDown(0))
             {
-                gun.Fire();
-                Debug.Log("Attack");
+                Attack();
             }
         }
     }
