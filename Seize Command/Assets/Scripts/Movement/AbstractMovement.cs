@@ -6,6 +6,7 @@ namespace SeizeCommand.Movement
 {
     public abstract class AbstractMovement : MonoBehaviour
     {
+        [Header("Data")]
         [SerializeField] protected float strength;
 
         protected Rigidbody2D rb;
@@ -15,7 +16,7 @@ namespace SeizeCommand.Movement
             rb = GetComponent<Rigidbody2D>();
         }
 
-        private void FixedUpdate()
+        protected virtual void FixedUpdate()
         {
             Move();
         }

@@ -13,7 +13,7 @@ namespace SeizeCommand.Networking
 
         [SerializeField] private GameObject player;
 
-        private Dictionary<string, GameObject> serverObjects;
+        private Dictionary<string, NetworkIdentity> serverObjects;
 
         public static string ClientID { get; private set; }
 
@@ -31,7 +31,7 @@ namespace SeizeCommand.Networking
 
         private void Initialize()
         {
-            serverObjects = new Dictionary<string, GameObject>();
+            serverObjects = new Dictionary<string, NetworkIdentity>();
         }
 
         private void SetupEvents()
@@ -49,18 +49,44 @@ namespace SeizeCommand.Networking
             On("spawn", (E) => {
                 string id = E.data["id"].ToString();
 
-                GameObject g = new GameObject("Server ID: " + id);
-                g.transform.SetParent(networkContainer);
-                serverObjects.Add(id, g);
+                GameObject g = Instantiate(player, networkContainer);
+                g.name = string.Format("Player ({0})", id);
+                NetworkIdentity ni = g.GetComponent<NetworkIdentity>();
+                ni.SetControllerID(id);
+                ni.SetSocketReference(this);
+                serverObjects.Add(id, ni);
             });
 
             On("disconnected", (E) => {
                 string id = E.data["id"].ToString();
 
-                GameObject g = serverObjects[id];
+                GameObject g = serverObjects[id].gameObject;
                 Destroy(g); //Remove from game
                 serverObjects.Remove(id);   //Remove from memory
             });
+
+            On("updatePosition", (E) => {
+                string id = E.data["id"].ToString();
+                float x = E.data["position"]["x"].f;
+                float y = E.data["position"]["y"].f;
+
+                NetworkIdentity ni = serverObjects[id];
+                ni.transform.position = new Vector3(x, y, 0);
+            });
         }
+    }
+
+    [Serializable]
+    public class Player
+    {
+        public string id;
+        public Position position;
+    }
+
+    [Serializable]
+    public class Position
+    {
+        public float x;
+        public float y;
     }
 }
