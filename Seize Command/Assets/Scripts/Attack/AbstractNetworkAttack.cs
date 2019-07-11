@@ -23,7 +23,7 @@ namespace SeizeCommand.Attack
 
         public void InduceAttack()
         {
-            Attack();
+            gun.Fire();
         }
     }
 }

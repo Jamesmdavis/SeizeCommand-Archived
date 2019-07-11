@@ -24,6 +24,7 @@ namespace SeizeCommand.Attack
             gun.Fire();
 
             OnAttack();
+            Debug.Log("OnAttack");
         }
 
          protected abstract void CheckAttack();
