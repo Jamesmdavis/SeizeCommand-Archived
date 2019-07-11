@@ -8,9 +8,16 @@ namespace SeizeCommand.Networking
 {
     public class NetworkManager : SocketIOComponent
     {
+        [Header("Network Client")]
+        [SerializeField]
+        private Transform networkContainer;
+
+        private Dictionary<string, GameObject> serverObjects;
+
         public override void Start()
         {
             base.Start();
+            Initialize();
             SetupEvents();
         }
 
@@ -19,10 +26,37 @@ namespace SeizeCommand.Networking
             base.Update();
         }
 
+        private void Initialize()
+        {
+            serverObjects = new Dictionary<string, GameObject>();
+        }
+
         private void SetupEvents()
         {
-            On("open", (callBack) => {
+            On("open", (E) => {
                 Debug.Log("Connection Made to the Server");
+            });
+
+            On("register", (E) => {
+                string id = E.data["id"].ToString();
+
+                Debug.LogFormat("Our Client's ID ({0})", id);
+            });
+
+            On("spawn", (E) => {
+                string id = E.data["id"].ToString();
+
+                GameObject g = new GameObject("Server ID: " + id);
+                g.transform.SetParent(networkContainer);
+                serverObjects.Add(id, g);
+            });
+
+            On("disconnected", (E) => {
+                string id = E.data["id"].ToString();
+
+                GameObject g = serverObjects[id];
+                Destroy(g);
+                serverObjects.Remove(id);
             });
         }
     }
