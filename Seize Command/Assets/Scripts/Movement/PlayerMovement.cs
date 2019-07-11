@@ -11,7 +11,7 @@ namespace SeizeCommand.Movement
             float horizontal = Input.GetAxis("Horizontal");
             float vertical = Input.GetAxis("Vertical");
 
-            transform.position += new Vector3(horizontal, vertical, 0) * strength * Time.deltaTime;
+            transform.position += new Vector3(horizontal, vertical, 0) * speed * Time.deltaTime;
         }
     }
 }

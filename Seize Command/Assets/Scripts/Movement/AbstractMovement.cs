@@ -7,7 +7,7 @@ namespace SeizeCommand.Movement
     public abstract class AbstractMovement : MonoBehaviour
     {
         [Header("Data")]
-        [SerializeField] protected float strength;
+        [SerializeField] protected float speed;
 
         protected Rigidbody2D rb;
 

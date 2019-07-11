@@ -81,6 +81,7 @@ namespace SeizeCommand.Networking
     {
         public string id;
         public Position position;
+        public Rotation rotation;
     }
 
     [Serializable]
@@ -88,5 +89,14 @@ namespace SeizeCommand.Networking
     {
         public float x;
         public float y;
+    }
+
+    [Serializable]
+    public class Rotation
+    {
+        public float x;
+        public float y;
+        public float z;
+        public float w;
     }
 }

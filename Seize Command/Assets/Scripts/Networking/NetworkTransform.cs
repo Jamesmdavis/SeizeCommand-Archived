@@ -8,7 +8,6 @@ namespace SeizeCommand.Networking
     public class NetworkTransform : MonoBehaviour
     {
         private Vector3 oldPosition;
-
         private NetworkIdentity networkIdentity;
         private Player player;
 
