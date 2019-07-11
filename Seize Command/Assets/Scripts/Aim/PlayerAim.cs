@@ -6,6 +6,8 @@ namespace SeizeCommand.Aim
 {
     public class PlayerAim : AbstractAim
     {
+        const float BARREL_PIVOT_OFFSET = 90.0f;
+
         protected override void Aim()
         {
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -13,7 +15,7 @@ namespace SeizeCommand.Aim
             dif.Normalize();
             float rot = Mathf.Atan2(dif.y, dif.x) * Mathf.Rad2Deg;
 
-            transform.rotation = Quaternion.Euler(0, 0, rot);
+            transform.rotation = Quaternion.Euler(0, 0, rot + BARREL_PIVOT_OFFSET);
         }
     }
 }
