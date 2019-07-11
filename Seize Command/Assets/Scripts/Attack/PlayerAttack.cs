@@ -8,7 +8,10 @@ namespace SeizeCommand.Attack
     {
         protected override void Attack()
         {
-            
+            if(Input.GetMouseButtonDown(0))
+            {
+                gun.Fire();
+            }
         }
     }
 }
