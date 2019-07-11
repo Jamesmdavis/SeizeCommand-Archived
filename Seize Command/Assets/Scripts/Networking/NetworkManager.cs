@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using SocketIO;
 
+using SeizeCommand.Attack;
+
 namespace SeizeCommand.Networking
 {
     public class NetworkManager : SocketIOComponent
@@ -80,6 +82,15 @@ namespace SeizeCommand.Networking
 
                 NetworkIdentity ni = serverObjects[id];
                 ni.transform.rotation = Quaternion.Euler(0, 0, rotation);
+            });
+
+            On("attack", (E) => {
+                string id = E.data["id"].ToString();
+
+                NetworkIdentity ni = serverObjects[id];
+                AbstractNetworkAttack attack = ni.GetComponent<AbstractNetworkAttack>();
+                
+                attack.InduceAttack();
             });
         }
     }

@@ -9,6 +9,9 @@ namespace SeizeCommand.Networking
 {
     public class OnAttackNetworkAttack : AbstractEventSubscriber<AbstractAttack>
     {
+        [Header("Class References")]
+        [SerializeField] private NetworkIdentity networkIdentity;
+
         private void OnEnable()
         {
             item.OnAttack += NetworkAttack;
@@ -21,7 +24,7 @@ namespace SeizeCommand.Networking
 
         private void NetworkAttack()
         {
-            
+            networkIdentity.Socket.Emit("attack");
         }
     }
 }

@@ -46,6 +46,10 @@ io.on('connection', function(socket) {
         socket.broadcast.emit('updateRotation', player);
     });
 
+    socket.on('attack', function() {
+        socket.broadcast.emit('attack', player);
+    });
+
     socket.on('disconnect', function() {
         console.log('A player has disconnected');
         delete players[thisPlayerID];
