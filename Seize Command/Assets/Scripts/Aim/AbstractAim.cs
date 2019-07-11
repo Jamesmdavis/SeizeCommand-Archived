@@ -9,6 +9,12 @@ namespace SeizeCommand.Aim
         [Header("Data")]
         [SerializeField] protected float speed;
 
+        public float Rotation
+        {
+            get;
+            protected set;
+        }
+
         protected virtual void Start() { }
 
         protected virtual void FixedUpdate()

@@ -73,6 +73,14 @@ namespace SeizeCommand.Networking
                 NetworkIdentity ni = serverObjects[id];
                 ni.transform.position = new Vector3(x, y, 0);
             });
+
+            On("updateRotation", (E) => {
+                string id = E.data["id"].ToString();
+                float rotation = E.data["rotation"].f;
+
+                NetworkIdentity ni = serverObjects[id];
+                ni.transform.rotation = Quaternion.Euler(0, 0, rotation);
+            });
         }
     }
 
@@ -81,7 +89,7 @@ namespace SeizeCommand.Networking
     {
         public string id;
         public Position position;
-        public Rotation rotation;
+        public float rotation;
     }
 
     [Serializable]
@@ -89,14 +97,5 @@ namespace SeizeCommand.Networking
     {
         public float x;
         public float y;
-    }
-
-    [Serializable]
-    public class Rotation
-    {
-        public float x;
-        public float y;
-        public float z;
-        public float w;
     }
 }

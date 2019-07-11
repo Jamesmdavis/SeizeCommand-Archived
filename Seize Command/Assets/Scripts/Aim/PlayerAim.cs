@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SeizeCommand.Aim
 {
-    public class PlayerAim : AbstractAim
+    public class PlayerAim : AbstractNetworkAim
     {
         const float BARREL_PIVOT_OFFSET = 90.0f;
 
@@ -15,7 +15,9 @@ namespace SeizeCommand.Aim
             dif.Normalize();
             float rot = Mathf.Atan2(dif.y, dif.x) * Mathf.Rad2Deg;
 
-            transform.rotation = Quaternion.Euler(0, 0, rot + BARREL_PIVOT_OFFSET);
+            Rotation = rot + BARREL_PIVOT_OFFSET;
+
+            transform.rotation = Quaternion.Euler(0, 0, Rotation);
         }
     }
 }
