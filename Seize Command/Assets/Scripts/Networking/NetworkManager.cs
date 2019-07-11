@@ -55,8 +55,8 @@ namespace SeizeCommand.Networking
                 string id = E.data["id"].ToString();
 
                 GameObject g = serverObjects[id];
-                Destroy(g);
-                serverObjects.Remove(id);
+                Destroy(g); //Remove from game
+                serverObjects.Remove(id);   //Remove from memory
             });
         }
     }

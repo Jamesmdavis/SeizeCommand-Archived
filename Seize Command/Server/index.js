@@ -20,7 +20,7 @@ io.on('connection', function(socket) {
     //Tell the client that this is our id for the server
     socket.emit('register', {id: thisPlayerID});
     //Tell myself that I have spawned
-    socket.emit('spwan', player);
+    socket.emit('spawn', player);
     //Tell others that I have spawned
     socket.broadcast.emit('spawn', player);
 
@@ -36,5 +36,6 @@ io.on('connection', function(socket) {
         console.log('A player has disconnected');
         delete players[thisPlayerID];
         delete sockets[thisPlayerID];
+        socket.broadcast.emit('disconnected', player);
     });
 });
