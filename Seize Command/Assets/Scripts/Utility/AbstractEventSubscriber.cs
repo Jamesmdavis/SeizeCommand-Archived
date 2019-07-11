@@ -10,7 +10,7 @@ namespace SeizeCommand.Utility
     {
         protected T item;
 
-        protected virtual void Start()
+        protected virtual void Awake()
         {
             item = GetComponent<T>();
         }
