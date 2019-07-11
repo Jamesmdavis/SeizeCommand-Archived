@@ -11,6 +11,7 @@ namespace SeizeCommand.Attack
             if(Input.GetMouseButtonDown(0))
             {
                 gun.Fire();
+                Debug.Log("Attack");
             }
         }
     }

@@ -8,7 +8,8 @@ namespace SeizeCommand.Weapon
     {
         public override void Fire()
         {
-            
+            GameObject proj = Instantiate(projectile, projectileSpawnPoint.position, projectileSpawnPoint.rotation);
+            Debug.Log("Fire");
         }
     }
 }

@@ -6,6 +6,9 @@ namespace SeizeCommand.DamageSenders
 {
     public class ProjectileDamageSender : AbstractDamageSender
     {
-
+        protected override void SendDamage()
+        {
+            
+        }
     }
 }
