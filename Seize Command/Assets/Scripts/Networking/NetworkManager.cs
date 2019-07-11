@@ -9,10 +9,13 @@ namespace SeizeCommand.Networking
     public class NetworkManager : SocketIOComponent
     {
         [Header("Network Client")]
-        [SerializeField]
-        private Transform networkContainer;
+        [SerializeField] private Transform networkContainer;
+
+        [SerializeField] private GameObject player;
 
         private Dictionary<string, GameObject> serverObjects;
+
+        public static string ClientID { get; private set; }
 
         public override void Start()
         {
@@ -38,9 +41,9 @@ namespace SeizeCommand.Networking
             });
 
             On("register", (E) => {
-                string id = E.data["id"].ToString();
+                ClientID = E.data["id"].ToString();
 
-                Debug.LogFormat("Our Client's ID ({0})", id);
+                Debug.LogFormat("Our Client's ID ({0})", ClientID);
             });
 
             On("spawn", (E) => {
