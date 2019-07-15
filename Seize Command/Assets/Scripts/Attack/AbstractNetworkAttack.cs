@@ -10,7 +10,7 @@ namespace SeizeCommand.Attack
     {
         [SerializeField] protected NetworkIdentity networkIdentity;
 
-        protected override void FixedUpdate()
+        protected override void Update()
         {
             if(networkIdentity)
             {

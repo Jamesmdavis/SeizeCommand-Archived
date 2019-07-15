@@ -14,7 +14,7 @@ namespace SeizeCommand.Attack
 
         public event Action OnAttack;
 
-        protected virtual void FixedUpdate()
+        protected virtual void Update()
         {
             CheckAttack();
         }

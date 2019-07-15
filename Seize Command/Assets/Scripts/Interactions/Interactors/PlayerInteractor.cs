@@ -20,7 +20,7 @@ namespace SeizeCommand.Interactions.Interactors
             interactables = new List<IInteractable>();
         }
 
-        private void FixedUpdate()
+        private void Update()
         {
             if(Input.GetKeyDown(KeyCode.E))
             {
@@ -59,7 +59,6 @@ namespace SeizeCommand.Interactions.Interactors
             if(interactables.Count != 0)
             {
                 interactables[0].Interact(player);
-                interactables.RemoveAt(0);
             }
         }
     }
