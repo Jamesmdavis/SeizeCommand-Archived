@@ -16,7 +16,7 @@ namespace SeizeCommand.DamageSenders
             set;
         }
 
-        protected virtual void OnCollisionEnter2D(Collision2D coll)
+        protected virtual void OnTriggerEnter2D(Collider2D coll)
         {
             if(coll.gameObject.GetComponent(typeof(IDamageable)))
             {
