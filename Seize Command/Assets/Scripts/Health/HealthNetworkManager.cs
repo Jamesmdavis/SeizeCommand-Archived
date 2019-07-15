@@ -35,9 +35,11 @@ namespace SeizeCommand.Health
         {
             NetworkIdentity senderNetworkIdentity = sender.GetComponent<NetworkIdentity>();
             string senderID = senderNetworkIdentity.ID;
+            string receiverID = myNetworkIdentity.ID;
 
             TakeDamage takeDamage = new TakeDamage();
             takeDamage.senderID = senderID;
+            takeDamage.receiverID = receiverID;
             takeDamage.damage = damage;
 
             myNetworkIdentity.Socket.Emit("takeDamage", new JSONObject(JsonUtility.ToJson(takeDamage)));

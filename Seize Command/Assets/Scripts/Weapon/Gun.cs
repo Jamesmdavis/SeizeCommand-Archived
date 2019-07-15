@@ -13,7 +13,6 @@ namespace SeizeCommand.Weapon
             GameObject proj = Instantiate(projectile, projectileSpawnPoint.position, projectileSpawnPoint.rotation);
             AbstractDamageSender damageSender = proj.GetComponent<AbstractDamageSender>();
             damageSender.Sender = sender;
-            Debug.Log("Fire");
         }
     }
 }

@@ -53,12 +53,19 @@ io.on('connection', function(socket) {
 
     socket.on('takeDamage', function(data) {
         var senderID = data.senderID;
+        var receiverID = data.receiverID;
         var damage = data.damage;
 
-        if(thisPlayerID == senderID)
-        {
-            var takeDamage = new TakeDamage(thisPlayerID, damage);
+        console.log('myID: ' + thisPlayerID);
+        console.log('senderID: ' + senderID);
 
+        if(thisPlayerID === senderID)
+        {
+            console.log('Take Damage');
+
+            var takeDamage = new TakeDamage(receiverID, damage);
+
+            socket.emit('takeDamage', takeDamage);
             socket.broadcast.emit('takeDamage', takeDamage);
         }
     });

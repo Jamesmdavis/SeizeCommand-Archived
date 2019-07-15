@@ -18,7 +18,7 @@ namespace SeizeCommand.Health
 
         protected void ApplyDamage(float damage)
         {
-            OnTakeDamage();
+            if(OnTakeDamage != null) OnTakeDamage();
 
             health -= damage;
 
@@ -30,7 +30,7 @@ namespace SeizeCommand.Health
 
         protected void Die()
         {
-            OnDie();
+            if(OnDie != null) OnDie();
 
             gameObject.SetActive(false);
         }

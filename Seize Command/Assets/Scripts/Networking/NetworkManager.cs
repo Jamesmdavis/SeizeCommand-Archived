@@ -44,24 +44,25 @@ namespace SeizeCommand.Networking
             });
 
             On("register", (E) => {
-                ClientID = E.data["id"].ToString();
+                ClientID = E.data["id"].ToString().Trim('"');
 
                 Debug.LogFormat("Our Client's ID ({0})", ClientID);
             });
 
             On("spawn", (E) => {
-                string id = E.data["id"].ToString();
+                string id = E.data["id"].ToString().Trim('"');
 
                 GameObject g = Instantiate(player, networkContainer);
                 g.name = string.Format("Player ({0})", id);
                 NetworkIdentity ni = g.GetComponent<NetworkIdentity>();
+                Debug.Log(id);
                 ni.SetControllerID(id);
                 ni.SetSocketReference(this);
                 serverObjects.Add(id, ni);
             });
 
             On("disconnected", (E) => {
-                string id = E.data["id"].ToString();
+                string id = E.data["id"].ToString().Trim('"');
 
                 GameObject g = serverObjects[id].gameObject;
                 Destroy(g); //Remove from game
@@ -69,7 +70,7 @@ namespace SeizeCommand.Networking
             });
 
             On("updatePosition", (E) => {
-                string id = E.data["id"].ToString();
+                string id = E.data["id"].ToString().Trim('"');
                 float x = E.data["position"]["x"].f;
                 float y = E.data["position"]["y"].f;
 
@@ -78,7 +79,7 @@ namespace SeizeCommand.Networking
             });
 
             On("updateRotation", (E) => {
-                string id = E.data["id"].ToString();
+                string id = E.data["id"].ToString().Trim('"');
                 float rotation = E.data["rotation"].f;
 
                 NetworkIdentity ni = serverObjects[id];
@@ -86,7 +87,7 @@ namespace SeizeCommand.Networking
             });
 
             On("attack", (E) => {
-                string id = E.data["id"].ToString();
+                string id = E.data["id"].ToString().Trim('"');
 
                 NetworkIdentity ni = serverObjects[id];
                 AbstractNetworkAttack attack = ni.GetComponent<AbstractNetworkAttack>();
@@ -95,7 +96,7 @@ namespace SeizeCommand.Networking
             });
 
             On("takeDamage", (E) => {
-                string id = E.data["id"].ToString();
+                string id = E.data["id"].ToString().Trim('"');
                 float damage = E.data["damage"].f;
 
                 NetworkIdentity ni = serverObjects[id];
@@ -125,6 +126,7 @@ namespace SeizeCommand.Networking
     public class TakeDamage
     {
         public string senderID;
+        public string receiverID;
         public float damage;
     }
 }
