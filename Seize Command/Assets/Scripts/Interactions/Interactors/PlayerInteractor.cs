@@ -56,8 +56,11 @@ namespace SeizeCommand.Interactions.Interactors
 
         private void Interact()
         {
-            interactables[0].Interact(player);
-            interactables.RemoveAt(0);
+            if(interactables.Count != 0)
+            {
+                interactables[0].Interact(player);
+                interactables.RemoveAt(0);
+            }
         }
     }
 }
