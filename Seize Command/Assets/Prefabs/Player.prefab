@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 654283526}
   - component: {fileID: 654283525}
   - component: {fileID: 2498121858239562144}
+  - component: {fileID: 4964248940627659643}
   - component: {fileID: 1056195931879664635}
   - component: {fileID: 55123740886626416}
   - component: {fileID: 654514585087359453}
@@ -195,6 +196,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77f4495776ac80c46bf20ccbfe678850, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4964248940627659643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2536958507248721030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c67628e514c21f41bd084675ed95066, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 4
 --- !u!114 &1056195931879664635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -249,7 +263,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57d00e2cfdbfbe940b823f71e88cb84f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  networkIdentity: {fileID: 654283526}
 --- !u!1 &2842781671463907198
 GameObject:
   m_ObjectHideFlags: 0
@@ -348,6 +361,7 @@ MonoBehaviour:
   projectile: {fileID: 7298299477646362231, guid: 4a0296134aad57c49beb12e885ddf996,
     type: 3}
   projectileSpawnPoint: {fileID: 1119022630181311382}
+  sender: {fileID: 2536958507248721030}
 --- !u!1 &4609885521818723386
 GameObject:
   m_ObjectHideFlags: 0
