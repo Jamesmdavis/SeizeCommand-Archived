@@ -17,6 +17,7 @@ namespace SeizeCommand.Utility
         private IEnumerator CoLifeTime(float sec)
         {
             yield return new WaitForSeconds(sec);
+            Destroy(gameObject);
         }
 
         private void OnDisable()
