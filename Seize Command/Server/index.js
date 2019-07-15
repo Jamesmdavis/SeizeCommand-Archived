@@ -2,6 +2,7 @@ var io = require('socket.io')(process.env.PORT || 52300);
 
 //Custom Classes
 var Player = require('./Classes/Player.js');
+var TakeDamage = require('./Classes/TakeDamage.js');
 
 var players = [];
 var sockets = [];
@@ -48,6 +49,18 @@ io.on('connection', function(socket) {
 
     socket.on('attack', function() {
         socket.broadcast.emit('attack', player);
+    });
+
+    socket.on('takeDamage', function(data) {
+        var senderID = data.senderID;
+        var damage = data.damage;
+
+        if(thisPlayerID == senderID)
+        {
+            var takeDamage = new TakeDamage(thisPlayerID, damage);
+
+            socket.broadcast.emit('takeDamage', takeDamage);
+        }
     });
 
     socket.on('disconnect', function() {

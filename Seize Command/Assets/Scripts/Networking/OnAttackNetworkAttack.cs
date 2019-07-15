@@ -10,7 +10,12 @@ namespace SeizeCommand.Networking
     public class OnAttackNetworkAttack : AbstractEventSubscriber<AbstractAttack>
     {
         [Header("Class References")]
-        [SerializeField] private NetworkIdentity networkIdentity;
+        private NetworkIdentity networkIdentity;
+
+        private void Start()
+        {
+            networkIdentity = GetComponent<NetworkIdentity>();
+        }
 
         private void OnEnable()
         {

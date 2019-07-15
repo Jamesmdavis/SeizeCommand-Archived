@@ -1,8 +1,9 @@
+using UnityEngine;
 
 namespace SeizeCommand.Health
 {
     public interface IDamageable
     {
-        void TakeDamage(float damage);
+        void TakeDamage(GameObject sender, float damage);
     }
 }

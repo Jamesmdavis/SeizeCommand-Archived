@@ -5,6 +5,7 @@ using UnityEngine;
 using SocketIO;
 
 using SeizeCommand.Attack;
+using SeizeCommand.Health;
 
 namespace SeizeCommand.Networking
 {
@@ -92,6 +93,16 @@ namespace SeizeCommand.Networking
                 
                 attack.InduceAttack();
             });
+
+            On("takeDamage", (E) => {
+                string id = E.data["id"].ToString();
+                float damage = E.data["damage"].f;
+
+                NetworkIdentity ni = serverObjects[id];
+                HealthNetworkManager healthManager = ni.GetComponent<HealthNetworkManager>();
+
+                healthManager.InduceDamage(damage);
+            });
         }
     }
 
@@ -108,5 +119,12 @@ namespace SeizeCommand.Networking
     {
         public float x;
         public float y;
+    }
+
+    [Serializable]
+    public class TakeDamage
+    {
+        public string senderID;
+        public float damage;
     }
 }

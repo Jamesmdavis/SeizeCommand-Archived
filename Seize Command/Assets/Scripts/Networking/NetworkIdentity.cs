@@ -32,7 +32,7 @@ namespace SeizeCommand.Networking
             isLocalPlayer = (NetworkManager.ClientID == ID) ? true : false;
         }
 
-        public void SetSocketReference( SocketIOComponent Socket)
+        public void SetSocketReference(SocketIOComponent Socket)
         {
             socket = Socket;
         }

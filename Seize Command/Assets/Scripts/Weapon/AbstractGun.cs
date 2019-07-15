@@ -14,6 +14,7 @@ namespace SeizeCommand.Weapon
 
         [Header("Object References")]
         [SerializeField] protected Transform projectileSpawnPoint;
+        [SerializeField] protected GameObject sender;
 
         public abstract void Fire();
     }
