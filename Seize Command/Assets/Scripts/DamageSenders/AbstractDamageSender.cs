@@ -18,7 +18,6 @@ namespace SeizeCommand.DamageSenders
 
         protected virtual void OnTriggerEnter2D(Collider2D coll)
         {
-            Debug.Log(coll.gameObject);
             if(coll.gameObject.GetComponent(typeof(IDamageable)))
             {
                 IDamageable damageable = coll.gameObject.GetComponent<IDamageable>();
