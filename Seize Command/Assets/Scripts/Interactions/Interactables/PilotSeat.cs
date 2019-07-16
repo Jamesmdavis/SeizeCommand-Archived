@@ -8,12 +8,12 @@ namespace SeizeCommand.Interactions.Interactables
 {
     public class PilotSeat : AbstractSeat
     {
-        protected override void TakeSeat(PlayerInteractor interactor)
+        protected override void TakeSeat(Interactor interactor)
         {
             base.TakeSeat(interactor);
         }
 
-        protected override void LeaveSeat(PlayerInteractor interactor)
+        protected override void LeaveSeat(Interactor interactor)
         {
             base.LeaveSeat(interactor);
         }

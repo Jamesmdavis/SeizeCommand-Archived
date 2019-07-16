@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,7 @@ using SeizeCommand.Interactions.Interactables;
 
 namespace SeizeCommand.Interactions.Interactors
 {
-    public class PlayerInteractor : MonoBehaviour
+    public class Interactor : MonoBehaviour
     {
         [Header("Object References")]
         [SerializeField] private GameObject player;
@@ -16,7 +17,9 @@ namespace SeizeCommand.Interactions.Interactors
             get { return player; }
         }
 
-        private List<IInteractable> interactables;
+        public event Action OnInteract;
+
+        protected List<IInteractable> interactables;
         private IInteractable currentInteractable;
 
         private void Start()
@@ -25,12 +28,9 @@ namespace SeizeCommand.Interactions.Interactors
             interactables = new List<IInteractable>();
         }
 
-        private void Update()
+        protected virtual void Update()
         {
-            if(Input.GetKeyDown(KeyCode.E))
-            {
-                Interact();
-            }
+            CheckInteract();
         }
 
         private void OnTriggerEnter2D(Collider2D coll)
@@ -63,7 +63,17 @@ namespace SeizeCommand.Interactions.Interactors
         {
             if(interactables.Count != 0)
             {
+                if(OnInteract != null) OnInteract();
+
                 interactables[0].Interact(this);
+            }
+        }
+
+        protected void CheckInteract()
+        {
+            if(Input.GetKeyDown(KeyCode.E))
+            {
+                Interact();
             }
         }
     }

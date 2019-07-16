@@ -12,9 +12,9 @@ namespace SeizeCommand.Interactions.Interactables
     {
         [SerializeField] private Transform leaveSeatPosition;
 
-        private PlayerInteractor currentInteractor;
+        private Interactor currentInteractor;
 
-        public void Interact(PlayerInteractor interactor)
+        public void Interact(Interactor interactor)
         {
             if(currentInteractor)
             {
@@ -29,7 +29,7 @@ namespace SeizeCommand.Interactions.Interactables
             }
         }
 
-        protected virtual void TakeSeat(PlayerInteractor interactor)
+        protected virtual void TakeSeat(Interactor interactor)
         {
             currentInteractor = interactor;
 
@@ -52,7 +52,7 @@ namespace SeizeCommand.Interactions.Interactables
             playerTransform.eulerAngles = new Vector3(0, 0, 0);
         }
 
-        protected virtual void LeaveSeat(PlayerInteractor interactor)
+        protected virtual void LeaveSeat(Interactor interactor)
         {
             currentInteractor = null;
 

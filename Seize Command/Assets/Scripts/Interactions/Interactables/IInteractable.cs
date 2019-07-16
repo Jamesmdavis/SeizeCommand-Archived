@@ -6,6 +6,6 @@ namespace SeizeCommand.Interactions.Interactables
 {
     public interface IInteractable
     {
-        void Interact(PlayerInteractor interactor);
+        void Interact(Interactor interactor);
     }
 }

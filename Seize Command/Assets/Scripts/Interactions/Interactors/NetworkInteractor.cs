@@ -4,9 +4,9 @@ using UnityEngine;
 
 using SeizeCommand.Networking;
 
-namespace SeizeCommand.Attack
+namespace SeizeCommand.Interactions.Interactors
 {
-    public abstract class AbstractNetworkAttack : AbstractAttack
+    public class NetworkInteractor : Interactor
     {
         [SerializeField] private NetworkIdentity networkIdentity;
 
@@ -16,14 +16,17 @@ namespace SeizeCommand.Attack
             {
                 if(networkIdentity.IsLocalPlayer)
                 {
-                    CheckAttack();
+                    CheckInteract();
                 }
             }
         }
 
-        public void InduceAttack()
+        public void InduceInteract()
         {
-            gun.Fire();
+            if(interactables.Count != 0)
+            {
+                interactables[0].Interact(this);
+            }
         }
     }
 }
