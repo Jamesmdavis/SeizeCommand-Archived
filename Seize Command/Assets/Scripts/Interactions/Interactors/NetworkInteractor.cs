@@ -20,6 +20,13 @@ namespace SeizeCommand.Interactions.Interactors
                 }
             }
         }
+        
+        protected override void Interact()
+        {
+            base.Interact();
+
+            networkIdentity.Socket.Emit("interact");
+        }
 
         public void InduceInteract()
         {

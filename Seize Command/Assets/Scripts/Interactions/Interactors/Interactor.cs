@@ -59,21 +59,21 @@ namespace SeizeCommand.Interactions.Interactors
             }
         }
 
-        private void Interact()
+        protected virtual void Interact()
         {
-            if(interactables.Count != 0)
-            {
-                if(OnInteract != null) OnInteract();
+            if(OnInteract != null) OnInteract();
 
-                interactables[0].Interact(this);
-            }
+            interactables[0].Interact(this);
         }
 
         protected void CheckInteract()
         {
             if(Input.GetKeyDown(KeyCode.E))
             {
-                Interact();
+                if(interactables.Count != 0)
+                {
+                    Interact();
+                }
             }
         }
     }
