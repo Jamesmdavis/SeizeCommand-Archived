@@ -11,6 +11,11 @@ namespace SeizeCommand.Interactions.Interactors
         [Header("Object References")]
         [SerializeField] private GameObject player;
 
+        public GameObject Player
+        {
+            get { return player; }
+        }
+
         private List<IInteractable> interactables;
         private IInteractable currentInteractable;
 
@@ -58,7 +63,7 @@ namespace SeizeCommand.Interactions.Interactors
         {
             if(interactables.Count != 0)
             {
-                interactables[0].Interact(player);
+                interactables[0].Interact(this);
             }
         }
     }
