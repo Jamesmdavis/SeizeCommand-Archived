@@ -10,7 +10,7 @@ namespace SeizeCommand.Interactions.Interactables
 {
     public abstract class AbstractSeat : MonoBehaviour, IInteractable
     {
-        [SerializeField] private Vector3 leaveSeatPosition;
+        [SerializeField] private Transform leaveSeatPosition;
 
         private PlayerInteractor currentInteractor;
 
@@ -41,10 +41,10 @@ namespace SeizeCommand.Interactions.Interactables
                 Physics2D.IgnoreCollision(playerColls[i], seatColl);
             }
 
-            AbstractMovement playerMovement = interactor.GetComponent<AbstractMovement>();
+            AbstractMovement playerMovement = interactor.Player.GetComponent<AbstractMovement>();
             playerMovement.enabled = false;
 
-            AbstractAim playerAim = interactor.GetComponent<AbstractAim>();
+            AbstractAim playerAim = interactor.Player.GetComponent<AbstractAim>();
             playerAim.enabled = false;
 
             Transform playerTransform = interactor.transform;
@@ -57,7 +57,7 @@ namespace SeizeCommand.Interactions.Interactables
             currentInteractor = null;
 
             Transform playerTransform = interactor.transform;
-            playerTransform.position = leaveSeatPosition;
+            playerTransform.position = leaveSeatPosition.position;
 
             Collider2D[] playerColls = interactor.Player.GetComponentsInChildren<Collider2D>();
             Collider2D seatColl = GetComponent<Collider2D>();
@@ -67,10 +67,10 @@ namespace SeizeCommand.Interactions.Interactables
                 Physics2D.IgnoreCollision(playerColls[i], seatColl, false);
             }
 
-            AbstractMovement playerMovement = interactor.GetComponent<AbstractMovement>();
+            AbstractMovement playerMovement = interactor.Player.GetComponent<AbstractMovement>();
             playerMovement.enabled = true;
 
-            AbstractAim playerAim = interactor.GetComponent<AbstractAim>();
+            AbstractAim playerAim = interactor.Player.GetComponent<AbstractAim>();
             playerAim.enabled = true;
         }
     }
