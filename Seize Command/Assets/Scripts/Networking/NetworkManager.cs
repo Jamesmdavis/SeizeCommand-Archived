@@ -6,6 +6,7 @@ using SocketIO;
 
 using SeizeCommand.Attack;
 using SeizeCommand.Health;
+using SeizeCommand.Movement;
 
 namespace SeizeCommand.Networking
 {
@@ -73,9 +74,13 @@ namespace SeizeCommand.Networking
                 string id = E.data["id"].ToString().Trim('"');
                 float x = E.data["position"]["x"].f;
                 float y = E.data["position"]["y"].f;
+                float timeSent = E.data["timeSent"].f;
 
                 NetworkIdentity ni = serverObjects[id];
-                ni.transform.position = new Vector3(x, y, 0);
+                NetworkPlayerMovement movement = ni.GetComponent<NetworkPlayerMovement>();
+                Vector3 position = new Vector3(x, y, 0);
+
+                movement.CorrectPosition(timeSent, position);
             });
 
             On("updateRotation", (E) => {
@@ -120,6 +125,17 @@ namespace SeizeCommand.Networking
     {
         public float x;
         public float y;
+    }
+
+    [Serializable]
+    public class UpdatePosition
+    {
+        public string id;
+        public float horizontal;
+        public float vertical;
+        public float speed;
+        public float deltaTime;
+        public float timeSent;
     }
 
     [Serializable]
