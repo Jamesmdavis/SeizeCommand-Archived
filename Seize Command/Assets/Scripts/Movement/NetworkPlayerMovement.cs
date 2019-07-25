@@ -71,6 +71,9 @@ namespace SeizeCommand.Movement
             updatePosition.speed = speed;
             updatePosition.deltaTime = Time.deltaTime;
             updatePosition.timeSent = timeSent;
+
+            updatePosition.horizontal = Mathf.Round(updatePosition.horizontal * 100f) / 100f;
+            updatePosition.vertical = Mathf.Round(updatePosition.vertical * 100f) / 100f;
             
             networkIdentity.Socket.Emit("updatePosition", new JSONObject(JsonUtility.ToJson(updatePosition)));
         }
