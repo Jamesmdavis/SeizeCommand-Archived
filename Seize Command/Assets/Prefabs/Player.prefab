@@ -283,7 +283,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 4
-  clientPrediction: 0
+  clientPrediction: 1
   correctionThreshold: 1
 --- !u!1 &2842781671463907198
 GameObject:

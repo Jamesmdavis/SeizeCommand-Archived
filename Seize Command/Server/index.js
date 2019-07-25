@@ -6,7 +6,6 @@ var TakeDamage = require('./Classes/TakeDamage.js');
 var UpdatePosition = require('./Classes/UpdatePosition.js');
 var Vector3 = require('./Classes/Vector3.js');
 var Vector2 = require('./Classes/Vector2.js');
-var tofixed = require('tofixed');
 
 var players = [];
 var sockets = [];
@@ -49,12 +48,16 @@ io.on('connection', function(socket) {
         var newHorizontalPosition = horizontal * speed * deltaTime;
         var newVerticalPosition = vertical * speed * deltaTime;
 
-        console.log('oldPlayerPosition: ' + player.position.x);
+        console.log('newHorizontalPositon: ' + newHorizontalPosition);
+        console.log('newVerticalPosition: ' + newVerticalPosition);
 
         player.position.x += newHorizontalPosition;
         player.position.y += newVerticalPosition;
 
-        console.log('newPlayerPosition: ' + player.position.x);
+        player.position.x = Math.round(player.position.x * 100) / 100;
+        player.position.y = Math.round(player.position.y * 100) / 100;
+
+        //console.log('newPlayerPosition: ' + player.position.x);
 
         var updatePosition = new UpdatePosition(thisPlayerID, player.position, timeSent);
 
