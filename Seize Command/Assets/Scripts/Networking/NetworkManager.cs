@@ -80,6 +80,8 @@ namespace SeizeCommand.Networking
                 NetworkPlayerMovement movement = ni.GetComponent<NetworkPlayerMovement>();
                 Vector3 position = new Vector3(x, y, 0);
 
+                Debug.Log("hi");
+
                 movement.CorrectPosition(timeSent, position);
             });
 

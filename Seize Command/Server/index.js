@@ -3,7 +3,7 @@ var io = require('socket.io')(process.env.PORT || 52300);
 //Custom Classes
 var Player = require('./Classes/Player.js');
 var TakeDamage = require('./Classes/TakeDamage.js');
-var UpdatePosition = require('./Classes/UpdatePosition.js/index.js');
+var UpdatePosition = require('./Classes/UpdatePosition.js');
 var Vector3 = require('./Classes/Vector3.js');
 var Vector2 = require('./Classes/Vector2.js');
 
@@ -16,6 +16,7 @@ io.on('connection', function(socket) {
     console.log('Connection Made!');
 
     var player = new Player();
+
     var thisPlayerID = player.id;
 
     players[thisPlayerID] = player;
@@ -47,10 +48,19 @@ io.on('connection', function(socket) {
         var newHorizontalPosition = horizontal * speed * deltaTime;
         var newVerticalPosition = vertical * speed * deltaTime;
 
-        var position = new Vector2(newHorizontalPosition, newVerticalPosition);
-        var updatePosition = new UpdatePosition(thisPlayerID, position, timeSent);
+        console.log('oldPlayerPosition: ' + player.position.x);
+
+        player.position.x += newHorizontalPosition;
+        player.position.y += newVerticalPosition;
+
+        player.position.x = player.position.x.toFixed(2);
+
+        console.log('newPlayerPosition: ' + player.position.x);
+
+        var updatePosition = new UpdatePosition(thisPlayerID, player.position, timeSent);
 
         socket.broadcast.emit('updatePosition', updatePosition);
+        socket.emit('updatePosition', updatePosition);
     });
 
     socket.on('updateRotation', function(data) {

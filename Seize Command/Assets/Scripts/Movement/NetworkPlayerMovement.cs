@@ -33,8 +33,8 @@ namespace SeizeCommand.Movement
             {
                 float timeSent = Time.time;
 
-                float horizontal = Input.GetAxis("Horizontal");
-                float vertical = Input.GetAxis("Vertical");
+                float horizontal = Input.GetAxisRaw("Horizontal");
+                float vertical = Input.GetAxisRaw("Vertical");
 
                 SendData(horizontal, vertical, timeSent);
 
@@ -71,7 +71,7 @@ namespace SeizeCommand.Movement
             updatePosition.speed = speed;
             updatePosition.deltaTime = Time.deltaTime;
             updatePosition.timeSent = timeSent;
-
+            
             networkIdentity.Socket.Emit("updatePosition", new JSONObject(JsonUtility.ToJson(updatePosition)));
         }
 
@@ -82,6 +82,7 @@ namespace SeizeCommand.Movement
 
         public void CorrectPosition(float timeSent, Vector3 serverPosition)
         {
+            Debug.Log(serverPosition);
             if(clientPrediction && networkIdentity.IsLocalPlayer)
             {
                 Vector3 predictedPosition = predictedPositions[timeSent];
