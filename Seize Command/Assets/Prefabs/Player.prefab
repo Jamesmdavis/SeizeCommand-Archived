@@ -100,7 +100,6 @@ GameObject:
   - component: {fileID: 1056195931879664635}
   - component: {fileID: 55123740886626416}
   - component: {fileID: 654514585087359453}
-  - component: {fileID: -4892733549889806175}
   - component: {fileID: 5669298925497299681}
   m_Layer: 0
   m_Name: Player
@@ -273,18 +272,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gun: {fileID: 3085805901309814881}
   networkIdentity: {fileID: 654283526}
---- !u!114 &-4892733549889806175
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2536958507248721030}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57d00e2cfdbfbe940b823f71e88cb84f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &5669298925497299681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -437,7 +424,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6466193526705255993}
   - component: {fileID: 2751050263779643805}
-  - component: {fileID: 1054223055854349403}
+  - component: {fileID: 6576663682475745212}
   m_Layer: 0
   m_Name: Interactor
   m_TagString: Untagged
@@ -485,7 +472,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &1054223055854349403
+--- !u!114 &6576663682475745212
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -494,10 +481,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4707187733178399280}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7658c451f566c84385a8e8dd1635efc, type: 3}
+  m_Script: {fileID: 11500000, guid: ae5fd1c5b45b9cd4ca71585b784c32a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 2536958507248721030}
+  networkIdentity: {fileID: 654283526}
 --- !u!1 &5054787927507777908
 GameObject:
   m_ObjectHideFlags: 0

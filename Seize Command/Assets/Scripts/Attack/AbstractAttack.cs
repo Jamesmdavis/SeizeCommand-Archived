@@ -23,7 +23,7 @@ namespace SeizeCommand.Attack
         {
             gun.Fire();
 
-            OnAttack();
+            if(OnAttack != null) OnAttack();
         }
 
          protected abstract void CheckAttack();

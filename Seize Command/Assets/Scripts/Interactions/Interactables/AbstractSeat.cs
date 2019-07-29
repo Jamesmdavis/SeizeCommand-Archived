@@ -33,13 +33,12 @@ namespace SeizeCommand.Interactions.Interactables
         {
             currentInteractor = interactor;
 
-            Collider2D[] playerColls = interactor.Player.GetComponentsInChildren<Collider2D>();
+            Collider2D playerColl = interactor.Player.GetComponent<Collider2D>();
             Collider2D seatColl = GetComponent<Collider2D>();
 
-            for(int i = 0; i < playerColls.Length; i++)
-            {
-                Physics2D.IgnoreCollision(playerColls[i], seatColl);
-            }
+            Physics2D.IgnoreCollision(playerColl, seatColl);
+
+            Debug.Log("Take Seat");
 
             AbstractMovement playerMovement = interactor.Player.GetComponent<AbstractMovement>();
             playerMovement.enabled = false;
@@ -54,6 +53,7 @@ namespace SeizeCommand.Interactions.Interactables
 
         protected virtual void LeaveSeat(Interactor interactor)
         {
+            Debug.Log("Leave Seat");
             currentInteractor = null;
 
             Transform playerTransform = interactor.transform;
