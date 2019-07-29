@@ -52,8 +52,13 @@ namespace SeizeCommand.Networking
 
             On("spawn", (E) => {
                 string id = E.data["id"].ToString().Trim('"');
+                float x = E.data["position"]["x"].f;
+                float y = E.data["position"]["y"].f;
+                float rotation = E.data["rotation"].f;
 
-                GameObject g = Instantiate(player, networkContainer);
+                Vector3 position = new Vector3(x, y, 0);
+
+                GameObject g = Instantiate(player, position, Quaternion.Euler(0, 0, rotation), networkContainer);
                 g.name = string.Format("Player ({0})", id);
                 NetworkIdentity ni = g.GetComponent<NetworkIdentity>();
                 Debug.Log(id);

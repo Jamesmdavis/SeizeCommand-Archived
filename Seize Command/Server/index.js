@@ -4,8 +4,6 @@ var io = require('socket.io')(process.env.PORT || 52300);
 var Player = require('./Classes/Player.js');
 var TakeDamage = require('./Classes/TakeDamage.js');
 var UpdatePosition = require('./Classes/UpdatePosition.js');
-var Vector3 = require('./Classes/Vector3.js');
-var Vector2 = require('./Classes/Vector2.js');
 
 var players = [];
 var sockets = [];
