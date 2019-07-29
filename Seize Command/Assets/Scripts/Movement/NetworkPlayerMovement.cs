@@ -7,60 +7,48 @@ using SeizeCommand.Networking;
 
 namespace SeizeCommand.Movement
 {
-    public class NetworkPlayerMovement : MonoBehaviour
+    public class NetworkPlayerMovement : AbstractMovement
     {
-        [SerializeField] private float speed;
-
         [Header("Networking Data")]
         [SerializeField] private bool clientPrediction;
         [SerializeField] private float correctionThreshold;
 
         private NetworkIdentity networkIdentity;
         private Dictionary<float, Vector3> predictedPositions;
-        private bool isMoving;
 
-
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
             networkIdentity = GetComponent<NetworkIdentity>();
             predictedPositions = new Dictionary<float, Vector3>();
             isMoving = false;
         }
 
-        private void FixedUpdate()
-        {
-            if(isMoving)
-            {
-                float timeSent = Time.time;
-
-                float horizontal = Input.GetAxisRaw("Horizontal");
-                float vertical = Input.GetAxisRaw("Vertical");
-
-                SendData(horizontal, vertical, timeSent);
-
-                if(clientPrediction)
-                {
-                    transform.position += new Vector3(horizontal, vertical, 0) * speed * Time.deltaTime;
-                    predictedPositions.Add(timeSent, transform.position);
-                }
-            }
-        }
-
-        private void Update()
+        protected override void Update()
         {
             if(networkIdentity)
             {
                 if(networkIdentity.IsLocalPlayer)
                 {
-                    CheckInput();
+                    base.Update();
                 }
             }
         }
 
-        private void CheckInput()
+        protected override void Move()
         {
-            isMoving = Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0
-                ? true : false;
+            float timeSent = Time.time;
+
+            float horizontal = Input.GetAxisRaw("Horizontal");
+            float vertical = Input.GetAxisRaw("Vertical");
+
+            SendData(horizontal, vertical, timeSent);
+
+            if(clientPrediction)
+            {
+                transform.position += new Vector3(horizontal, vertical, 0) * speed * Time.deltaTime;
+                predictedPositions.Add(timeSent, transform.position);
+            }
         }
 
         private void SendData(float horizontal, float vertical, float timeSent)
@@ -76,11 +64,6 @@ namespace SeizeCommand.Movement
             updatePosition.vertical = Mathf.Round(updatePosition.vertical * 100f) / 100f;
             
             networkIdentity.Socket.Emit("updatePosition", new JSONObject(JsonUtility.ToJson(updatePosition)));
-        }
-
-        protected void Move()
-        {
-
         }
 
         public void CorrectPosition(float timeSent, Vector3 serverPosition)
