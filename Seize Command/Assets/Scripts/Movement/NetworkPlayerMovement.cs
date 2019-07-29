@@ -85,7 +85,6 @@ namespace SeizeCommand.Movement
 
         public void CorrectPosition(float timeSent, Vector3 serverPosition)
         {
-            Debug.Log(serverPosition);
             if(clientPrediction && networkIdentity.IsLocalPlayer)
             {
                 Vector3 predictedPosition = predictedPositions[timeSent];
@@ -96,8 +95,6 @@ namespace SeizeCommand.Movement
                 {
                     transform.position = serverPosition;
                 }
-
-                //Remove old predictedPositions from the Dictionary
             }
             else
             {

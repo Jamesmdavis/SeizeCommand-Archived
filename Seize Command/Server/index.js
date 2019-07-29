@@ -48,16 +48,11 @@ io.on('connection', function(socket) {
         var newHorizontalPosition = horizontal * speed * deltaTime;
         var newVerticalPosition = vertical * speed * deltaTime;
 
-        console.log('newHorizontalPositon: ' + newHorizontalPosition);
-        console.log('newVerticalPosition: ' + newVerticalPosition);
-
         player.position.x += newHorizontalPosition;
         player.position.y += newVerticalPosition;
 
         player.position.x = Math.round(player.position.x * 100) / 100;
         player.position.y = Math.round(player.position.y * 100) / 100;
-
-        //console.log('newPlayerPosition: ' + player.position.x);
 
         var updatePosition = new UpdatePosition(thisPlayerID, player.position, timeSent);
 
