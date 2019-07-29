@@ -66,13 +66,8 @@ namespace SeizeCommand.Interactions.Interactors
         }
 
         protected virtual void Interact()
-        {
-            if(currentInteractable != null) currentInteractable.Interact(this);
-            else if(interactables.Count != 0)
-            {
-                currentInteractable = interactables[0];
-                currentInteractable.Interact(this);
-            }
+        {  
+            currentInteractable.Interact(this);
 
             if(OnInteract != null) OnInteract();
         }
@@ -81,7 +76,12 @@ namespace SeizeCommand.Interactions.Interactors
         {
             if(Input.GetKeyDown(KeyCode.E))
             {
-                Interact();
+                if(currentInteractable != null) Interact();
+                else if(interactables.Count != 0)
+                {
+                    currentInteractable = interactables[0];
+                    Interact();
+                }
             }
         }
     }
