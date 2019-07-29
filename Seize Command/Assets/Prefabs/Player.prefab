@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2520242372388750328}
   - component: {fileID: 8636228176669861489}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: 654514585087359453}
   - component: {fileID: 5669298925497299681}
   - component: {fileID: -8914290158638435365}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -283,7 +283,7 @@ GameObject:
   - component: {fileID: 7272843152516757157}
   - component: {fileID: 6852817828285509123}
   - component: {fileID: 3085805901309814881}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Gun Barrel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -380,7 +380,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3508355700133368860}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Barrel Pivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -413,7 +413,7 @@ GameObject:
   - component: {fileID: 6466193526705255993}
   - component: {fileID: 2751050263779643805}
   - component: {fileID: 6576663682475745212}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Interactor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -483,7 +483,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1119022630181311382}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Projectile Spawn Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
