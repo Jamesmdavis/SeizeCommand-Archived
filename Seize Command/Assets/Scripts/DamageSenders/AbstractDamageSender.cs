@@ -18,13 +18,16 @@ namespace SeizeCommand.DamageSenders
 
         protected virtual void OnTriggerEnter2D(Collider2D coll)
         {
-            if(coll.gameObject.GetComponent(typeof(IDamageable)))
+            if(!coll.isTrigger)
             {
-                IDamageable damageable = coll.gameObject.GetComponent<IDamageable>();
-                SendDamage(damageable);
-            }
+                if(coll.gameObject.GetComponent(typeof(IDamageable)))
+                {
+                    IDamageable damageable = coll.gameObject.GetComponent<IDamageable>();
+                    SendDamage(damageable);
+                }
 
-            Destroy(gameObject);
+                Destroy(gameObject);
+            }
         }
 
         protected abstract void SendDamage(IDamageable damageable);
