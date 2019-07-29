@@ -21,11 +21,13 @@ namespace SeizeCommand.Interactions.Interactors
 
         protected List<IInteractable> interactables;
         private IInteractable currentInteractable;
+        private bool isInteracting;
 
         private void Start()
         {
             player = player == null ? gameObject : player;
             interactables = new List<IInteractable>();
+            isInteracting = false;
         }
 
         protected virtual void Update()
@@ -61,9 +63,18 @@ namespace SeizeCommand.Interactions.Interactors
 
         protected virtual void Interact()
         {
-            if(OnInteract != null) OnInteract();
+            if(currentInteractable != null)
+            {
+                currentInteractable.Interact(this);
+                currentInteractable = null;
+            }
+            else
+            {
+                currentInteractable = interactables[0];
+                currentInteractable.Interact(this);
+            }
 
-            interactables[0].Interact(this);
+            if(OnInteract != null) OnInteract();
         }
 
         protected void CheckInteract()
