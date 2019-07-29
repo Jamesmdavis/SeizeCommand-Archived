@@ -12,8 +12,7 @@ namespace SeizeCommand.Weapon
         {
             GameObject proj = Instantiate(projectile, projectileSpawnPoint.position, projectileSpawnPoint.rotation);
 
-            Transform parent = transform.root;
-            Collider2D[] colls = parent.GetComponentsInChildren<Collider2D>();
+            Collider2D[] colls = sender.GetComponentsInChildren<Collider2D>();
             Collider2D projColl = proj.GetComponent<Collider2D>();
 
             for(int i = 0; i < colls.Length; i++)
