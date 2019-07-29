@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SeizeCommand.Movement
 {
-    public class PlayerMovement : AbstractNetworkMovement
+    public class PlayerMovement : AbstractMovement
     {
         protected override void Move()
         {
