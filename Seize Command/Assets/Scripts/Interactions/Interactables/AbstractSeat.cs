@@ -6,12 +6,18 @@ using SeizeCommand.Interactions.Interactors;
 using SeizeCommand.Movement;
 using SeizeCommand.Aim;
 using SeizeCommand.Attack;
+using SeizeCommand.Networking;
 
 namespace SeizeCommand.Interactions.Interactables
 {
     public abstract class AbstractSeat : MonoBehaviour, IInteractable
     {
         [SerializeField] private Transform leaveSeatPosition;
+
+        public Interactor CurrentInteractor
+        {
+            get { return currentInteractor; }
+        }
 
         private Interactor currentInteractor;
 
@@ -33,6 +39,7 @@ namespace SeizeCommand.Interactions.Interactables
         protected virtual void TakeSeat(Interactor interactor)
         {
             currentInteractor = interactor;
+            interactor.CurrentInteractable = this;
 
             Collider2D playerColl = interactor.Player.GetComponent<Collider2D>();
             Collider2D seatColl = GetComponent<Collider2D>();
@@ -48,18 +55,33 @@ namespace SeizeCommand.Interactions.Interactables
             AbstractAttack playerAttack = interactor.Player.GetComponent<AbstractAttack>();
             playerAttack.enabled = false;
 
-            interactor.transform.position = transform.position;
-            interactor.transform.eulerAngles = new Vector3(0, 0, 0);
+            NetworkIdentity networkIdentity = interactor.Player.GetComponent<NetworkIdentity>();
+
+            SeatUpdatePositionRotation seatUpdatePositionRotation = new SeatUpdatePositionRotation();
+            seatUpdatePositionRotation.position = new Position();
+            seatUpdatePositionRotation.position.x = transform.position.x;
+            seatUpdatePositionRotation.position.y = transform.position.y;
+            seatUpdatePositionRotation.rotation = 180f;
+
+            networkIdentity.Socket.Emit("seatUpdatePositionRotation", new JSONObject(JsonUtility.ToJson(seatUpdatePositionRotation)));
 
             Debug.Log("Take Seat");
         }
 
         protected virtual void LeaveSeat(Interactor interactor)
         {
-            Debug.Log("Leave Seat");
             currentInteractor = null;
+            interactor.CurrentInteractable = null;
 
-            interactor.transform.position = leaveSeatPosition.position;
+            NetworkIdentity networkIdentity = interactor.Player.GetComponent<NetworkIdentity>();
+
+            SeatUpdatePositionRotation seatUpdatePositionRotation = new SeatUpdatePositionRotation();
+            seatUpdatePositionRotation.position = new Position();
+            seatUpdatePositionRotation.position.x = leaveSeatPosition.position.x;
+            seatUpdatePositionRotation.position.y = leaveSeatPosition.position.y;
+            seatUpdatePositionRotation.rotation = 180f;
+
+            networkIdentity.Socket.Emit("seatUpdatePositionRotation", new JSONObject(JsonUtility.ToJson(seatUpdatePositionRotation)));
 
             Collider2D playerColl = interactor.Player.GetComponent<Collider2D>();
             Collider2D seatColl = GetComponent<Collider2D>();
@@ -74,6 +96,8 @@ namespace SeizeCommand.Interactions.Interactables
 
             AbstractAttack playerAttack = interactor.Player.GetComponent<AbstractAttack>();
             playerAttack.enabled = true;
+
+            Debug.Log("Leave Seat");
         }
     }
 }

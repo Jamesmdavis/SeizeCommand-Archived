@@ -88,6 +88,19 @@ namespace SeizeCommand.Networking
                 movement.CorrectPosition(timeSent, position);
             });
 
+            On("seatUpdatePositionRotation", (E) => {
+                string id = E.data["id"].ToString().Trim('"');
+                float x = E.data["position"]["x"].f;
+                float y = E.data["position"]["y"].f;
+                float rotation = E.data["rotation"].f;
+
+                NetworkIdentity ni = serverObjects[id];
+                Vector3 position = new Vector3(x, y, 0);
+
+                ni.transform.position = position;
+                ni.transform.rotation = Quaternion.Euler(0, 0, rotation);
+            });
+
             On("updateRotation", (E) => {
                 string id = E.data["id"].ToString().Trim('"');
                 float rotation = E.data["rotation"].f;
@@ -135,12 +148,19 @@ namespace SeizeCommand.Networking
     [Serializable]
     public class UpdatePosition
     {
-        public string id;
         public float horizontal;
         public float vertical;
         public float speed;
         public float deltaTime;
         public float timeSent;
+    }
+
+    // This Serializable Class is used for messages that involve Taking and Leaving Seats
+    [Serializable]
+    public class SeatUpdatePositionRotation
+    {
+        public Position position;
+        public float rotation;
     }
 
     [Serializable]

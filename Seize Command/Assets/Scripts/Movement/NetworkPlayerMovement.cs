@@ -70,13 +70,21 @@ namespace SeizeCommand.Movement
         {
             if(clientPrediction && networkIdentity.IsLocalPlayer)
             {
-                Vector3 predictedPosition = predictedPositions[timeSent];
+                //Vector3 predictedPosition = predictedPositions[timeSent];
 
-                float dist = Vector3.Distance(transform.position, predictedPosition);
+                float dist = Vector3.Distance(transform.position, serverPosition);
 
                 if(dist >= correctionThreshold)
                 {
                     transform.position = serverPosition;
+                }
+
+                foreach(KeyValuePair<float, Vector3> package in predictedPositions)
+                {
+                    if(package.Key <= timeSent)
+                    {
+                        predictedPositions.Remove(package.Key);
+                    }
                 }
             }
             else

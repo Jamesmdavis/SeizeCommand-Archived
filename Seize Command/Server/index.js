@@ -4,6 +4,7 @@ var io = require('socket.io')(process.env.PORT || 52300);
 var Player = require('./Classes/Player.js');
 var TakeDamage = require('./Classes/TakeDamage.js');
 var UpdatePosition = require('./Classes/UpdatePosition.js');
+var SeatUpdatePositionRotation = require('./Classes/SeatUpdatePositionRotation');
 
 var players = [];
 var sockets = [];
@@ -56,6 +57,25 @@ io.on('connection', function(socket) {
 
         socket.broadcast.emit('updatePosition', updatePosition);
         socket.emit('updatePosition', updatePosition);
+    });
+
+    socket.on('seatUpdatePositionRotation', function(data) {
+        var x = data.position.x;
+        var y = data.position.y;
+        var rotation = data.rotation;
+
+        player.position.x = x;
+        player.position.y = y;
+        player.rotation = rotation;
+
+        var seatUpdatePositionRotation = new SeatUpdatePositionRotation();
+        seatUpdatePositionRotation.id = thisPlayerID;
+        seatUpdatePositionRotation.position.x = x;
+        seatUpdatePositionRotation.position.y = y;
+        seatUpdatePositionRotation.rotation = rotation;
+
+        socket.emit('seatUpdatePositionRotation', seatUpdatePositionRotation);
+        socket.broadcast.emit('seatUpdatePositonRotation', seatUpdatePositionRotation);
     });
 
     socket.on('updateRotation', function(data) {

@@ -17,17 +17,21 @@ namespace SeizeCommand.Interactions.Interactors
             get { return player; }
         }
 
+        public IInteractable CurrentInteractable 
+        {
+            get { return currentInteractable; }
+            set { currentInteractable = value; }
+        }
+
         public event Action OnInteract;
 
         protected List<IInteractable> interactables;
         private IInteractable currentInteractable;
-        private bool isInteracting;
 
         private void Start()
         {
             player = player == null ? gameObject : player;
             interactables = new List<IInteractable>();
-            isInteracting = false;
         }
 
         protected virtual void Update()
@@ -63,12 +67,8 @@ namespace SeizeCommand.Interactions.Interactors
 
         protected virtual void Interact()
         {
-            if(currentInteractable != null)
-            {
-                currentInteractable.Interact(this);
-                currentInteractable = null;
-            }
-            else
+            if(currentInteractable != null) currentInteractable.Interact(this);
+            else if(interactables.Count != 0)
             {
                 currentInteractable = interactables[0];
                 currentInteractable.Interact(this);
@@ -81,10 +81,7 @@ namespace SeizeCommand.Interactions.Interactors
         {
             if(Input.GetKeyDown(KeyCode.E))
             {
-                if(interactables.Count != 0)
-                {
-                    Interact();
-                }
+                Interact();
             }
         }
     }
