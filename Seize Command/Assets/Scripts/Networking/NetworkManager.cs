@@ -66,6 +66,12 @@ namespace SeizeCommand.Networking
                 ni.SetControllerID(id);
                 ni.SetSocketReference(this);
                 serverObjects.Add(id, ni);
+
+                if(!ni.IsLocalPlayer)
+                {
+                    CircleCollider2D coll = g.GetComponent<CircleCollider2D>();
+                    coll.isTrigger = true;
+                }
             });
 
             On("disconnected", (E) => {
