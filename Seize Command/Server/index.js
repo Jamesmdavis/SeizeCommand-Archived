@@ -36,7 +36,7 @@ io.on('connection', function(socket) {
         }
     }
 
-    //Positional Data from Client
+    //Update the Player's Position based on the Inputs received from the client
     socket.on('updatePosition', function(data) {
         var horizontal = data.horizontal;
         var vertical = data.vertical;
@@ -50,6 +50,7 @@ io.on('connection', function(socket) {
         player.position.x += newHorizontalPosition;
         player.position.y += newVerticalPosition;
 
+        //Round to two decimal places
         player.position.x = Math.round(player.position.x * 100) / 100;
         player.position.y = Math.round(player.position.y * 100) / 100;
 
@@ -60,6 +61,7 @@ io.on('connection', function(socket) {
     });
 
     socket.on('seatUpdatePositionRotation', function(data) {
+        console.log('Interact');
         var x = data.position.x;
         var y = data.position.y;
         var rotation = data.rotation;
@@ -86,6 +88,10 @@ io.on('connection', function(socket) {
 
     socket.on('attack', function() {
         socket.broadcast.emit('attack', player);
+    });
+
+    socket.on('interact', function() {
+        socket.broadcast.emit('interact', player);
     });
 
     socket.on('takeDamage', function(data) {

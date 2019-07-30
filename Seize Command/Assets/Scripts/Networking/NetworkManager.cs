@@ -7,6 +7,7 @@ using SocketIO;
 using SeizeCommand.Attack;
 using SeizeCommand.Health;
 using SeizeCommand.Movement;
+using SeizeCommand.Interactions.Interactors;
 
 namespace SeizeCommand.Networking
 {
@@ -116,6 +117,15 @@ namespace SeizeCommand.Networking
                 AbstractNetworkAttack attack = ni.GetComponent<AbstractNetworkAttack>();
                 
                 attack.InduceAttack();
+            });
+
+            On("interact", (E) => {
+                string id = E.data["id"].ToString().Trim('"');
+
+                NetworkIdentity ni = serverObjects[id];
+                NetworkInteractor interactor = ni.GetComponentInChildren<NetworkInteractor>();
+
+                interactor.InduceInteract();
             });
 
             On("takeDamage", (E) => {

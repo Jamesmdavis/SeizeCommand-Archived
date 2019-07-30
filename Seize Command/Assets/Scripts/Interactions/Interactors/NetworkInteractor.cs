@@ -30,10 +30,8 @@ namespace SeizeCommand.Interactions.Interactors
 
         public void InduceInteract()
         {
-            if(interactables.Count != 0)
-            {
-                interactables[0].Interact(this);
-            }
+            Debug.Log("Induce Interact");
+            base.Interact();
         }
     }
 }

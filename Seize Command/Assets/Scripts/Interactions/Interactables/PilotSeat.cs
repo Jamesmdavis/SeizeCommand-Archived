@@ -6,7 +6,7 @@ using SeizeCommand.Interactions.Interactors;
 
 namespace SeizeCommand.Interactions.Interactables
 {
-    public class PilotSeat : AbstractSeat
+    public class PilotSeat : AbstractNetworkSeat
     {
         protected override void TakeSeat(Interactor interactor)
         {

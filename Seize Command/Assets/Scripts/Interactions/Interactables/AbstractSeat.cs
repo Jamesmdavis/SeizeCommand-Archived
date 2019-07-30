@@ -6,13 +6,12 @@ using SeizeCommand.Interactions.Interactors;
 using SeizeCommand.Movement;
 using SeizeCommand.Aim;
 using SeizeCommand.Attack;
-using SeizeCommand.Networking;
 
 namespace SeizeCommand.Interactions.Interactables
 {
     public abstract class AbstractSeat : MonoBehaviour, IInteractable
     {
-        [SerializeField] private Transform leaveSeatPosition;
+        [SerializeField] protected Transform leaveSeatPosition;
 
         public Interactor CurrentInteractor
         {
@@ -55,16 +54,6 @@ namespace SeizeCommand.Interactions.Interactables
             AbstractAttack playerAttack = interactor.Player.GetComponent<AbstractAttack>();
             playerAttack.enabled = false;
 
-            NetworkIdentity networkIdentity = interactor.Player.GetComponent<NetworkIdentity>();
-
-            SeatUpdatePositionRotation seatUpdatePositionRotation = new SeatUpdatePositionRotation();
-            seatUpdatePositionRotation.position = new Position();
-            seatUpdatePositionRotation.position.x = transform.position.x;
-            seatUpdatePositionRotation.position.y = transform.position.y;
-            seatUpdatePositionRotation.rotation = 180f;
-
-            networkIdentity.Socket.Emit("seatUpdatePositionRotation", new JSONObject(JsonUtility.ToJson(seatUpdatePositionRotation)));
-
             Debug.Log("Take Seat");
         }
 
@@ -72,16 +61,6 @@ namespace SeizeCommand.Interactions.Interactables
         {
             currentInteractor = null;
             interactor.CurrentInteractable = null;
-
-            NetworkIdentity networkIdentity = interactor.Player.GetComponent<NetworkIdentity>();
-
-            SeatUpdatePositionRotation seatUpdatePositionRotation = new SeatUpdatePositionRotation();
-            seatUpdatePositionRotation.position = new Position();
-            seatUpdatePositionRotation.position.x = leaveSeatPosition.position.x;
-            seatUpdatePositionRotation.position.y = leaveSeatPosition.position.y;
-            seatUpdatePositionRotation.rotation = 180f;
-
-            networkIdentity.Socket.Emit("seatUpdatePositionRotation", new JSONObject(JsonUtility.ToJson(seatUpdatePositionRotation)));
 
             Collider2D playerColl = interactor.Player.GetComponent<Collider2D>();
             Collider2D seatColl = GetComponent<Collider2D>();
