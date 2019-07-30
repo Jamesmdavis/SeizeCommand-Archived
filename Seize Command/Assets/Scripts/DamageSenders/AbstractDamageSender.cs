@@ -18,7 +18,7 @@ namespace SeizeCommand.DamageSenders
 
         protected virtual void OnTriggerEnter2D(Collider2D coll)
         {
-            if(coll.GetComponent<Rigidbody2D>() != null)
+            if(coll.GetComponent<Rigidbody2D>() != null || !coll.isTrigger)
             {
                 if(coll.gameObject.GetComponent(typeof(IDamageable)))
                 {
