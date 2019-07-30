@@ -15,6 +15,7 @@ namespace SeizeCommand.Movement
 
         private NetworkIdentity networkIdentity;
         private Dictionary<float, Vector3> predictedPositions;
+        private bool isColliding;
 
         protected override void Start()
         {
@@ -35,6 +36,22 @@ namespace SeizeCommand.Movement
             }
         }
 
+        /* 4 Important States Here: Am I Colliding, Am I Using Client Prediction, Both and Neither
+
+        Am I Colliding(isColliding): This check is important because currently the server receives inputs from the clients
+        and then creates a new position off of variables such as speed.  However, the server has no way of knowing that a 
+        collision is happening so it tries to force the player through it.  IsColliding is meant to tell the server that a collision
+        has occured and to give the player temporary authority until the collision has stopped.
+
+        No Client Prediction(!clientPrediction): Works as Follows: Client checks for input, client sends input to server,
+        server creates a new position for the player, server sends the new position, client receives and updates the player.
+
+        Client Prediction(clientPrediction): Acts the same way as without client prediction but adds a few more steps to create
+        a smoother movement.  The difference is that the client will create a position to move to when the client receives an Input.
+        The client will not wait for the server and instead act first.  Finally, when the client receives the correct position from the
+        server, it will compare it's position to the server's positon.  If the difference is within the correction threshold, no changes
+        is need.  If the difference is greater than the correction threshold, the position of the player is snapped to the server position
+         */
         protected override void Move()
         {
             float timeSent = Time.time;
@@ -42,28 +59,69 @@ namespace SeizeCommand.Movement
             float horizontal = Input.GetAxisRaw("Horizontal");
             float vertical = Input.GetAxisRaw("Vertical");
 
-            SendData(horizontal, vertical, timeSent);
+            if(!isColliding)
+            {
+                SendData(horizontal, vertical, timeSent);
 
-            if(clientPrediction)
+                if(clientPrediction)
+                {
+                    transform.position += new Vector3(horizontal, vertical, 0) * speed * Time.deltaTime;
+                    predictedPositions.Add(timeSent, transform.position);
+                }
+            }
+
+            if(isColliding)
             {
                 transform.position += new Vector3(horizontal, vertical, 0) * speed * Time.deltaTime;
-                predictedPositions.Add(timeSent, transform.position);
+                SendCollisionData(horizontal, vertical);
             }
         }
 
+        // This is a Non-Collision Movement message to the server
         private void SendData(float horizontal, float vertical, float timeSent)
         {
-            UpdatePosition updatePosition = new UpdatePosition();
-            updatePosition.horizontal = horizontal;
-            updatePosition.vertical = vertical;
-            updatePosition.speed = speed;
-            updatePosition.deltaTime = Time.deltaTime;
-            updatePosition.timeSent = timeSent;
+            UpdatePosition package = new UpdatePosition();
+            package.horizontal = horizontal;
+            package.vertical = vertical;
+            package.speed = speed;
+            package.deltaTime = Time.deltaTime;
+            package.timeSent = timeSent;
 
-            updatePosition.horizontal = Mathf.Round(updatePosition.horizontal * 100f) / 100f;
-            updatePosition.vertical = Mathf.Round(updatePosition.vertical * 100f) / 100f;
+            package.horizontal = Mathf.Round(package.horizontal * 100f) / 100f;
+            package.vertical = Mathf.Round(package.vertical * 100f) / 100f;
             
-            networkIdentity.Socket.Emit("updatePosition", new JSONObject(JsonUtility.ToJson(updatePosition)));
+            networkIdentity.Socket.Emit("updatePosition", new JSONObject(JsonUtility.ToJson(package)));
+        }
+
+        // This is a Collision Movement message to the server
+        private void SendCollisionData(float x, float y)
+        {   
+            CollisionMove package = new CollisionMove();
+            package.clientInputs = new Position();
+            package.clientPosition = new Position();
+            package.clientInputs.x = x;
+            package.clientInputs.y = y;
+            package.speed = speed;
+            package.deltaTime = Time.deltaTime;
+            package.clientPosition.x = transform.position.x;
+            package.clientPosition.y = transform.position.y;
+
+            package.clientInputs.x = Mathf.Round(package.clientInputs.x * 100f) / 100f;
+            package.clientInputs.y = Mathf.Round(package.clientInputs.y * 100f) / 100f;
+            package.clientPosition.x = Mathf.Round(package.clientPosition.x * 100f) / 100f;
+            package.clientPosition.y = Mathf.Round(package.clientPosition.y * 100f) / 100f;
+
+            networkIdentity.Socket.Emit("collisionMove", new JSONObject(JsonUtility.ToJson(package)));
+        }
+
+        private void OnCollisionEnter2D(Collision2D coll)
+        {
+            isColliding = true;
+        }
+
+        private void OnCollisionExit2D(Collision2D coll)
+        {
+            isColliding = false;
         }
 
         public void CorrectPosition(float timeSent, Vector3 serverPosition)

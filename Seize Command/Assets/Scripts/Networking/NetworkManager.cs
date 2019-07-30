@@ -89,6 +89,17 @@ namespace SeizeCommand.Networking
                 movement.CorrectPosition(timeSent, position);
             });
 
+            On("collisionMove", (E) => {
+                string id = E.data["id"].ToString().Trim('"');
+                float x = E.data["position"]["x"].f;
+                float y = E.data["position"]["y"].f;
+
+                NetworkIdentity ni = serverObjects[id];
+                Vector3 position = new Vector3(x, y, 0);
+
+                ni.transform.position = position;
+            });
+
             On("seatUpdatePositionRotation", (E) => {
                 string id = E.data["id"].ToString().Trim('"');
                 float x = E.data["position"]["x"].f;
@@ -163,6 +174,15 @@ namespace SeizeCommand.Networking
         public float speed;
         public float deltaTime;
         public float timeSent;
+    }
+
+    [Serializable]
+    public class CollisionMove
+    {
+        public Position clientInputs;
+        public Position clientPosition;
+        public float speed;
+        public float deltaTime;
     }
 
     // This Serializable Class is used for messages that involve Taking and Leaving Seats
