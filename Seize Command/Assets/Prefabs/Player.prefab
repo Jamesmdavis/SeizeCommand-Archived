@@ -272,6 +272,7 @@ MonoBehaviour:
   speed: 4
   clientPrediction: 1
   correctionThreshold: 2
+  idleSendDataInterval: 1
 --- !u!1 &2842781671463907198
 GameObject:
   m_ObjectHideFlags: 0

@@ -117,6 +117,7 @@ io.on('connection', function(socket) {
         seatUpdatePositionRotation.position.y = y;
         seatUpdatePositionRotation.rotation = rotation;
 
+        socket.broadcast.emit('seatUpdatePositionRotation', seatUpdatePositionRotation);
         socket.emit('seatUpdatePositionRotation', seatUpdatePositionRotation);
     });
 
@@ -131,7 +132,7 @@ io.on('connection', function(socket) {
     });
 
     socket.on('interact', function() {
-        socket.broadcast.emit('interact', player);
+        socket.broadcast.emit('interact', {id: thisPlayerID});
     });
 
     socket.on('takeDamage', function(data) {

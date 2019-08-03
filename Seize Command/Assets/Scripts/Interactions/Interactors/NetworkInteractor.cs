@@ -31,7 +31,7 @@ namespace SeizeCommand.Interactions.Interactors
         public void InduceInteract()
         {
             Debug.Log("Induce Interact");
-            base.Interact();
+            //base.Interact();
         }
     }
 }

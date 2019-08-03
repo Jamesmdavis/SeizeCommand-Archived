@@ -236,7 +236,7 @@ MonoBehaviour:
   autoConnect: 1
   reconnectDelay: 5
   ackExpirationTime: 1800
-  pingInterval: 25
+  pingInterval: 20
   pingTimeout: 60
   networkContainer: {fileID: 1602667205}
   player: {fileID: 2536958507248721030, guid: f610e9f9c9a7db0409f174a570482297, type: 3}

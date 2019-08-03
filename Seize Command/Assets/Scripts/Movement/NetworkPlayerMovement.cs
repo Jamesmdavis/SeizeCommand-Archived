@@ -12,9 +12,11 @@ namespace SeizeCommand.Movement
         [Header("Networking Data")]
         [SerializeField] private bool clientPrediction;
         [SerializeField] private float correctionThreshold;
+        [SerializeField] private float idleSendDataInterval;
 
         private NetworkIdentity networkIdentity;
         private Dictionary<float, Vector3> predictedPositions;
+        private Coroutine coIdleSendData;
         private bool isColliding;
 
         protected override void Start()
@@ -32,6 +34,22 @@ namespace SeizeCommand.Movement
                 if(networkIdentity.IsLocalPlayer)
                 {
                     base.Update();
+                }
+            }
+        }
+
+        protected override void FixedUpdate()
+        {
+            if(isMoving)
+            {
+                StopCoroutine(coIdleSendData);
+                Move();
+            }
+            else
+            {
+                if(coIdleSendData == null)
+                {
+                    coIdleSendData = StartCoroutine(CoIdleSendData());
                 }
             }
         }
@@ -56,24 +74,31 @@ namespace SeizeCommand.Movement
         {
             float timeSent = Time.time;
 
-            float horizontal = Input.GetAxisRaw("Horizontal");
-            float vertical = Input.GetAxisRaw("Vertical");
+            float x = Input.GetAxisRaw("Horizontal");
+            float y = Input.GetAxisRaw("Vertical");
 
             if(!isColliding)
             {
-                SendData(horizontal, vertical, timeSent);
+                SendData(x, y, timeSent);
 
                 if(clientPrediction)
                 {
-                    transform.position += new Vector3(horizontal, vertical, 0) * speed * Time.deltaTime;
+                    float tempSpeed = speed;
+
+                    if(x != 0 && y != 0)
+                    {
+                        tempSpeed = speed / Mathf.Sqrt(2);
+                    }
+
+                    transform.position += new Vector3(x, y, 0) * tempSpeed * Time.deltaTime;
                     predictedPositions.Add(timeSent, transform.position);
                 }
             }
 
             if(isColliding)
             {
-                transform.position += new Vector3(horizontal, vertical, 0) * speed * Time.deltaTime;
-                SendCollisionData(horizontal, vertical);
+                transform.position += new Vector3(x, x, 0) * speed * Time.deltaTime;
+                SendCollisionData(x, y);
             }
         }
 
@@ -128,26 +153,43 @@ namespace SeizeCommand.Movement
         {
             if(clientPrediction && networkIdentity.IsLocalPlayer)
             {
-                //Vector3 predictedPosition = predictedPositions[timeSent];
-
-                float dist = Vector3.Distance(transform.position, serverPosition);
-
-                if(dist >= correctionThreshold)
+                if(predictedPositions.ContainsKey(timeSent))
                 {
-                    transform.position = serverPosition;
-                }
+                    float dist = Vector3.Distance(transform.position, serverPosition);
 
-                foreach(KeyValuePair<float, Vector3> package in predictedPositions)
-                {
-                    if(package.Key <= timeSent)
+                    if(dist >= correctionThreshold)
                     {
-                        predictedPositions.Remove(package.Key);
+                        transform.position = serverPosition;
+                    }
+
+                    foreach(KeyValuePair<float, Vector3> package in predictedPositions)
+                    {
+                        if(package.Key <= timeSent)
+                        {
+                            predictedPositions.Remove(package.Key);
+                        }
                     }
                 }
             }
             else
             {
                 transform.position = serverPosition;
+            }
+        }
+
+        private IEnumerator CoIdleSendData()
+        {
+            while(true)
+            {
+                yield return new WaitForSeconds(idleSendDataInterval);
+
+                float x = 0f;
+                float y = 0f;
+                float timeSent = Time.time;
+
+                if(clientPrediction) predictedPositions.Add(timeSent, transform.position);
+
+                SendData(x, y, timeSent);
             }
         }
     }
