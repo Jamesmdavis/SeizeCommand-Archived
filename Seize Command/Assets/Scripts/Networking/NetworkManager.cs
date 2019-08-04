@@ -8,6 +8,7 @@ using SeizeCommand.Attack;
 using SeizeCommand.Health;
 using SeizeCommand.Movement;
 using SeizeCommand.Interactions.Interactors;
+using SeizeCommand.Utility;
 
 namespace SeizeCommand.Networking
 {
@@ -61,13 +62,20 @@ namespace SeizeCommand.Networking
 
                 GameObject g = Instantiate(player, position, Quaternion.Euler(0, 0, rotation), networkContainer);
                 g.name = string.Format("Player ({0})", id);
+
                 NetworkIdentity ni = g.GetComponent<NetworkIdentity>();
-                Debug.Log(id);
                 ni.SetControllerID(id);
                 ni.SetSocketReference(this);
+
                 serverObjects.Add(id, ni);
 
-                if(!ni.IsLocalPlayer)
+                if(ni.IsLocalPlayer)
+                {
+                    Camera mainCamera = Camera.main;
+                    CameraFollowPlayer cameraFollowPlayer = mainCamera.GetComponent<CameraFollowPlayer>();
+                    cameraFollowPlayer.SetFollowPlayer(ni.transform);
+                }
+                else
                 {
                     CircleCollider2D coll = g.GetComponent<CircleCollider2D>();
                     coll.isTrigger = true;
