@@ -51,7 +51,7 @@ namespace SeizeCommand.Interactions.Interactables
             AbstractAim playerAim = interactor.Player.GetComponent<AbstractAim>();
             playerAim.enabled = false;
 
-            AbstractAttack playerAttack = interactor.Player.GetComponent<AbstractAttack>();
+            AttackManager playerAttack = interactor.Player.GetComponent<AttackManager>();
             playerAttack.enabled = false;
 
             Debug.Log("Take Seat");
@@ -73,7 +73,7 @@ namespace SeizeCommand.Interactions.Interactables
             AbstractAim playerAim = interactor.Player.GetComponent<AbstractAim>();
             playerAim.enabled = true;
 
-            AbstractAttack playerAttack = interactor.Player.GetComponent<AbstractAttack>();
+            AttackManager playerAttack = interactor.Player.GetComponent<AttackManager>();
             playerAttack.enabled = true;
 
             Debug.Log("Leave Seat");

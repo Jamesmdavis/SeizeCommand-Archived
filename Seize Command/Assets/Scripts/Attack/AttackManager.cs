@@ -7,7 +7,7 @@ using SeizeCommand.Weapon;
 
 namespace SeizeCommand.Attack
 {
-    public abstract class AbstractAttack : MonoBehaviour
+    public class AttackManager : MonoBehaviour
     {
         [Header("Class References")]
         [SerializeField] protected AbstractGun gun;
@@ -26,6 +26,12 @@ namespace SeizeCommand.Attack
             if(OnAttack != null) OnAttack();
         }
 
-         protected abstract void CheckAttack();
+         protected void CheckAttack()
+         {
+            if(Input.GetMouseButtonDown(0))
+            {
+                Attack();
+            }
+         }
     }
 }

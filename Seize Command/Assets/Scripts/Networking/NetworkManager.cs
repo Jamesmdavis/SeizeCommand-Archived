@@ -131,7 +131,7 @@ namespace SeizeCommand.Networking
                 string id = E.data["id"].ToString().Trim('"');
 
                 NetworkIdentity ni = serverObjects[id];
-                AbstractNetworkAttack attack = ni.GetComponent<AbstractNetworkAttack>();
+                NetworkAttackManager attack = ni.GetComponent<NetworkAttackManager>();
                 
                 attack.InduceAttack();
             });
