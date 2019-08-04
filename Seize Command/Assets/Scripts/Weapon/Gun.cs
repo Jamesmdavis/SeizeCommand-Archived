@@ -20,7 +20,7 @@ namespace SeizeCommand.Weapon
                 Physics2D.IgnoreCollision(projColl, colls[i]);
             }
 
-            AbstractDamageSender damageSender = proj.GetComponent<AbstractDamageSender>();
+            DamageSender damageSender = proj.GetComponent<DamageSender>();
             damageSender.Sender = sender;
         }
     }
