@@ -6,7 +6,7 @@ var TakeDamage = require('./Classes/TakeDamage.js');
 var Move = require('./Classes/Move.js');
 var CollisionMove = require('./Classes/CollisionMove.js');
 var Aim = require('./Classes/Aim.js');
-var SeatUpdatePositionRotation = require('./Classes/SeatUpdatePositionRotation.js');
+var SeatMove = require('./Classes/SeatMove.js');
 var Vector2 = require('./Classes/Vector2.js');
 
 var players = [];
@@ -93,8 +93,7 @@ io.on('connection', function(socket) {
         socket.broadcast.emit('aim', aim);
     });
 
-    socket.on('seatUpdatePositionRotation', function(data) {
-        console.log('Interact');
+    socket.on('seatMove', function(data) {
         var x = data.position.x;
         var y = data.position.y;
         var rotation = data.rotation;
@@ -103,14 +102,14 @@ io.on('connection', function(socket) {
         player.position.y = y;
         player.rotation = rotation;
 
-        var seatUpdatePositionRotation = new SeatUpdatePositionRotation();
-        seatUpdatePositionRotation.id = thisPlayerID;
-        seatUpdatePositionRotation.position.x = x;
-        seatUpdatePositionRotation.position.y = y;
-        seatUpdatePositionRotation.rotation = rotation;
+        var seatMove = new SeatMove();
+        seatMove.id = thisPlayerID;
+        seatMove.position.x = x;
+        seatMove.position.y = y;
+        seatMove.rotation = rotation;
 
-        socket.broadcast.emit('seatUpdatePositionRotation', seatUpdatePositionRotation);
-        socket.emit('seatUpdatePositionRotation', seatUpdatePositionRotation);
+        socket.broadcast.emit('seatMove', seatMove);
+        socket.emit('seatMove', seatMove);
     });
 
     socket.on('attack', function() {

@@ -114,7 +114,7 @@ namespace SeizeCommand.Networking
                 ni.transform.rotation = Quaternion.Euler(0, 0, rotation);
             });
 
-            On("seatUpdatePositionRotation", (E) => {
+            On("seatMove", (E) => {
                 string id = E.data["id"].ToString().Trim('"');
                 float x = E.data["position"]["x"].f;
                 float y = E.data["position"]["y"].f;
@@ -182,12 +182,6 @@ namespace SeizeCommand.Networking
     }
 
     [Serializable]
-    public class Aim
-    {
-        public float rotation;
-    }
-
-    [Serializable]
     public class CollisionMove
     {
         public Position clientInputs;
@@ -196,9 +190,15 @@ namespace SeizeCommand.Networking
         public float deltaTime;
     }
 
+    [Serializable]
+    public class Aim
+    {
+        public float rotation;
+    }
+
     // This Serializable Class is used for messages that involve Taking and Leaving Seats
     [Serializable]
-    public class SeatUpdatePositionRotation
+    public class SeatMove
     {
         public Position position;
         public float rotation;

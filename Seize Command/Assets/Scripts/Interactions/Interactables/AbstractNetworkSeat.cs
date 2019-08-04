@@ -27,13 +27,14 @@ namespace SeizeCommand.Interactions.Interactables
 
             if(networkIdentity.IsLocalPlayer)
             {
-                SeatUpdatePositionRotation seatUpdatePositionRotation = new SeatUpdatePositionRotation();
-                seatUpdatePositionRotation.position = new Position();
-                seatUpdatePositionRotation.position.x = transform.position.x;
-                seatUpdatePositionRotation.position.y = transform.position.y;
-                seatUpdatePositionRotation.rotation = 180f;
+                SeatMove seatMove = new SeatMove();
+                seatMove.position = new Position();
+                seatMove.position.x = transform.position.x;
+                seatMove.position.y = transform.position.y;
+                seatMove.rotation = 180f;
 
                 networkIdentity.Socket.Emit("seatUpdatePositionRotation", new JSONObject(JsonUtility.ToJson(seatUpdatePositionRotation)));
+                networkIdentity.Socket.Emit("seatMove", new JSONObject(JsonUtility.ToJson(seatMove)));
             }
         }
     }

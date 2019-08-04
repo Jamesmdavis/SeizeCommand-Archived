@@ -68,7 +68,6 @@ namespace SeizeCommand.Interactions.Interactors
         protected virtual void Interact()
         {  
             currentInteractable.Interact(this);
-
             if(OnInteract != null) OnInteract();
         }
 

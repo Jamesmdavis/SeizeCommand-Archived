@@ -6,6 +6,8 @@ using SeizeCommand.Networking;
 
 namespace SeizeCommand.Interactions.Interactors
 {
+    //Note: Might Change the system in the future to where the server first verifies whether
+    //or not an interaction can occur and then the client performs the interact
     public class NetworkInteractor : Interactor
     {
         [SerializeField] private NetworkIdentity networkIdentity;
@@ -24,13 +26,12 @@ namespace SeizeCommand.Interactions.Interactors
         protected override void Interact()
         {
             base.Interact();
-
             networkIdentity.Socket.Emit("interact");
         }
 
         public void InduceInteract()
         {
-            Debug.Log("Induce Interact");
+            //For Future Use
             //base.Interact();
         }
     }
