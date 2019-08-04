@@ -6,7 +6,7 @@ using SeizeCommand.Utility;
 
 namespace SeizeCommand.Health
 {
-    public class OnTakeDamagePlayTakeDamageAnimation : AbstractEventSubscriber<AbstractHealthManager>
+    public class OnTakeDamagePlayTakeDamageAnimation : AbstractEventSubscriber<HealthManager>
     {
         private Animator anim;
 

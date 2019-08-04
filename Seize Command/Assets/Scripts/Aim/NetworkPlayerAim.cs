@@ -9,20 +9,20 @@ namespace SeizeCommand.Aiming
     public class NetworkPlayerAim : AbstractAim
     {
         private NetworkIdentity networkIdentity;
-        private Aim aim;
+        private Aim aimMessage;
         private float oldRotation;
 
         private void Start()
         {
             networkIdentity = GetComponent<NetworkIdentity>();
-            aim = new Aim();
+            aimMessage = new Aim();
             oldRotation = 0f;
         }
 
         private void SendData(float rot)
         {
-            aim.rotation = rot;
-            networkIdentity.Socket.Emit("aim", new JSONObject(JsonUtility.ToJson(aim)));
+            aimMessage.rotation = rot;
+            networkIdentity.Socket.Emit("aim", new JSONObject(JsonUtility.ToJson(aimMessage)));
         }
 
         private void CheckForChangeInRotation(float currentRotation)

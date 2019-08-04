@@ -150,7 +150,7 @@ namespace SeizeCommand.Networking
                 float damage = E.data["damage"].f;
 
                 NetworkIdentity ni = serverObjects[id];
-                HealthNetworkManager healthManager = ni.GetComponent<HealthNetworkManager>();
+                NetworkHealthManager healthManager = ni.GetComponent<NetworkHealthManager>();
 
                 healthManager.InduceDamage(damage);
             });
@@ -205,7 +205,7 @@ namespace SeizeCommand.Networking
     }
 
     [Serializable]
-    public class TakeDamage
+    public class Damage
     {
         public string senderID;
         public string receiverID;
