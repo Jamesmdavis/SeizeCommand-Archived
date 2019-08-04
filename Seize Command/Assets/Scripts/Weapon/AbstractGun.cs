@@ -7,12 +7,9 @@ using SeizeCommand.DamageSenders;
 namespace SeizeCommand.Weapon
 {
     public abstract class AbstractGun : MonoBehaviour, IFire
-    {
-        [Header("Class References")]
-        [SerializeField] protected GameObject projectile;
-        
-
+    {   
         [Header("Object References")]
+        [SerializeField] protected GameObject projectile;
         [SerializeField] protected Transform projectileSpawnPoint;
         [SerializeField] protected GameObject sender;
 
