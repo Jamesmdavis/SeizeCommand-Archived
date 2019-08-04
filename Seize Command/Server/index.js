@@ -5,6 +5,7 @@ var Player = require('./Classes/Player.js');
 var TakeDamage = require('./Classes/TakeDamage.js');
 var Move = require('./Classes/Move.js');
 var CollisionMove = require('./Classes/CollisionMove.js');
+var Aim = require('./Classes/Aim.js');
 var SeatUpdatePositionRotation = require('./Classes/SeatUpdatePositionRotation.js');
 var Vector2 = require('./Classes/Vector2.js');
 
@@ -82,23 +83,14 @@ io.on('connection', function(socket) {
         collisionMove.position = player.position;
 
         socket.broadcast.emit('collisionMove', collisionMove);
+    });
 
-        /*
-        if((clientPosition.x >= xRange.x && clientPosition.x <= xRange.y) && 
-            (clientPosition.y >= yRange.x && clientPosition.y <= yRange.y))
-        {
-            player.position.x = clientPosition.x;
-            player.position.y = clientPosition.y;
-        }
-        else
-        {
-            var collisonMove = new CollisionMove(thisPlayerID);
-            collisonMove.position = player.position;
-            
-            socket.broadcast.emit('collisionMove', collisonMove);
-            socket.emit('collisionMove', collisonMove);
-        }
-        */
+    socket.on('aim', function(data) {
+        player.rotation = data.rotation;
+
+        var aim = new Aim(thisPlayerID, data.rotation);
+
+        socket.broadcast.emit('aim', aim);
     });
 
     socket.on('seatUpdatePositionRotation', function(data) {
@@ -121,14 +113,8 @@ io.on('connection', function(socket) {
         socket.emit('seatUpdatePositionRotation', seatUpdatePositionRotation);
     });
 
-    socket.on('updateRotation', function(data) {
-        player.rotation = data.rotation;
-
-        socket.broadcast.emit('updateRotation', player);
-    });
-
     socket.on('attack', function() {
-        socket.broadcast.emit('attack', player);
+        socket.broadcast.emit('attack', {id: thisPlayerID});
     });
 
     socket.on('interact', function() {

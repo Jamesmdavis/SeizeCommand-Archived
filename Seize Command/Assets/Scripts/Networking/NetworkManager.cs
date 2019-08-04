@@ -106,6 +106,14 @@ namespace SeizeCommand.Networking
                 ni.transform.position = position;
             });
 
+            On("aim", (E) => {
+                string id = E.data["id"].ToString().Trim('"');
+                float rotation = E.data["rotation"].f;
+
+                NetworkIdentity ni = serverObjects[id];
+                ni.transform.rotation = Quaternion.Euler(0, 0, rotation);
+            });
+
             On("seatUpdatePositionRotation", (E) => {
                 string id = E.data["id"].ToString().Trim('"');
                 float x = E.data["position"]["x"].f;
@@ -116,14 +124,6 @@ namespace SeizeCommand.Networking
                 Vector3 position = new Vector3(x, y, 0);
 
                 ni.transform.position = position;
-                ni.transform.rotation = Quaternion.Euler(0, 0, rotation);
-            });
-
-            On("updateRotation", (E) => {
-                string id = E.data["id"].ToString().Trim('"');
-                float rotation = E.data["rotation"].f;
-
-                NetworkIdentity ni = serverObjects[id];
                 ni.transform.rotation = Quaternion.Euler(0, 0, rotation);
             });
 
@@ -179,6 +179,12 @@ namespace SeizeCommand.Networking
         public float speed;
         public float deltaTime;
         public float timeSent;
+    }
+
+    [Serializable]
+    public class Aim
+    {
+        public float rotation;
     }
 
     [Serializable]

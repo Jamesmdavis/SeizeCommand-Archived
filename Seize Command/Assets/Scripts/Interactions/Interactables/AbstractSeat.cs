@@ -4,7 +4,7 @@ using UnityEngine;
 
 using SeizeCommand.Interactions.Interactors;
 using SeizeCommand.Movement;
-using SeizeCommand.Aim;
+using SeizeCommand.Aiming;
 using SeizeCommand.Attack;
 
 namespace SeizeCommand.Interactions.Interactables
