@@ -83,14 +83,7 @@ namespace SeizeCommand.Movement
 
                 if(clientPrediction)
                 {
-                    float tempSpeed = speed;
-
-                    if(x != 0 && y != 0)
-                    {
-                        tempSpeed = speed / Mathf.Sqrt(2);
-                    }
-
-                    transform.position += new Vector3(x, y, 0) * tempSpeed * Time.deltaTime;
+                    transform.position += new Vector3(x, y, 0) * speed * Time.deltaTime;
                     predictedPositions.Add(timeSent, transform.position);
                 }
             }
@@ -103,19 +96,20 @@ namespace SeizeCommand.Movement
         }
 
         // This is a Non-Collision Movement message to the server
-        private void SendData(float horizontal, float vertical, float timeSent)
+        private void SendData(float x, float y, float timeSent)
         {
-            UpdatePosition package = new UpdatePosition();
-            package.horizontal = horizontal;
-            package.vertical = vertical;
+            Move package = new Move();
+            package.clientInputs = new Position();
+            package.clientInputs.x = x;
+            package.clientInputs.y = y;
             package.speed = speed;
             package.deltaTime = Time.deltaTime;
             package.timeSent = timeSent;
 
-            package.horizontal = Mathf.Round(package.horizontal * 100f) / 100f;
-            package.vertical = Mathf.Round(package.vertical * 100f) / 100f;
+            package.clientInputs.x = Mathf.Round(package.clientInputs.x * 100f) / 100f;
+            package.clientInputs.y = Mathf.Round(package.clientInputs.y * 100f) / 100f;
             
-            networkIdentity.Socket.Emit("updatePosition", new JSONObject(JsonUtility.ToJson(package)));
+            networkIdentity.Socket.Emit("move", new JSONObject(JsonUtility.ToJson(package)));
         }
 
         // This is a Collision Movement message to the server

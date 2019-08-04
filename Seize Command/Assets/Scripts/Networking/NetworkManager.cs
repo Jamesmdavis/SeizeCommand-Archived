@@ -82,7 +82,7 @@ namespace SeizeCommand.Networking
                 serverObjects.Remove(id);   //Remove from memory
             });
 
-            On("updatePosition", (E) => {
+            On("move", (E) => {
                 string id = E.data["id"].ToString().Trim('"');
                 float x = E.data["position"]["x"].f;
                 float y = E.data["position"]["y"].f;
@@ -173,10 +173,9 @@ namespace SeizeCommand.Networking
     }
 
     [Serializable]
-    public class UpdatePosition
+    public class Move
     {
-        public float horizontal;
-        public float vertical;
+        public Position clientInputs;
         public float speed;
         public float deltaTime;
         public float timeSent;

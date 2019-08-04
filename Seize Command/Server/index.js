@@ -3,9 +3,9 @@ var io = require('socket.io')(process.env.PORT || 52300);
 //Custom Classes
 var Player = require('./Classes/Player.js');
 var TakeDamage = require('./Classes/TakeDamage.js');
-var UpdatePosition = require('./Classes/UpdatePosition.js');
-var SeatUpdatePositionRotation = require('./Classes/SeatUpdatePositionRotation.js');
+var Move = require('./Classes/Move.js');
 var CollisionMove = require('./Classes/CollisionMove.js');
+var SeatUpdatePositionRotation = require('./Classes/SeatUpdatePositionRotation.js');
 var Vector2 = require('./Classes/Vector2.js');
 
 var players = [];
@@ -39,28 +39,28 @@ io.on('connection', function(socket) {
     }
 
     //Update the Player's Position based on the Inputs received from the client
-    socket.on('updatePosition', function(data) {
-        var horizontal = data.horizontal;
-        var vertical = data.vertical;
+    socket.on('move', function(data) {
+        var clientInputs = new Vector2(data.clientInputs.x, data.clientInputs.y);
         var speed = data.speed;
         var deltaTime = data.deltaTime;
         var timeSent = data.timeSent;
 
-        var newHorizontalPosition = horizontal * speed * deltaTime;
-        var newVerticalPosition = vertical * speed * deltaTime;
+        //The amount of change the position will undergo
+        var newDeltaPositions = new Vector2(clientInputs.x * speed * deltaTime, 
+            clientInputs.y * speed * deltaTime);
 
-        player.position.x += newHorizontalPosition;
-        player.position.y += newVerticalPosition;
+        player.position.x += newDeltaPositions.x;
+        player.position.y += newDeltaPositions.y;
 
         //Round to two decimal places
         player.position.x = Math.round(player.position.x * 100) / 100;
         player.position.y = Math.round(player.position.y * 100) / 100;
 
-        var updatePosition = new UpdatePosition(thisPlayerID, timeSent);
-        updatePosition.position = player.position;
+        //Creates a Move Message to be sent to the clients
+        var move = new Move(thisPlayerID, timeSent, player.position);
 
-        socket.broadcast.emit('updatePosition', updatePosition);
-        socket.emit('updatePosition', updatePosition);
+        socket.broadcast.emit('move', move);
+        socket.emit('move', move);
     });
 
     socket.on('collisionMove', function(data) {
