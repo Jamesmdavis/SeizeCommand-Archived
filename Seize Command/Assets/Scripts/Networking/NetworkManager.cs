@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using SocketIO;
 
 using SeizeCommand.Attack;
@@ -33,6 +34,19 @@ namespace SeizeCommand.Networking
         public override void Update()
         {
             base.Update();
+        }
+
+        public void Play(InputField inputField)
+        {
+            string ipAddress = inputField.text;
+            url = "ws://" + ipAddress + ":52300/socket.io/?EIO=4&transport=websocket";
+            CreateWebSocket();
+            Connect();
+        }
+
+        public void DeactivateMainMenu(GameObject maniMenuPanel)
+        {
+            maniMenuPanel.SetActive(false);
         }
 
         private void Initialize()
