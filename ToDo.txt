@@ -1,0 +1,8 @@
+Must have things for Pre Alpha
+
+- Play Test to make sure nothing broke during refactoring
+- Refactor Movement Scripts
+- Add a stating UI which includes an IP Address text box
+- Add a death UI for Respawning
+- Fix send rate issue if possible
+- Fix Port Forwarding
