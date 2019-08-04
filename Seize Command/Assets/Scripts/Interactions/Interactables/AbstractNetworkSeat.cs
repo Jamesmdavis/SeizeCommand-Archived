@@ -33,7 +33,6 @@ namespace SeizeCommand.Interactions.Interactables
                 seatMove.position.y = transform.position.y;
                 seatMove.rotation = 180f;
 
-                networkIdentity.Socket.Emit("seatUpdatePositionRotation", new JSONObject(JsonUtility.ToJson(seatUpdatePositionRotation)));
                 networkIdentity.Socket.Emit("seatMove", new JSONObject(JsonUtility.ToJson(seatMove)));
             }
         }
