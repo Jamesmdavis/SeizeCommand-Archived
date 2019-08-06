@@ -49,6 +49,11 @@ namespace SeizeCommand.Networking
             maniMenuPanel.SetActive(false);
         }
 
+        public void Respawn()
+        {
+            Emit("respawn");
+        }
+
         private void Initialize()
         {
             serverObjects = new Dictionary<string, NetworkIdentity>();
@@ -94,6 +99,19 @@ namespace SeizeCommand.Networking
                     CircleCollider2D coll = g.GetComponent<CircleCollider2D>();
                     coll.isTrigger = true;
                 }
+            });
+
+            On("respawn", (E) => {
+                string id = E.data["id"].ToString().Trim('"');
+                float x = E.data["position"]["x"].f;
+                float y = E.data["position"]["y"].f;
+                float rotation = E.data["rotation"].f;
+
+                GameObject g = serverObjects[id].gameObject;
+                g.SetActive(true);
+
+                g.transform.position = new Vector3(x, y, 0);
+                g.transform.rotation = Quaternion.Euler(0, 0, rotation);
             });
 
             On("disconnected", (E) => {

@@ -12,6 +12,12 @@ namespace SeizeCommand.Health
 
         public event Action OnTakeDamage;
         public event Action OnDie;
+        [SerializeField] private float currentHealth;
+
+        protected virtual void Start()
+        {
+            currentHealth = health;
+        }
 
         public virtual void TakeDamage(GameObject sender, float damage)
         {
@@ -26,19 +32,24 @@ namespace SeizeCommand.Health
         {
             if(OnTakeDamage != null) OnTakeDamage();
 
-            health -= damage;
+            currentHealth -= damage;
 
-            if(health <= 0)
+            if(currentHealth <= 0)
             {
                 Die();
             }
         }
 
-        protected void Die()
+        protected virtual void Die()
         {
             if(OnDie != null) OnDie();
 
             gameObject.SetActive(false);
+        }
+
+        private void OnEnable()
+        {
+            currentHealth = health;
         }
     }
 }

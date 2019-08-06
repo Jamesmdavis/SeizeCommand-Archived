@@ -3,12 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using SeizeCommand.Utility;
+using SeizeCommand.Networking;
 
 namespace SeizeCommand.Health
 {
     public class OnDiePlayFadeDeathScreenAnimation : AbstractEventSubscriber<HealthManager>
     {
         [SerializeField] private Animator anim;
+        [SerializeField] private CanvasPanelReferences references;
+        private NetworkIdentity networkIdentity;
+
+        private void Start()
+        {
+            networkIdentity = GetComponent<NetworkIdentity>();
+        }
 
         private void OnEnable()
         {
@@ -22,7 +30,10 @@ namespace SeizeCommand.Health
 
         private void FadeDeathScreen()
         {
-            anim.SetTrigger("Die");
+            if(networkIdentity.IsLocalPlayer)
+            {
+                anim.SetTrigger("Die");
+            }
         }
     }
 }

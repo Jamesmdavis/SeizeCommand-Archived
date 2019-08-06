@@ -12,7 +12,7 @@ namespace SeizeCommand.Health
         private NetworkIdentity networkIdentity;
         private Damage damageMessage;
 
-        private void Start()
+        protected override void Start()
         {
             networkIdentity = GetComponent<NetworkIdentity>();
             damageMessage = new Damage();
@@ -21,6 +21,16 @@ namespace SeizeCommand.Health
         public override void TakeDamage(GameObject sender, float damage)
         {
             SendData(sender, damage);
+        }
+
+        protected override void Die()
+        {
+            if(networkIdentity.IsLocalPlayer)
+            {
+                networkIdentity.Socket.Emit("respawn");
+            }
+            
+            base.Die();
         }
 
         public void InduceDamage(float damage)

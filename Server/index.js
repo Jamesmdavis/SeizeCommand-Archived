@@ -11,6 +11,7 @@ var Vector2 = require('./Classes/Vector2.js');
 
 var players = [];
 var sockets = [];
+var spawnPoints = [[0, 0], [-15, 5], [8, 11], [12, -7], [-16, -6], [0, -12]];
 
 console.log('Server has started');
 
@@ -23,6 +24,11 @@ io.on('connection', function(socket) {
 
     players[thisPlayerID] = player;
     sockets[thisPlayerID] = socket;
+
+    //Random Spawn Point for Player
+    var num = Math.floor((Math.random() * 6));
+    player.position.x = spawnPoints[num][0];
+    player.position.y = spawnPoints[num][1];
 
     //Tell the client that this is our id for the server
     socket.emit('register', {id: thisPlayerID});
@@ -137,6 +143,15 @@ io.on('connection', function(socket) {
             socket.emit('takeDamage', takeDamage);
             socket.broadcast.emit('takeDamage', takeDamage);
         }
+    });
+
+    socket.on('respawn', function() {
+        var num = Math.floor((Math.random() * 6));
+        player.position.x = spawnPoints[num][0];
+        player.position.y = spawnPoints[num][1];
+
+        socket.emit('respawn', player);
+        socket.broadcast.emit('respawn', player);
     });
 
     socket.on('disconnect', function() {

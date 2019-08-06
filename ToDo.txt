@@ -1,8 +1,5 @@
 Must have things for Pre Alpha
 
-- Play Test to make sure nothing broke during refactoring
 - Refactor Movement Scripts
-- Add a death UI for Respawning
-- Add a Quit Button in Death UI
-- Fix send rate issue if possible
 - Fix Port Forwarding
+- Fix Send Rate Issue if possible
