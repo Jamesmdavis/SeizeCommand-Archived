@@ -7,11 +7,14 @@ namespace SeizeCommand.Utility
 {
     public class TurnOnButtonAnimationEvent : MonoBehaviour
     {
-        [SerializeField] private Button button;
+        [SerializeField] private Button[] buttons;
 
         public void Event()
         {
-            button.interactable = true;
+            foreach(Button b in buttons)
+            {
+                b.interactable = true;
+            }
         }
     }
 }
