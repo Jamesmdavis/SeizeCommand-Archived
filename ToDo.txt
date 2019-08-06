@@ -4,6 +4,5 @@ Must have things for Pre Alpha
 - Refactor Movement Scripts
 - Add a death UI for Respawning
 - Add a Quit Button in Death UI
-- Create a Play Area with Boundaries
 - Fix send rate issue if possible
 - Fix Port Forwarding
