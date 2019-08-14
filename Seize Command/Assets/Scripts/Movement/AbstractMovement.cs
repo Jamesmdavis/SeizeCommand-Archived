@@ -11,6 +11,8 @@ namespace SeizeCommand.Movement
 
         protected Rigidbody2D rb;
         protected bool isMoving;
+        protected float x;
+        protected float y;
 
         protected virtual void Start()
         {
@@ -36,6 +38,9 @@ namespace SeizeCommand.Movement
         {
             isMoving = Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0
                 ? true : false;
+
+            x = Input.GetAxisRaw("Horizontal");
+            y = Input.GetAxisRaw("Vertical");
         }
     }
 }

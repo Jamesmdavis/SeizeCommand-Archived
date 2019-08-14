@@ -74,9 +74,6 @@ namespace SeizeCommand.Movement
         {
             float timeSent = Time.time;
 
-            float x = Input.GetAxisRaw("Horizontal");
-            float y = Input.GetAxisRaw("Vertical");
-
             if(!isColliding)
             {
                 SendData(x, y, timeSent);
