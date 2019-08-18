@@ -1,0 +1,5 @@
+Must have things for Pre Alpha
+
+- Refactor Movement Scripts
+- Fix Port Forwarding
+- Fix Send Rate Issue if possible

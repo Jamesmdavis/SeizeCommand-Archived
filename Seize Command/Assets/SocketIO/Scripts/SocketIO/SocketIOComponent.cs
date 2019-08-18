@@ -99,11 +99,6 @@ namespace SocketIO
 			sid = null;
 			packetId = 0;
 
-			ws = new WebSocket(url);
-			ws.OnOpen += OnOpen;
-			ws.OnMessage += OnMessage;
-			ws.OnError += OnError;
-			ws.OnClose += OnClose;
 			wsConnected = false;
 
 			eventQueueLock = new object();
@@ -138,12 +133,14 @@ namespace SocketIO
 				}
 			}
 
-			if(wsConnected != ws.IsConnected){
-				wsConnected = ws.IsConnected;
-				if(wsConnected){
-					EmitEvent("connect");
-				} else {
-					EmitEvent("disconnect");
+			if(ws != null){
+				if(wsConnected != ws.IsConnected){
+					wsConnected = ws.IsConnected;
+					if(wsConnected){
+						EmitEvent("connect");
+					} else {
+						EmitEvent("disconnect");
+					}
 				}
 			}
 
@@ -239,6 +236,15 @@ namespace SocketIO
 		}
 
 		#endregion
+
+		protected void CreateWebSocket()
+		{
+			ws = new WebSocket(url);
+			ws.OnOpen += OnOpen;
+			ws.OnMessage += OnMessage;
+			ws.OnError += OnError;
+			ws.OnClose += OnClose;
+		}
 
 		#region Private Methods
 

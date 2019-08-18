@@ -5,16 +5,51 @@ using UnityEngine;
 
 namespace SeizeCommand.Health
 {
-    public class HealthManager : AbstractHealthManager
+    public class HealthManager : MonoBehaviour, IDamageable, IHealable
     {
-        public override void TakeDamage(GameObject sender, float damage)
+        [Header("Data")]
+        [SerializeField] protected float health;
+
+        public event Action OnTakeDamage;
+        public event Action OnDie;
+        [SerializeField] private float currentHealth;
+
+        protected virtual void Start()
+        {
+            currentHealth = health;
+        }
+
+        public virtual void TakeDamage(GameObject sender, float damage)
         {
             ApplyDamage(damage);
         }
-
-        public override void Heal(GameObject sender, float heal)
+        public virtual void Heal(GameObject sender, float heal)
         {
-            health += heal;
+            //ApplyHeal();
+        }
+
+        protected void ApplyDamage(float damage)
+        {
+            if(OnTakeDamage != null) OnTakeDamage();
+
+            currentHealth -= damage;
+
+            if(currentHealth <= 0)
+            {
+                Die();
+            }
+        }
+
+        protected virtual void Die()
+        {
+            if(OnDie != null) OnDie();
+
+            gameObject.SetActive(false);
+        }
+
+        private void OnEnable()
+        {
+            currentHealth = health;
         }
     }
 }

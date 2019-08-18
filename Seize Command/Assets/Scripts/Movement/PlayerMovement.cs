@@ -4,14 +4,11 @@ using UnityEngine;
 
 namespace SeizeCommand.Movement
 {
-    public class PlayerMovement : AbstractNetworkMovement
+    public class PlayerMovement : AbstractMovement
     {
         protected override void Move()
         {
-            float horizontal = Input.GetAxis("Horizontal");
-            float vertical = Input.GetAxis("Vertical");
-
-            transform.position += new Vector3(horizontal, vertical, 0) * speed * Time.deltaTime;
+            transform.position += new Vector3(x, y, 0) * speed * Time.deltaTime;
         }
     }
 }
