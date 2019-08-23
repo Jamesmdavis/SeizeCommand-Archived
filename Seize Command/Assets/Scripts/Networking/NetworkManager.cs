@@ -17,8 +17,10 @@ namespace SeizeCommand.Networking
     {
         [Header("Network Client")]
         [SerializeField] private Transform networkContainer;
+        [SerializeField] private Transform playerMirrorParent;
 
         [SerializeField] private GameObject player;
+        [SerializeField] private GameObject playerMirror;
 
         private Dictionary<string, NetworkIdentity> serverObjects;
 
@@ -77,26 +79,54 @@ namespace SeizeCommand.Networking
                 float y = E.data["position"]["y"].f;
                 float rotation = E.data["rotation"].f;
 
-                Vector3 position = new Vector3(x, y, 0);
 
-                GameObject g = Instantiate(player, position, Quaternion.Euler(0, 0, rotation), networkContainer);
-                g.name = string.Format("Player ({0})", id);
+                //These next few lines instantiate the player
+                Vector3 pPosition = new Vector3(x, y, 0);
+                Quaternion eulerRotation = Quaternion.Euler(0, 0, rotation);
 
-                NetworkIdentity ni = g.GetComponent<NetworkIdentity>();
-                ni.SetControllerID(id);
-                ni.SetSocketReference(this);
+                GameObject p = Instantiate(player, pPosition, eulerRotation, networkContainer);
 
-                serverObjects.Add(id, ni);
 
-                if(ni.IsLocalPlayer)
+                //These next few lines instantiate the mirrored player
+                //This is the player the camera follows and is located on the Dynamic Space Ship
+                Vector3 pMirrorPosition = p.transform.localPosition;
+
+                GameObject pMirror = Instantiate(playerMirror, pMirrorPosition,
+                    eulerRotation, playerMirrorParent);
+
+                
+                //These PlayerReference scripts allow the two versions of the player to communicate
+                //with each other
+                PlayerReference pReference = p.GetComponent<PlayerReference>();
+                PlayerReference pMirrorReference = pMirror.GetComponent<PlayerReference>(); 
+
+                pReference.SetReference(pMirror);
+                pMirrorReference.SetReference(p);      
+
+                
+                p.name = string.Format("Player ({0})", id);
+
+
+                //These next few lines set up the localPlayer checks and ID checks
+                //These checks make sure that the local player cannot control other players
+                NetworkIdentity pNetworkIdentity = p.GetComponent<NetworkIdentity>();
+                NetworkIdentity pMirrorNetworkIdentity = pMirror.GetComponent<NetworkIdentity>();
+                pNetworkIdentity.SetControllerID(id);
+                pMirrorNetworkIdentity.SetControllerID(id);  
+                pNetworkIdentity.SetSocketReference(this);
+                pMirrorNetworkIdentity.SetSocketReference(this);
+
+                serverObjects.Add(id, pNetworkIdentity);
+
+                if(pNetworkIdentity.IsLocalPlayer)
                 {
                     Camera mainCamera = Camera.main;
                     CameraFollowPlayer cameraFollowPlayer = mainCamera.GetComponent<CameraFollowPlayer>();
-                    cameraFollowPlayer.SetFollowPlayer(ni.transform);
+                    cameraFollowPlayer.SetFollowPlayer(pMirror.transform);
                 }
                 else
                 {
-                    CircleCollider2D coll = g.GetComponent<CircleCollider2D>();
+                    CircleCollider2D coll = p.GetComponent<CircleCollider2D>();
                     coll.isTrigger = true;
                 }
             });
@@ -151,7 +181,11 @@ namespace SeizeCommand.Networking
                 float rotation = E.data["rotation"].f;
 
                 NetworkIdentity ni = serverObjects[id];
-                ni.transform.rotation = Quaternion.Euler(0, 0, rotation);
+
+                //We Don't set the main players rotation because it is the mirrored player
+                //that controls the aiming because it is the player the camera views
+                Transform otherPlayer = ni.GetComponent<PlayerReference>().Reference.transform;
+                otherPlayer.rotation = Quaternion.Euler(0, 0, rotation);
             });
 
             On("seatMove", (E) => {
