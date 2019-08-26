@@ -84,7 +84,9 @@ namespace SeizeCommand.Networking
                 Vector3 pPosition = new Vector3(x, y, 0);
                 Quaternion eulerRotation = Quaternion.Euler(0, 0, rotation);
 
-                GameObject p = Instantiate(player, pPosition, eulerRotation, networkContainer);
+                GameObject p = Instantiate(player, networkContainer, false);
+                p.transform.localPosition = pPosition;
+                p.transform.rotation = eulerRotation;
 
 
                 //These next few lines instantiate the mirrored player

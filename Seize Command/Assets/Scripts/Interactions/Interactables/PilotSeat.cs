@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using SeizeCommand.Movement;
+using SeizeCommand.Aiming;
 using SeizeCommand.Interactions.Interactors;
 using SeizeCommand.Utility;
 
@@ -15,11 +16,13 @@ namespace SeizeCommand.Interactions.Interactables
             base.TakeSeat(interactor);
 
             //This grabs a reference to the dynamic version of the space ship
-            //In other words the dynamic space ship is the one that moves
+            //In other words the dynamic space ship is the one that moves and rotates
             GameObject otherSpaceShip = GetComponentInParent<SpaceShipReference>().Reference;
 
             AbstractMovement movement = otherSpaceShip.GetComponent<AbstractMovement>();
+            AbstractAim aim = otherSpaceShip.GetComponent<AbstractAim>();
             movement.enabled = true;
+            aim.enabled = true;
         }
 
         protected override void LeaveSeat(Interactor interactor)
@@ -27,11 +30,13 @@ namespace SeizeCommand.Interactions.Interactables
             base.LeaveSeat(interactor);
             
             //This grabs a reference to the dynamic version of the space ship
-            //In other words the dynamic space ship is the one that moves
+            //In other words the dynamic space ship is the one that moves and rotates
             GameObject otherSpaceShip = GetComponentInParent<SpaceShipReference>().Reference;
 
             AbstractMovement movement = otherSpaceShip.GetComponent<AbstractMovement>();
+            AbstractAim aim = otherSpaceShip.GetComponent<AbstractAim>();
             movement.enabled = false;
+            aim.enabled = false;
         }
     }
 }
