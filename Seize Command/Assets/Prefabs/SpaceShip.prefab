@@ -700,7 +700,7 @@ Transform:
   - {fileID: 4620960920540165425}
   - {fileID: 4620960918949819016}
   m_Father: {fileID: 8804527438999446618}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4620960919027086655
 GameObject:
@@ -838,7 +838,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8804527438999446618}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4620960919448565243
 GameObject:
@@ -1940,6 +1940,8 @@ GameObject:
   - component: {fileID: 6369548847753987772}
   - component: {fileID: 2659015924599867512}
   - component: {fileID: 9068987871903079503}
+  - component: {fileID: 8574404021510173540}
+  - component: {fileID: 7279781787032671297}
   m_Layer: 0
   m_Name: Gun Seat
   m_TagString: Untagged
@@ -1957,9 +1959,10 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 3466217532058037339}
   m_Father: {fileID: 8804527438999446618}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2659015924599867512
 SpriteRenderer:
@@ -2037,6 +2040,32 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &8574404021510173540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6519028705706234103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f5d213f8ff541e46b1575325d2e18c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leaveSeatPosition: {fileID: 3466217532058037339}
+--- !u!114 &7279781787032671297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6519028705706234103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c83dd73f380003479cd5618d9c3a2b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gun: {fileID: 0}
 --- !u!1 &6565908049463415954
 GameObject:
   m_ObjectHideFlags: 0
@@ -2245,10 +2274,40 @@ Transform:
   m_Children:
   - {fileID: 4764553679582726572}
   - {fileID: 8844993094023279668}
+  - {fileID: 6369548847753987772}
   - {fileID: 4620960918980066590}
   - {fileID: 4620960919073771270}
-  - {fileID: 6369548847753987772}
   m_Father: {fileID: 4620960918761007619}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &9200313707937472118
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3466217532058037339}
+  m_Layer: 0
+  m_Name: LeaveSeatPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3466217532058037339
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9200313707937472118}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -1.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6369548847753987772}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &6855886914820748718

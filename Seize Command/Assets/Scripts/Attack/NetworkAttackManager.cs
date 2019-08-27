@@ -10,7 +10,7 @@ namespace SeizeCommand.Attack
     {
         private NetworkIdentity networkIdentity;
 
-        private void Start()
+        protected override void Start()
         {  
             networkIdentity = GetComponent<NetworkIdentity>();
         }
@@ -34,7 +34,7 @@ namespace SeizeCommand.Attack
 
         public void InduceAttack()
         {
-            gun.Fire();
+            CurrentWeapon.Fire();
         }
     }
 }
