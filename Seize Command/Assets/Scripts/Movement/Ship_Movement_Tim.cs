@@ -7,6 +7,7 @@ public class Ship_Movement_Tim : MonoBehaviour
     private Rigidbody2D rb;
     [SerializeField] private float thrustModifier = 1;
     [SerializeField] private float maxSpeed = 10;
+    [SerializeField] private float brakeStrength = 6;
     // Start is called before the first frame update
     private void Start()
     {
@@ -16,15 +17,17 @@ public class Ship_Movement_Tim : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        bool Fwd = Input.GetKey("t");
-        bool Rvs = Input.GetKey("r");
+        float dir = Input.GetAxis("Vertical");
         float velocity = rb.velocity.magnitude;
+        bool brk = Input.GetKey("b");
 
-        ThrustForward(Fwd);
-        ThrustReverse(Rvs);
         VelocityCap(velocity);
+        Thrust(dir);
+        Brake(brk);
+        
     }
 
+    //This sets a maximum speed for the craft.
     private void VelocityCap(float speed)
     {
         if (speed >= maxSpeed)
@@ -33,23 +36,19 @@ public class Ship_Movement_Tim : MonoBehaviour
         }
     }
 
-    //TrustForward method will propel the craft in the up direction of it's axis when the "t" key is pressed
-    private void ThrustForward(bool forward)
+    //Thrust will propel the craft foward or reverse depending on the "dir" input direction.  Up on the direction keys will thrust the craft while down will reverse.
+    private void Thrust(float direction)
     {
-        if(forward  == true)
-        {
-            Vector2 force = transform.up * thrustModifier;
-            rb.AddForce(force);
-        }
+        Vector2 force = transform.up * thrustModifier * direction;
+        rb.AddForce(force);
     }
 
-    //ThrustReverse method will create a force in the reverse direction when the "r" key is pressed
-    private void ThrustReverse(bool reverse)
+    //This will reduce the speed of the craft.  press the "b" key to do so.  Make the brake modifier value at 1000 or above.  The higher tha modifier, the stronger your brakes
+    private void Brake(bool brake)
     {
-        if( reverse == true)
+        if (brake == true)
         {
-            Vector2 force = -transform.up * thrustModifier;
-            rb.AddForce(force);
+            rb.velocity = rb.velocity * (1000 / brakeStrength);
         }
     }
 }
