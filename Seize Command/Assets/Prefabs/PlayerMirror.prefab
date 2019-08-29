@@ -172,6 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9a1571c3c6de1043b816da3563318d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  reference: {fileID: 0}
 --- !u!114 &4260321530512263707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,7 +199,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mirrorPosition: 1
-  mirrorRotation: 0
+  mirrorRotation: 1
 --- !u!1 &6000927031557300635
 GameObject:
   m_ObjectHideFlags: 0

@@ -205,6 +205,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9a1571c3c6de1043b816da3563318d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  reference: {fileID: 0}
 --- !u!114 &4964248940627659643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -300,6 +301,7 @@ GameObject:
   - component: {fileID: 7272843152516757157}
   - component: {fileID: 6852817828285509123}
   - component: {fileID: 3085805901309814881}
+  - component: {fileID: 7910117748702212879}
   m_Layer: 8
   m_Name: Gun Barrel
   m_TagString: Untagged
@@ -388,6 +390,18 @@ MonoBehaviour:
     type: 3}
   projectileSpawnPoint: {fileID: 1119022630181311382}
   sender: {fileID: 2536958507248721030}
+--- !u!114 &7910117748702212879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2842781671463907198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 868daf903d5e40f47a1705ed93e56e88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4609885521818723386
 GameObject:
   m_ObjectHideFlags: 0

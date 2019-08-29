@@ -13,7 +13,9 @@ namespace SeizeCommand.Weapon
 
         public override void Fire()
         {
-            GameObject proj = Instantiate(projectile, projectileSpawnPoint.position, projectileSpawnPoint.rotation);
+            Transform projectileParent = sender.transform.parent.parent;
+            GameObject proj = Instantiate(projectile, projectileSpawnPoint.position,
+                projectileSpawnPoint.rotation, projectileParent);
 
             Collider2D[] colls = sender.GetComponentsInChildren<Collider2D>();
             Collider2D projColl = proj.GetComponent<Collider2D>();
@@ -26,7 +28,7 @@ namespace SeizeCommand.Weapon
             DamageSender damageSender = proj.GetComponent<DamageSender>();
             damageSender.Sender = sender;
 
-            OnInstantiateProjectile(proj);
+            if(OnInstantiateProjectile != null) OnInstantiateProjectile(proj);
         }
     }
 }
