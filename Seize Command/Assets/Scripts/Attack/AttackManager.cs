@@ -12,19 +12,13 @@ namespace SeizeCommand.Attack
         [Header("Class References")]
         [SerializeField] protected AbstractGun gun;
 
-        public AbstractGun CurrentWeapon
-        {
-            get { return currentWeapon; }
-            set { currentWeapon = value; }
-        }
-
-        private AbstractGun currentWeapon;
+        public AbstractGun CurrentWeapon { get; set; }
 
         public event Action OnAttack;
 
         protected virtual void Start()
         {
-            currentWeapon = gun;
+            CurrentWeapon = gun;
         }
 
         protected virtual void Update()
@@ -34,8 +28,7 @@ namespace SeizeCommand.Attack
 
         protected virtual void Attack()
         {
-            currentWeapon.Fire();
-
+            CurrentWeapon.Fire();
             if(OnAttack != null) OnAttack();
         }
 
@@ -49,7 +42,7 @@ namespace SeizeCommand.Attack
 
         public void DefaultWeapon()
         {
-            currentWeapon = gun;
+            CurrentWeapon = gun;
         }
     }
 }

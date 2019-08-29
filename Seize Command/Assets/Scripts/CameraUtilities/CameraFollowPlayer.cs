@@ -2,15 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SeizeCommand.Utility
+using SeizeCommand.References;
+
+namespace SeizeCommand.CameraUtilities
 {
-    public class CameraFollowPlayer : MonoBehaviour
+    public class CameraFollowPlayer : MonoBehaviour, IReferenceable
     {
         [Header("Data")]
         [SerializeField] private float zCameraOffset;
 
         private Transform playerTranform;
         private Vector3 newCameraPosition;
+        private Coroutine coFindPlayer;
 
         private void Start()
         {
@@ -28,9 +31,9 @@ namespace SeizeCommand.Utility
             }
         }
 
-        public void SetFollowPlayer(Transform transform)
+        public void SetReference(GameObject reference)
         {
-            playerTranform = transform;
+            playerTranform = reference.transform;
         }
     }
 }

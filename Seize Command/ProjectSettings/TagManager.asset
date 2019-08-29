@@ -44,6 +44,9 @@ TagManager:
   - name: Deck
     uniqueID: 2864469107
     locked: 0
+  - name: Player
+    uniqueID: 2746347751
+    locked: 0
   - name: Roof
     uniqueID: 2174615059
     locked: 0

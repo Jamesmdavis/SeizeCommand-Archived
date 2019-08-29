@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using SeizeCommand.References;
+
 namespace SeizeCommand.Utility
 {
-    [RequireComponent(typeof(PlayerReference))]
+    //This script Mirrors the Dynamic Players Movement and Rotation
+    [RequireComponent(typeof(GameObjectReference))]
     public class MirrorPlayer : MonoBehaviour
     {
         [SerializeField] private bool mirrorPosition;
@@ -24,7 +27,7 @@ namespace SeizeCommand.Utility
             {
                 if(!player)
                 {
-                    player = GetComponent<PlayerReference>().Reference.transform;
+                    player = GetComponent<GameObjectReference>().Reference.transform;
                 }
                 else
                 {

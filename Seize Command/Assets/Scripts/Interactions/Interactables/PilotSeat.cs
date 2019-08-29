@@ -6,6 +6,7 @@ using SeizeCommand.Movement;
 using SeizeCommand.Aiming;
 using SeizeCommand.Interactions.Interactors;
 using SeizeCommand.Utility;
+using SeizeCommand.References;
 
 namespace SeizeCommand.Interactions.Interactables
 {
@@ -17,7 +18,7 @@ namespace SeizeCommand.Interactions.Interactables
 
             //This grabs a reference to the dynamic version of the space ship
             //In other words the dynamic space ship is the one that moves and rotates
-            GameObject otherSpaceShip = GetComponentInParent<SpaceShipReference>().Reference;
+            GameObject otherSpaceShip = GetComponentInParent<GameObjectReference>().Reference;
 
             AbstractMovement movement = otherSpaceShip.GetComponent<AbstractMovement>();
             AbstractAim aim = otherSpaceShip.GetComponent<AbstractAim>();
@@ -31,7 +32,7 @@ namespace SeizeCommand.Interactions.Interactables
             
             //This grabs a reference to the dynamic version of the space ship
             //In other words the dynamic space ship is the one that moves and rotates
-            GameObject otherSpaceShip = GetComponentInParent<SpaceShipReference>().Reference;
+            GameObject otherSpaceShip = GetComponentInParent<GameObjectReference>().Reference;
 
             AbstractMovement movement = otherSpaceShip.GetComponent<AbstractMovement>();
             AbstractAim aim = otherSpaceShip.GetComponent<AbstractAim>();

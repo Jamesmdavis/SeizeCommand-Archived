@@ -12,6 +12,7 @@ namespace SeizeCommand.Attack
 
         protected override void Start()
         {  
+            base.Start();
             networkIdentity = GetComponent<NetworkIdentity>();
         }
 

@@ -2,24 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SeizeCommand.Utility
+namespace SeizeCommand.CameraUtilities
 {
     public class CameraScrolling : MonoBehaviour
     {
         [SerializeField] private float scrollInLimit;
         [SerializeField] private float scrollOutLimit;
-        [SerializeField] [Range(0f, 1f)] private float intensity;
+        [SerializeField] [Range(1f, 10f)] private float intensity;
 
         private Camera cam;
         private Coroutine coLerpSize;
         private float currentSize;
-        private bool isLerping;
+        private bool isScrolling;
 
         private void Start()
         {
             cam = GetComponent<Camera>();
             currentSize = cam.orthographicSize;
-            isLerping = false;
+            isScrolling = false;
         }
 
         private void Update()
@@ -28,7 +28,7 @@ namespace SeizeCommand.Utility
 
             if(scrollWheel != 0f)
             {
-                if(isLerping) StopCoroutine(coLerpSize);
+                if(isScrolling) StopCoroutine(coLerpSize);
 
                 if(scrollWheel > 0f)
                 {
@@ -43,18 +43,16 @@ namespace SeizeCommand.Utility
 
         private IEnumerator CoLerpSize(float endValue)
         {
-            isLerping = true;
+            isScrolling = true;
 
             while(currentSize != endValue)
             {
                 currentSize = Mathf.Lerp(currentSize, endValue, intensity * Time.deltaTime);
                 cam.orthographicSize = currentSize;
+                yield return null;
             }
 
-            yield return null;
-
-            isLerping = false;
-
+            isScrolling = false;
             StopCoroutine(coLerpSize);
         }
 

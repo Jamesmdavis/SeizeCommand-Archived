@@ -6,6 +6,7 @@ using SeizeCommand.Interactions.Interactors;
 using SeizeCommand.Utility;
 using SeizeCommand.Attack;
 using SeizeCommand.Weapon;
+using SeizeCommand.References;
 
 namespace SeizeCommand.Interactions.Interactables
 {
@@ -19,7 +20,7 @@ namespace SeizeCommand.Interactions.Interactables
 
             //This grabs a reference to the dynamic version of the space ship
             //In other words the dynamic space ship is the one that moves and rotates
-            GameObject otherSpaceShip = GetComponentInParent<SpaceShipReference>().Reference;
+            GameObject otherSpaceShip = GetComponentInParent<GameObjectReference>().Reference;
 
             AttackManager playerAttack = interactor.Player.GetComponent<AttackManager>();
             playerAttack.CurrentWeapon = gun;
@@ -31,7 +32,7 @@ namespace SeizeCommand.Interactions.Interactables
 
             //This grabs a reference to the dynamic version of the space ship
             //In other words the dynamic space ship is the one that moves and rotates
-            GameObject otherSpaceShip = GetComponentInParent<SpaceShipReference>().Reference;
+            GameObject otherSpaceShip = GetComponentInParent<GameObjectReference>().Reference;
 
             AttackManager playerAttack = interactor.Player.GetComponent<AttackManager>();
             playerAttack.DefaultWeapon();

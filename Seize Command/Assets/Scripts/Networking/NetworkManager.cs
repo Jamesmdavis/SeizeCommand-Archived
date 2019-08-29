@@ -10,6 +10,7 @@ using SeizeCommand.Health;
 using SeizeCommand.Movement;
 using SeizeCommand.Interactions.Interactors;
 using SeizeCommand.Utility;
+using SeizeCommand.References;
 
 namespace SeizeCommand.Networking
 {
@@ -97,13 +98,13 @@ namespace SeizeCommand.Networking
                     eulerRotation, playerMirrorParent);
 
                 
-                //These PlayerReference scripts allow the two versions of the player to communicate
+                //These GameObjectReference scripts allow the two versions of the player to communicate
                 //with each other
-                PlayerReference pReference = p.GetComponent<PlayerReference>();
-                PlayerReference pMirrorReference = pMirror.GetComponent<PlayerReference>(); 
+                GameObjectReference pReference = p.GetComponent<GameObjectReference>();
+                GameObjectReference pMirrorReference = pMirror.GetComponent<GameObjectReference>(); 
 
-                pReference.SetReference(pMirror);
-                pMirrorReference.SetReference(p);      
+                pReference.Reference = pMirror;
+                pMirrorReference.Reference = p;    
 
                 
                 p.name = string.Format("Player ({0})", id);
@@ -123,8 +124,8 @@ namespace SeizeCommand.Networking
                 if(pNetworkIdentity.IsLocalPlayer)
                 {
                     Camera mainCamera = Camera.main;
-                    CameraFollowPlayer cameraFollowPlayer = mainCamera.GetComponent<CameraFollowPlayer>();
-                    cameraFollowPlayer.SetFollowPlayer(pMirror.transform);
+                    GameObjectReference camPlayerReference = mainCamera.GetComponent<GameObjectReference>();
+                    camPlayerReference.Reference = pMirror;
                 }
                 else
                 {
@@ -186,7 +187,7 @@ namespace SeizeCommand.Networking
 
                 //We Don't set the main players rotation because it is the mirrored player
                 //that controls the aiming because it is the player the camera views
-                Transform otherPlayer = ni.GetComponent<PlayerReference>().Reference.transform;
+                Transform otherPlayer = ni.GetComponent<GameObjectReference>().Reference.transform;
                 otherPlayer.rotation = Quaternion.Euler(0, 0, rotation);
             });
 
