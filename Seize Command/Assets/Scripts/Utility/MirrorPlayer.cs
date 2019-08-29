@@ -37,7 +37,7 @@ namespace SeizeCommand.Utility
                     }
                     if(mirrorRotation)
                     {
-                        transform.rotation = player.rotation;
+                        transform.localRotation = player.localRotation;
                     }
                 }
                 

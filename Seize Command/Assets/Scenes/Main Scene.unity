@@ -524,6 +524,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1981921145870156249, guid: 4b3b7c6c29928c2418ef7bc4b2f51df7,
+        type: 3}
+      propertyPath: scrollInLimit
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1981921145870156249, guid: 4b3b7c6c29928c2418ef7bc4b2f51df7,
+        type: 3}
+      propertyPath: scrollOutLimit
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1981921145870156249, guid: 4b3b7c6c29928c2418ef7bc4b2f51df7,
+        type: 3}
+      propertyPath: intensity
+      value: 2.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b3b7c6c29928c2418ef7bc4b2f51df7, type: 3}
 --- !u!1001 &4620960919129777598
@@ -592,6 +607,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6519028705706234103, guid: 8b5fb0cb4e616c24f97979adff35902b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4620960920115785431, guid: 8b5fb0cb4e616c24f97979adff35902b,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4620960920115785430, guid: 8b5fb0cb4e616c24f97979adff35902b,
+        type: 3}
+      propertyPath: speed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6565908049463415954, guid: 8b5fb0cb4e616c24f97979adff35902b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b5fb0cb4e616c24f97979adff35902b, type: 3}

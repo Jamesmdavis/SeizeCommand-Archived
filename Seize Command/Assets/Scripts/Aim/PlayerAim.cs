@@ -9,6 +9,19 @@ namespace SeizeCommand.Aiming
 
     public class PlayerAim : AbstractAim
     {
+        [Header("Data")]
+        [SerializeField] protected float speed;
 
+        protected override void Aim()
+        {
+            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector3 dif = mousePosition - transform.position;
+            dif.Normalize();
+            float rot = Mathf.Atan2(dif.y, dif.x) * Mathf.Rad2Deg;
+
+            float currentRotation = rot + BARREL_PIVOT_OFFSET;
+
+            transform.rotation = Quaternion.Euler(0, 0, currentRotation);
+        }
     }
 }

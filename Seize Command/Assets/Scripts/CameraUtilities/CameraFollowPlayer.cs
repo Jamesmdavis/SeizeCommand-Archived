@@ -8,9 +8,6 @@ namespace SeizeCommand.CameraUtilities
 {
     public class CameraFollowPlayer : MonoBehaviour, IReferenceable
     {
-        [Header("Data")]
-        [SerializeField] private float zCameraOffset;
-
         private Transform playerTranform;
         private Vector3 newCameraPosition;
         private Coroutine coFindPlayer;
@@ -18,7 +15,7 @@ namespace SeizeCommand.CameraUtilities
         private void Start()
         {
             playerTranform = null;
-            newCameraPosition = new Vector3(0, 0, zCameraOffset);
+            newCameraPosition = new Vector3(0, 0, -10f);
         }
 
         private void LateUpdate()

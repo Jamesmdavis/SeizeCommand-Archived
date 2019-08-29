@@ -199,7 +199,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mirrorPosition: 1
-  mirrorRotation: 1
+  mirrorRotation: 0
 --- !u!1 &6000927031557300635
 GameObject:
   m_ObjectHideFlags: 0

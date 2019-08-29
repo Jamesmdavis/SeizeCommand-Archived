@@ -8,6 +8,9 @@ namespace SeizeCommand.Aiming
 {
     public class NetworkPlayerAim : AbstractAim
     {
+        [Header("Data")]
+        [SerializeField] protected float speed;
+        
         private NetworkIdentity networkIdentity;
         private Aim aimMessage;
         private float oldRotation;

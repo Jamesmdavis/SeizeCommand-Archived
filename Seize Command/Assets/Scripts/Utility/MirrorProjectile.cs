@@ -32,9 +32,9 @@ namespace SeizeCommand.Utility
 
                     transform.rotation = mirrorRotation ? projectile.rotation 
                         : transform.rotation;
-
-                    yield return null;
                 }
+
+                yield return null;
             }
         }
 
