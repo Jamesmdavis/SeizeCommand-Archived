@@ -8,10 +8,7 @@ namespace SeizeCommand.Aiming
     //Implementation of Aim to this class and make it abstract in AbstractAim
 
     public class PlayerAim : AbstractAim
-    {
-        [Header("Data")]
-        [SerializeField] protected float speed;
-
+    {   
         protected override void Aim()
         {
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);

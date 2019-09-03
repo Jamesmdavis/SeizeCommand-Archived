@@ -6,6 +6,7 @@ namespace SeizeCommand.Aiming
 {
     public class SpaceShipAim : AbstractAim
     {
+        [Header("Data")]
         [SerializeField] [Range(1f, 10f)] private float intensity;
 
         protected override void Aim()

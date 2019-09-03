@@ -5,7 +5,7 @@ using UnityEngine;
 using SeizeCommand.Movement;
 using SeizeCommand.Aiming;
 using SeizeCommand.Interactions.Interactors;
-using SeizeCommand.Utility;
+using SeizeCommand.Attack;
 using SeizeCommand.References;
 
 namespace SeizeCommand.Interactions.Interactables
@@ -21,9 +21,13 @@ namespace SeizeCommand.Interactions.Interactables
             GameObject otherSpaceShip = GetComponentInParent<GameObjectReference>().Reference;
 
             AbstractMovement movement = otherSpaceShip.GetComponent<AbstractMovement>();
-            AbstractAim aim = otherSpaceShip.GetComponent<AbstractAim>();
             movement.enabled = true;
+
+            AbstractAim aim = otherSpaceShip.GetComponent<AbstractAim>();
             aim.enabled = true;
+
+            AttackManager playerAttack = interactor.Player.GetComponent<AttackManager>();
+            playerAttack.enabled = false;
         }
 
         protected override void LeaveSeat(Interactor interactor)
@@ -35,9 +39,13 @@ namespace SeizeCommand.Interactions.Interactables
             GameObject otherSpaceShip = GetComponentInParent<GameObjectReference>().Reference;
 
             AbstractMovement movement = otherSpaceShip.GetComponent<AbstractMovement>();
-            AbstractAim aim = otherSpaceShip.GetComponent<AbstractAim>();
             movement.enabled = false;
+
+            AbstractAim aim = otherSpaceShip.GetComponent<AbstractAim>();
             aim.enabled = false;
+
+            AttackManager playerAttack = interactor.Player.GetComponent<AttackManager>();
+            playerAttack.enabled = false;
         }
     }
 }

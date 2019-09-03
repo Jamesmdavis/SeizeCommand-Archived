@@ -3,36 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using SeizeCommand.Interactions.Interactors;
-using SeizeCommand.Utility;
 using SeizeCommand.Attack;
 using SeizeCommand.Weapon;
-using SeizeCommand.References;
+using SeizeCommand.DamageSenders;
 
 namespace SeizeCommand.Interactions.Interactables
 {
     public class GunSeat : AbstractNetworkSeat
     {
-        [SerializeField] private AbstractGun gun;
+        [SerializeField] private GameObject weapon;
 
         protected override void TakeSeat(Interactor interactor)
         {
             base.TakeSeat(interactor);
 
-            //This grabs a reference to the dynamic version of the space ship
-            //In other words the dynamic space ship is the one that moves and rotates
-            GameObject otherSpaceShip = GetComponentInParent<GameObjectReference>().Reference;
+            AttackManager attackManager = interactor.Player.GetComponent<AttackManager>();
+            Gun gun = weapon.GetComponent<Gun>();
 
-            AttackManager playerAttack = interactor.Player.GetComponent<AttackManager>();
-            playerAttack.CurrentWeapon = gun;
+            attackManager.CurrentWeapon = gun;
+            gun.Sender = interactor.Player;
         }
 
         protected override void LeaveSeat(Interactor interactor)
         {
             base.TakeSeat(interactor);
-
-            //This grabs a reference to the dynamic version of the space ship
-            //In other words the dynamic space ship is the one that moves and rotates
-            GameObject otherSpaceShip = GetComponentInParent<GameObjectReference>().Reference;
 
             AttackManager playerAttack = interactor.Player.GetComponent<AttackManager>();
             playerAttack.DefaultWeapon();

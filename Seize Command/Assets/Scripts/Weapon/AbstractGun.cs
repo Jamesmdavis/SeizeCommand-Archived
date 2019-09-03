@@ -13,6 +13,12 @@ namespace SeizeCommand.Weapon
         [SerializeField] protected Transform projectileSpawnPoint;
         [SerializeField] protected GameObject sender;
 
+        public GameObject Sender
+        {
+            get { return sender; }
+            set { sender = value; }
+        }
+
         public abstract void Fire();
     }
 }

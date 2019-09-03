@@ -49,9 +49,6 @@ namespace SeizeCommand.Interactions.Interactables
             AbstractMovement playerMovement = interactor.Player.GetComponent<AbstractMovement>();
             playerMovement.enabled = false;
 
-            AttackManager playerAttack = interactor.Player.GetComponent<AttackManager>();
-            playerAttack.enabled = false;
-
             GameObjectReference staticPlayerReference = 
                 interactor.Player.GetComponent<GameObjectReference>();
 
@@ -73,9 +70,6 @@ namespace SeizeCommand.Interactions.Interactables
 
             AbstractMovement playerMovement = interactor.Player.GetComponent<AbstractMovement>();
             playerMovement.enabled = true;
-
-            AttackManager playerAttack = interactor.Player.GetComponent<AttackManager>();
-            playerAttack.enabled = true;
 
             GameObjectReference staticPlayerReference = 
                 interactor.Player.GetComponent<GameObjectReference>();
