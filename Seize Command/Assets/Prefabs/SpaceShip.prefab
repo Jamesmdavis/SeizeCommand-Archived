@@ -1240,7 +1240,11 @@ GameObject:
   - component: {fileID: 4620960920115785431}
   - component: {fileID: 4620960920115785429}
   - component: {fileID: 4620960920115785430}
+<<<<<<< HEAD
   - component: {fileID: 1008418557}
+=======
+  - component: {fileID: 1721848750}
+>>>>>>> ceea369217253cbda5800bf37373ccb656f7fdea
   m_Layer: 0
   m_Name: Space Ship Dynamic
   m_TagString: Untagged
@@ -1311,7 +1315,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 20
+<<<<<<< HEAD
 --- !u!114 &1008418557
+=======
+--- !u!114 &1721848750
+>>>>>>> ceea369217253cbda5800bf37373ccb656f7fdea
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2011,7 +2019,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6369548847753987772
 Transform:
   m_ObjectHideFlags: 0
