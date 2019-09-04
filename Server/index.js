@@ -110,9 +110,13 @@ io.on('connection', function(socket) {
 
     socket.on('aim', function(data) {
         player.rotation = data.rotation;
-
         var aim = new Aim(thisPlayerID, data.rotation);
+        socket.broadcast.emit('aim', aim);
+    });
 
+    socket.on('shipAim', function(data) {
+        ship.rotation = data.rotation;
+        var aim = new Aim(ship.id, data.rotation);
         socket.broadcast.emit('aim', aim);
     });
 

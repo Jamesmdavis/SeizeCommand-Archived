@@ -202,6 +202,15 @@ namespace SeizeCommand.Networking
                 otherPlayer.rotation = Quaternion.Euler(0, 0, rotation);
             });
 
+            On("shipAim", (E) => {
+                string shipId = E.data["id"].ToString().Trim('"');
+                float rotation = E.data["rotation"].f;
+
+                NetworkIdentity ni = serverObjects[shipId];
+
+                ni.transform.rotation = Quaternion.Euler(0, 0, rotation);
+            });
+
             On("seatMove", (E) => {
                 string id = E.data["id"].ToString().Trim('"');
                 float x = E.data["position"]["x"].f;
