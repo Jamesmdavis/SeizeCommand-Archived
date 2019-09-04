@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using SeizeCommand.Networking;
+using SeizeCommand.Interactions.Interactors;
+using SeizeCommand.Interactions.Interactables;
 
 namespace SeizeCommand.Movement
 {
@@ -11,20 +13,39 @@ namespace SeizeCommand.Movement
     //call it on the Javascript Server to verify correct positions
     public class NetworkShipMovement : AbstractMovement
     {
+        [Header("Object References")]
+        [SerializeField] private PilotSeat pilotSeat;
+
+        public GameObject Pilot
+        {
+            get { return pilot; }
+            set 
+            {
+                pilot = value;
+                if(pilot)
+                {
+                    networkIdentity = pilot.GetComponent<NetworkIdentity>();
+                }
+            }
+        }
+
+        private GameObject pilot;
+
         private NetworkIdentity networkIdentity;
 
         protected override void Start()
         {  
             base.Start();
-            networkIdentity = GetComponent<NetworkIdentity>();
         }
 
         protected override void Update()
         {
             if(networkIdentity)
             {
+                Debug.Log("Check1");
                 if(networkIdentity.IsLocalPlayer)
                 {
+                    Debug.Log("Check2");
                     base.Update();
                 }
             }

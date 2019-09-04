@@ -20,7 +20,8 @@ namespace SeizeCommand.Interactions.Interactables
             //In other words the dynamic space ship is the one that moves and rotates
             GameObject otherSpaceShip = GetComponentInParent<GameObjectReference>().Reference;
 
-            AbstractMovement movement = otherSpaceShip.GetComponent<AbstractMovement>();
+            NetworkShipMovement movement = otherSpaceShip.GetComponent<NetworkShipMovement>();
+            movement.Pilot = CurrentInteractor.Player;
             movement.enabled = true;
 
             AbstractAim aim = otherSpaceShip.GetComponent<AbstractAim>();
@@ -38,7 +39,8 @@ namespace SeizeCommand.Interactions.Interactables
             //In other words the dynamic space ship is the one that moves and rotates
             GameObject otherSpaceShip = GetComponentInParent<GameObjectReference>().Reference;
 
-            AbstractMovement movement = otherSpaceShip.GetComponent<AbstractMovement>();
+            NetworkShipMovement movement = otherSpaceShip.GetComponent<NetworkShipMovement>();
+            movement.Pilot = null;
             movement.enabled = false;
 
             AbstractAim aim = otherSpaceShip.GetComponent<AbstractAim>();

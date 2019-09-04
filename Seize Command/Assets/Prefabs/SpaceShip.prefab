@@ -1238,8 +1238,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4620960920115785428}
   - component: {fileID: 4620960920115785431}
-  - component: {fileID: 4620960920115785429}
-  - component: {fileID: 4620960920115785430}
+  - component: {fileID: 753113611183980192}
+  - component: {fileID: 4602753737258220519}
   - component: {fileID: 1008418557}
   m_Layer: 0
   m_Name: Space Ship Dynamic
@@ -1285,7 +1285,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &4620960920115785429
+--- !u!114 &753113611183980192
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1298,19 +1298,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reference: {fileID: 4620960918761007618}
---- !u!114 &4620960920115785430
+--- !u!114 &4602753737258220519
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4620960920115785433}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91b8c2b42edae844b9292de15fc76a84, type: 3}
+  m_Script: {fileID: 11500000, guid: d997097ac695a5f4b8d92ad2e74e23ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 20
+  speed: 0
 --- !u!114 &1008418557
 MonoBehaviour:
   m_ObjectHideFlags: 0
