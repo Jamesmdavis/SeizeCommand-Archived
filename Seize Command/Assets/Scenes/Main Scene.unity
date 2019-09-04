@@ -307,18 +307,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &735491255 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8844993094023279691, guid: 8b5fb0cb4e616c24f97979adff35902b,
-    type: 3}
-  m_PrefabInstance: {fileID: 4620960919129777598}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8fa0f1fb74cab7a4e924a8091c768223, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1228379136
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -620,15 +608,5 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4602753737258220519, guid: 8b5fb0cb4e616c24f97979adff35902b,
-        type: 3}
-      propertyPath: speed
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 4602753737258220519, guid: 8b5fb0cb4e616c24f97979adff35902b,
-        type: 3}
-      propertyPath: pilotSeat
-      value: 
-      objectReference: {fileID: 735491255}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b5fb0cb4e616c24f97979adff35902b, type: 3}

@@ -1240,7 +1240,7 @@ GameObject:
   - component: {fileID: 4620960920115785431}
   - component: {fileID: 753113611183980192}
   - component: {fileID: 4602753737258220519}
-  - component: {fileID: 1008418557}
+  - component: {fileID: 3360016581337623252}
   m_Layer: 0
   m_Name: Space Ship Dynamic
   m_TagString: Untagged
@@ -1310,20 +1310,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d997097ac695a5f4b8d92ad2e74e23ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
---- !u!114 &1008418557
+  speed: 20
+  pilotSeat: {fileID: 8844993094023279691}
+--- !u!114 &3360016581337623252
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4620960920115785433}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95e029ff4f1beba4699efbdb6c7a2f8d, type: 3}
+  m_Script: {fileID: 11500000, guid: c5428c522834e074ba5c1dc8a004fce7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  intensity: 1
+  intensity: 5
+  pilotSeat: {fileID: 8844993094023279691}
 --- !u!1 &4620960920188899613
 GameObject:
   m_ObjectHideFlags: 0
@@ -2529,6 +2531,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d02460d1ae2f3524fbc6391afa06ce27, type: 3}
+--- !u!114 &8844993094023279691 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2709683219097829861, guid: d02460d1ae2f3524fbc6391afa06ce27,
+    type: 3}
+  m_PrefabInstance: {fileID: 6855886914820748718}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fa0f1fb74cab7a4e924a8091c768223, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &8844993094023279668 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2709683219097829786, guid: d02460d1ae2f3524fbc6391afa06ce27,

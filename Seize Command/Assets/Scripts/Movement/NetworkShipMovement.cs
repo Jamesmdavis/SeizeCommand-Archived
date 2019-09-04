@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using SeizeCommand.Networking;
-using SeizeCommand.Interactions.Interactors;
 using SeizeCommand.Interactions.Interactables;
 
 namespace SeizeCommand.Movement
@@ -30,7 +29,6 @@ namespace SeizeCommand.Movement
         }
 
         private GameObject pilot;
-
         private NetworkIdentity networkIdentity;
 
         protected override void Start()
@@ -42,10 +40,8 @@ namespace SeizeCommand.Movement
         {
             if(networkIdentity)
             {
-                Debug.Log("Check1");
                 if(networkIdentity.IsLocalPlayer)
                 {
-                    Debug.Log("Check2");
                     base.Update();
                 }
             }
