@@ -16,7 +16,7 @@ namespace SeizeCommand.Movement
 
         protected override void Move()
         {
-            rb.velocity = -transform.up * speed;
+            rb.velocity = transform.up * speed;
         }
     }
 }

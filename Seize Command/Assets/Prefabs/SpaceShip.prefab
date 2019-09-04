@@ -455,6 +455,7 @@ MonoBehaviour:
     type: 3}
   projectileSpawnPoint: {fileID: 2007338136}
   sender: {fileID: 0}
+  ignoreCollisionsInChildren: {fileID: 4620960920115785433}
 --- !u!1 &4620960918761007618
 GameObject:
   m_ObjectHideFlags: 0

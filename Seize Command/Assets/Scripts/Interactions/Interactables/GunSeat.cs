@@ -26,7 +26,7 @@ namespace SeizeCommand.Interactions.Interactables
 
         protected override void LeaveSeat(Interactor interactor)
         {
-            base.TakeSeat(interactor);
+            base.LeaveSeat(interactor);
 
             AttackManager playerAttack = interactor.Player.GetComponent<AttackManager>();
             playerAttack.DefaultWeapon();

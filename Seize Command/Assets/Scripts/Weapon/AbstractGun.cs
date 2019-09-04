@@ -12,6 +12,7 @@ namespace SeizeCommand.Weapon
         [SerializeField] protected GameObject projectile;
         [SerializeField] protected Transform projectileSpawnPoint;
         [SerializeField] protected GameObject sender;
+        [SerializeField] protected GameObject ignoreCollisionsInChildren;
 
         public GameObject Sender
         {
