@@ -2,19 +2,24 @@ var io = require('socket.io')(process.env.PORT || 52300);
 
 //Custom Classes
 var Player = require('./Classes/Player.js');
+var Ship = require('./Classes/Ship.js');
 var TakeDamage = require('./Classes/TakeDamage.js');
 var Move = require('./Classes/Move.js');
 var CollisionMove = require('./Classes/CollisionMove.js');
+var ShipMove = require('./Classes/ShipMove.js');
 var Aim = require('./Classes/Aim.js');
 var SeatMove = require('./Classes/SeatMove.js');
 var Vector2 = require('./Classes/Vector2.js');
 
 var players = [];
+var ships = [];
 var sockets = [];
 //var spawnPoints = [[0, 0], [-15, 5], [8, 11], [12, -7], [-16, -6], [0, -12]];
 var spawnPoints = [[0, 0]];
 
 console.log('Server has started');
+
+var ship = new Ship();
 
 io.on('connection', function(socket) {
     console.log('Connection Made!');
@@ -87,10 +92,20 @@ io.on('connection', function(socket) {
         player.position.x = clientPosition.x;
         player.position.y = clientPosition.y;
 
-        var collisionMove = new CollisionMove(thisPlayerID)
+        var collisionMove = new CollisionMove(thisPlayerID);
         collisionMove.position = player.position;
 
         socket.broadcast.emit('collisionMove', collisionMove);
+    });
+
+    socket.on('shipMove', function(data) {
+        var clientPosition = new Vector2(data.x, data.y);
+        ship.position = clientPosition;
+
+        var shipMove = new ShipMove(ship.id);
+        shipMove.position = ship.position;
+
+        socket.broadcast.emit('shipMove', shipMove);
     });
 
     socket.on('aim', function(data) {

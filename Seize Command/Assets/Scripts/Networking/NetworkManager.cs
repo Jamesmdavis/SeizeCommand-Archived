@@ -179,6 +179,17 @@ namespace SeizeCommand.Networking
                 ni.transform.position = position;
             });
 
+            On("shipMove", (E) => {
+                string shipId = E.data["id"].ToString().Trim('"');
+                float x = E.data["position"]["x"].f;
+                float y = E.data["position"]["y"].f;
+
+                NetworkIdentity ni = serverObjects[shipId];
+                Vector3 position = new Vector3(x, y, 0);
+
+                ni.transform.position = position;
+            });
+
             On("aim", (E) => {
                 string id = E.data["id"].ToString().Trim('"');
                 float rotation = E.data["rotation"].f;
