@@ -117,7 +117,7 @@ io.on('connection', function(socket) {
     socket.on('shipAim', function(data) {
         ship.rotation = data.rotation;
         var aim = new Aim(ship.id, data.rotation);
-        socket.broadcast.emit('aim', aim);
+        socket.broadcast.emit('shipAim', aim);
     });
 
     socket.on('seatMove', function(data) {

@@ -21,10 +21,7 @@ namespace SeizeCommand.Aiming
             set 
             {
                 pilot = value;
-                if(pilot)
-                {
-                    networkIdentity = pilot.GetComponent<NetworkIdentity>();
-                }
+                networkIdentity = pilot ? pilot.GetComponent<NetworkIdentity>() : null;
             }
         }
 
@@ -35,8 +32,20 @@ namespace SeizeCommand.Aiming
 
         private void Start()
         {
+            networkIdentity = null;
             aimMessage = new Aim();
             oldRotation = 0f;
+        }
+
+        protected override void Update()
+        {
+            if(networkIdentity)
+            {
+                if(networkIdentity.IsLocalPlayer)
+                {
+                    base.Update();
+                }
+            }
         }
 
         private void SendData(float rot)
@@ -50,7 +59,6 @@ namespace SeizeCommand.Aiming
             if(currentRotation != oldRotation)
             {
                 transform.rotation = Quaternion.Euler(0, 0, currentRotation);
-
                 SendData(currentRotation);
             }
 

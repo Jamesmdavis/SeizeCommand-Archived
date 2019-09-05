@@ -34,16 +34,30 @@ namespace SeizeCommand.Movement
         protected override void Start()
         {  
             base.Start();
+            networkIdentity = null;
         }
 
         protected override void Update()
         {
-            if(networkIdentity)
+            if(pilot)
             {
-                if(networkIdentity.IsLocalPlayer)
+                if(networkIdentity)
                 {
-                    base.Update();
+                    if(networkIdentity.IsLocalPlayer)
+                    {
+                        base.Update();
+                    }
                 }
+            }
+        }
+
+        protected override void FixedUpdate()
+        {
+            base.FixedUpdate();
+
+            if(rb.velocity != Vector2.zero)
+            {
+                SendData();
             }
         }
 

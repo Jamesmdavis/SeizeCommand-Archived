@@ -22,11 +22,9 @@ namespace SeizeCommand.Interactions.Interactables
 
             NetworkShipMovement movement = otherSpaceShip.GetComponent<NetworkShipMovement>();
             movement.Pilot = CurrentInteractor.Player;
-            movement.enabled = true;
 
             NetworkShipAim aim = otherSpaceShip.GetComponent<NetworkShipAim>();
             aim.Pilot = CurrentInteractor.Player;
-            aim.enabled = true;
 
             AttackManager playerAttack = interactor.Player.GetComponent<AttackManager>();
             playerAttack.enabled = false;
@@ -42,11 +40,9 @@ namespace SeizeCommand.Interactions.Interactables
 
             NetworkShipMovement movement = otherSpaceShip.GetComponent<NetworkShipMovement>();
             movement.Pilot = null;
-            movement.enabled = false;
 
             NetworkShipAim aim = otherSpaceShip.GetComponent<NetworkShipAim>();
             aim.Pilot = null;
-            aim.enabled = false;
 
             AttackManager playerAttack = interactor.Player.GetComponent<AttackManager>();
             playerAttack.enabled = false;

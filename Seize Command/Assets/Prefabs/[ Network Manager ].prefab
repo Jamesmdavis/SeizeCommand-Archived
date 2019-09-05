@@ -50,4 +50,8 @@ MonoBehaviour:
   pingInterval: 20
   pingTimeout: 60
   networkContainer: {fileID: 0}
+  playerMirrorParent: {fileID: 0}
   player: {fileID: 2536958507248721030, guid: f610e9f9c9a7db0409f174a570482297, type: 3}
+  playerMirror: {fileID: 6000927030508797799, guid: 8fe75d24018b7d84cac7e55302b5a311,
+    type: 3}
+  dynamicShip: {fileID: 0}

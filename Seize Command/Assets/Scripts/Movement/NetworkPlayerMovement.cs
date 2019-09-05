@@ -80,14 +80,14 @@ namespace SeizeCommand.Movement
 
                 if(clientPrediction)
                 {
-                    transform.position += new Vector3(x, y, 0) * speed * Time.deltaTime;
+                    transform.localPosition += new Vector3(x, y, 0) * speed * Time.deltaTime;
                     predictedPositions.Add(timeSent, transform.position);
                 }
             }
 
             if(isColliding)
             {
-                transform.position += new Vector3(x, x, 0) * speed * Time.deltaTime;
+                transform.localPosition += new Vector3(x, x, 0) * speed * Time.deltaTime;
                 SendCollisionData(x, y);
             }
         }
@@ -150,7 +150,7 @@ namespace SeizeCommand.Movement
 
                     if(dist >= correctionThreshold)
                     {
-                        transform.position = serverPosition;
+                        transform.localPosition = serverPosition;
                     }
 
                     foreach(KeyValuePair<float, Vector3> package in predictedPositions)

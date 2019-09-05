@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SeizeCommand.Movement
 {
-    public class SpaceShipMovement : AbstractMovement
+    public class ShipMovement : AbstractMovement
     {
         protected override void Move()
         {

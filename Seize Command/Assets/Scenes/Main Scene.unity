@@ -230,15 +230,14 @@ PrefabInstance:
       objectReference: {fileID: 267102904}
     - target: {fileID: 7592191067750197008, guid: bf02a9f83527d374c8c8f804728dca52,
         type: 3}
-      propertyPath: playerMirror
-      value: 
-      objectReference: {fileID: 6000927030508797799, guid: 8fe75d24018b7d84cac7e55302b5a311,
-        type: 3}
-    - target: {fileID: 7592191067750197008, guid: bf02a9f83527d374c8c8f804728dca52,
-        type: 3}
       propertyPath: playerMirrorParent
       value: 
       objectReference: {fileID: 1304939370}
+    - target: {fileID: 7592191067750197008, guid: bf02a9f83527d374c8c8f804728dca52,
+        type: 3}
+      propertyPath: dynamicShip
+      value: 
+      objectReference: {fileID: 2142066136}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bf02a9f83527d374c8c8f804728dca52, type: 3}
 --- !u!114 &190072770 stripped
@@ -475,6 +474,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4620960919129777598}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2142066136 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4620960920115785433, guid: 8b5fb0cb4e616c24f97979adff35902b,
+    type: 3}
+  m_PrefabInstance: {fileID: 4620960919129777598}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1981921145970425646
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -625,6 +630,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4602753737258220519, guid: 8b5fb0cb4e616c24f97979adff35902b,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3360016581337623252, guid: 8b5fb0cb4e616c24f97979adff35902b,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b5fb0cb4e616c24f97979adff35902b, type: 3}

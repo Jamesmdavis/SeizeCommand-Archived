@@ -20,8 +20,10 @@ namespace SeizeCommand.Networking
         [SerializeField] private Transform networkContainer;
         [SerializeField] private Transform playerMirrorParent;
 
+        [Header("Object References")]
         [SerializeField] private GameObject player;
         [SerializeField] private GameObject playerMirror;
+        [SerializeField] private GameObject dynamicShip;
 
         private Dictionary<string, NetworkIdentity> serverObjects;
 
@@ -176,18 +178,16 @@ namespace SeizeCommand.Networking
                 NetworkIdentity ni = serverObjects[id];
                 Vector3 position = new Vector3(x, y, 0);
 
-                ni.transform.position = position;
+                ni.transform.localPosition = position;
             });
 
             On("shipMove", (E) => {
-                string shipId = E.data["id"].ToString().Trim('"');
+                Debug.Log("Ship Move");
                 float x = E.data["position"]["x"].f;
                 float y = E.data["position"]["y"].f;
 
-                NetworkIdentity ni = serverObjects[shipId];
                 Vector3 position = new Vector3(x, y, 0);
-
-                ni.transform.position = position;
+                dynamicShip.transform.position = position;
             });
 
             On("aim", (E) => {
@@ -203,12 +203,8 @@ namespace SeizeCommand.Networking
             });
 
             On("shipAim", (E) => {
-                string shipId = E.data["id"].ToString().Trim('"');
                 float rotation = E.data["rotation"].f;
-
-                NetworkIdentity ni = serverObjects[shipId];
-
-                ni.transform.rotation = Quaternion.Euler(0, 0, rotation);
+                dynamicShip.transform.rotation = Quaternion.Euler(0, 0, rotation);
             });
 
             On("seatMove", (E) => {
@@ -220,7 +216,7 @@ namespace SeizeCommand.Networking
                 NetworkIdentity ni = serverObjects[id];
                 Vector3 position = new Vector3(x, y, 0);
 
-                ni.transform.position = position;
+                ni.transform.localPosition = position;
                 ni.transform.rotation = Quaternion.Euler(0, 0, rotation);
             });
 
