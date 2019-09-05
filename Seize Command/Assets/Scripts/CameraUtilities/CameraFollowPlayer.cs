@@ -10,7 +10,6 @@ namespace SeizeCommand.CameraUtilities
     {
         private Transform playerTranform;
         private Vector3 newCameraPosition;
-        private Coroutine coFindPlayer;
 
         private void Start()
         {

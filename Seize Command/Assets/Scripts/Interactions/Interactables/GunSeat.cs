@@ -5,7 +5,7 @@ using UnityEngine;
 using SeizeCommand.Interactions.Interactors;
 using SeizeCommand.Attack;
 using SeizeCommand.Weapon;
-using SeizeCommand.DamageSenders;
+using SeizeCommand.Aiming;
 
 namespace SeizeCommand.Interactions.Interactables
 {
@@ -22,6 +22,9 @@ namespace SeizeCommand.Interactions.Interactables
 
             attackManager.CurrentWeapon = gun;
             gun.Sender = interactor.Player;
+
+            PlayerAim aim = weapon.GetComponentInParent<PlayerAim>();
+            aim.enabled = true;
         }
 
         protected override void LeaveSeat(Interactor interactor)
@@ -30,6 +33,9 @@ namespace SeizeCommand.Interactions.Interactables
 
             AttackManager playerAttack = interactor.Player.GetComponent<AttackManager>();
             playerAttack.DefaultWeapon();
+
+            PlayerAim aim = weapon.GetComponentInParent<PlayerAim>();
+            aim.enabled = false;
         }
     }
 }
