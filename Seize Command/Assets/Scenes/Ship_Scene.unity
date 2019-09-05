@@ -280,5 +280,15 @@ PrefabInstance:
       propertyPath: brakeStrength
       value: 1005
       objectReference: {fileID: 0}
+    - target: {fileID: 6444332836871500720, guid: ca3b019ddbcea3449ba74fcacdc8e1f9,
+        type: 3}
+      propertyPath: sideThrustModifier
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6444332836871500720, guid: ca3b019ddbcea3449ba74fcacdc8e1f9,
+        type: 3}
+      propertyPath: thrustModifier
+      value: 1.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ca3b019ddbcea3449ba74fcacdc8e1f9, type: 3}

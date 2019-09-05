@@ -8,6 +8,7 @@ public class Ship_Movement_Tim : MonoBehaviour
     [SerializeField] private float thrustModifier = 1;
     [SerializeField] private float maxSpeed = 10;
     [SerializeField] private float brakeStrength = 6;
+    [SerializeField] private float sideThrustModifier = 1;
     // Start is called before the first frame update
     private void Start()
     {
@@ -20,10 +21,12 @@ public class Ship_Movement_Tim : MonoBehaviour
         float dir = Input.GetAxis("Vertical");
         float velocity = rb.velocity.magnitude;
         bool brk = Input.GetKey("b");
+        float side = Input.GetAxis("Horizontal");
 
         VelocityCap(velocity);
         Thrust(dir);
         Brake(brk);
+        SideThrust(side);
         
     }
 
@@ -50,5 +53,13 @@ public class Ship_Movement_Tim : MonoBehaviour
         {
             rb.velocity = rb.velocity * (1000 / brakeStrength);
         }
+    }
+
+
+    //This method will provide thrust to the sides of the craft.
+    private void SideThrust(float sideDirection)
+    {
+        Vector2 force = transform.right * sideThrustModifier * sideDirection;
+        rb.AddForce(force);
     }
 }
