@@ -7,7 +7,8 @@ using SeizeCommand.Interactions.Interactables;
 
 namespace SeizeCommand.Aiming
 {
-    public class NetworkShipAim : AbstractAim
+    //Multiplayer version of SlerpAim
+    public class NetworkSlerpAim : AbstractAim
     {
         [Header("Data")]
         [SerializeField] [Range(1f, 10f)] private float intensity;

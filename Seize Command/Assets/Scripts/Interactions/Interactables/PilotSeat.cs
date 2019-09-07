@@ -20,10 +20,10 @@ namespace SeizeCommand.Interactions.Interactables
             //In other words the dynamic space ship is the one that moves and rotates
             GameObject otherSpaceShip = GetComponentInParent<GameObjectReference>().Reference;
 
-            NetworkShipMovement movement = otherSpaceShip.GetComponent<NetworkShipMovement>();
+            NetworkForceMovement movement = otherSpaceShip.GetComponent<NetworkForceMovement>();
             movement.Pilot = CurrentInteractor.Player;
 
-            NetworkShipAim aim = otherSpaceShip.GetComponent<NetworkShipAim>();
+            NetworkSlerpAim aim = otherSpaceShip.GetComponent<NetworkSlerpAim>();
             aim.Pilot = CurrentInteractor.Player;
 
             AttackManager playerAttack = interactor.Player.GetComponent<AttackManager>();
@@ -38,10 +38,10 @@ namespace SeizeCommand.Interactions.Interactables
             //In other words the dynamic space ship is the one that moves and rotates
             GameObject otherSpaceShip = GetComponentInParent<GameObjectReference>().Reference;
 
-            NetworkShipMovement movement = otherSpaceShip.GetComponent<NetworkShipMovement>();
+            NetworkForceMovement movement = otherSpaceShip.GetComponent<NetworkForceMovement>();
             movement.Pilot = null;
 
-            NetworkShipAim aim = otherSpaceShip.GetComponent<NetworkShipAim>();
+            NetworkSlerpAim aim = otherSpaceShip.GetComponent<NetworkSlerpAim>();
             aim.Pilot = null;
 
             AttackManager playerAttack = interactor.Player.GetComponent<AttackManager>();

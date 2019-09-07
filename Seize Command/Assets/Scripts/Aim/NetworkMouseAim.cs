@@ -6,11 +6,9 @@ using SeizeCommand.Networking;
 
 namespace SeizeCommand.Aiming
 {
-    public class NetworkPlayerAim : AbstractAim
-    {
-        [Header("Data")]
-        [SerializeField] protected float speed;
-        
+    //Multiplayer version of MouseAim
+    public class NetworkMouseAim : AbstractAim
+    {   
         private NetworkIdentity networkIdentity;
         private Aim aimMessage;
         private float oldRotation;

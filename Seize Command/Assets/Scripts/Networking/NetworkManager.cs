@@ -106,7 +106,16 @@ namespace SeizeCommand.Networking
                 GameObjectReference pMirrorReference = pMirror.GetComponent<GameObjectReference>(); 
 
                 pReference.Reference = pMirror;
-                pMirrorReference.Reference = p;    
+                pMirrorReference.Reference = p;
+
+
+                //Begin Mirroring the Transforms
+                MirrorTransform mirrorTransform1 = p.GetComponent<MirrorTransform>();
+                MirrorTransform mirrorTransform2 = pMirror.GetComponent<MirrorTransform>();
+
+                mirrorTransform1.StartMirroring();
+                mirrorTransform2.StartMirroring();
+
 
                 
                 p.name = string.Format("Player ({0})", id);
@@ -164,7 +173,7 @@ namespace SeizeCommand.Networking
                 float timeSent = E.data["timeSent"].f;
 
                 NetworkIdentity ni = serverObjects[id];
-                NetworkPlayerMovement movement = ni.GetComponent<NetworkPlayerMovement>();
+                NetworkTransformMovement movement = ni.GetComponent<NetworkTransformMovement>();
                 Vector3 position = new Vector3(x, y, 0);
 
                 movement.CorrectPosition(timeSent, position);

@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 4964248940627659643}
   - component: {fileID: -8914290158638435365}
   - component: {fileID: 4119761002428496995}
-  - component: {fileID: -8000341088226110418}
+  - component: {fileID: 1367162658029999224}
   - component: {fileID: 5669298925497299681}
   - component: {fileID: 8569015268481905606}
   m_Layer: 8
@@ -229,12 +229,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2536958507248721030}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5b7ca4e6aa90854e93550154609d550, type: 3}
+  m_Script: {fileID: 11500000, guid: a240484eb9cd88d4e94dd34c3c9cdbb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
+  speed: 5
   clientPrediction: 1
-  correctionThreshold: 2
+  correctionThreshold: 1
   idleSendDataInterval: 1
 --- !u!114 &4119761002428496995
 MonoBehaviour:
@@ -249,7 +249,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gun: {fileID: 3085805901309814881}
---- !u!114 &-8000341088226110418
+--- !u!114 &1367162658029999224
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -258,7 +258,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2536958507248721030}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9d25ef96f046e44a9f5e5f59be61063, type: 3}
+  m_Script: {fileID: 11500000, guid: e813a8fe1c3469e46921b440e92933c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mirrorPosition: 0

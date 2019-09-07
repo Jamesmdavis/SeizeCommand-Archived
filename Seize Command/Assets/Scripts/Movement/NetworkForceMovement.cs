@@ -7,10 +7,12 @@ using SeizeCommand.Interactions.Interactables;
 
 namespace SeizeCommand.Movement
 {
+    //Multiplayer Version of ForceMovement
+
     //This script is not Hack proof AT ALL
     //The reason for this is because of rb.addforce.  I don't know how it works so I can't
     //call it on the Javascript Server to verify correct positions
-    public class NetworkShipMovement : AbstractMovement
+    public class NetworkForceMovement : AbstractMovement
     {
         [Header("Object References")]
         [SerializeField] private PilotSeat pilotSeat;

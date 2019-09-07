@@ -202,6 +202,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2407294602306889841}
   - component: {fileID: 7874042041743647085}
+  - component: {fileID: 8831335839458885112}
   m_Layer: 0
   m_Name: Weapon Slot
   m_TagString: Untagged
@@ -274,6 +275,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &8831335839458885112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 737969043688170602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caab5256c59436d44a71b81387c10568, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3729805676895729832
 GameObject:
   m_ObjectHideFlags: 0
@@ -1308,10 +1321,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4620960920115785433}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d997097ac695a5f4b8d92ad2e74e23ad, type: 3}
+  m_Script: {fileID: 11500000, guid: 5104bc1ec33fd6d409473539b5ab8f12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 20
+  speed: 10
   pilotSeat: {fileID: 8844993094023279691}
 --- !u!114 &3360016581337623252
 MonoBehaviour:
@@ -1322,7 +1335,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4620960920115785433}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5428c522834e074ba5c1dc8a004fce7, type: 3}
+  m_Script: {fileID: 11500000, guid: dd14cbadd278fe44fadc2315e0741c76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   intensity: 5
@@ -2120,6 +2133,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leaveSeatPosition: {fileID: 3466217532058037339}
   weapon: {fileID: 4602572021707802731}
+  weaponSlot: {fileID: 737969043688170602}
 --- !u!1 &6565908049463415954
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using SeizeCommand.References;
+
 namespace SeizeCommand.Utility
 {
     public class PlayerProjectileTracker : MonoBehaviour
@@ -15,8 +17,11 @@ namespace SeizeCommand.Utility
             GameObject mirrorProj = Instantiate(mirrorProjectile, projTransform.position,
                 projTransform.rotation, mirrorProjectileParent);
 
-            MirrorProjectile mirrorScript = mirrorProj.GetComponent<MirrorProjectile>();
-            mirrorScript.SetMirrorTarget(proj.transform);
+            GameObjectReference mirrorProjRef = mirrorProj.GetComponent<GameObjectReference>();
+            mirrorProjRef.Reference = proj;
+
+            MirrorTransform mirrorScript = mirrorProj.GetComponent<MirrorTransform>();
+            mirrorScript.StartMirroring();
         }
     }
 }

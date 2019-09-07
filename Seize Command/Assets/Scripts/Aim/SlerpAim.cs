@@ -4,7 +4,8 @@ using UnityEngine;
 
 namespace SeizeCommand.Aiming
 {
-    public class SpaceShipAim : AbstractAim
+    //This Aiming script uses a Slerp to smoothly rotate towards the mouse position
+    public class SlerpAim : AbstractAim
     {
         [Header("Data")]
         [SerializeField] [Range(1f, 10f)] private float intensity;

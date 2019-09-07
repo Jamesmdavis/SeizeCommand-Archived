@@ -4,7 +4,8 @@ using UnityEngine;
 
 namespace SeizeCommand.Movement
 {
-    public class PlayerMovement : AbstractMovement
+    //This Movement script sets the transform.position variable to create a Movement
+    public class TransformMovement : AbstractMovement
     {
         protected override void Move()
         {

@@ -4,7 +4,8 @@ using UnityEngine;
 
 namespace SeizeCommand.Movement
 {
-    public class ShipMovement : AbstractMovement
+    //This Movement script uses a rigidbody and Forces to move the GameObject
+    public class ForceMovement : AbstractMovement
     {
         protected override void Move()
         {

@@ -7,7 +7,8 @@ using SeizeCommand.Networking;
 
 namespace SeizeCommand.Movement
 {
-    public class NetworkPlayerMovement : AbstractMovement
+    //Multiplayer Version of TransformMovement
+    public class NetworkTransformMovement : AbstractMovement
     {
         [Header("Networking Data")]
         [SerializeField] private bool clientPrediction;

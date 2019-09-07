@@ -12,6 +12,7 @@ namespace SeizeCommand.Interactions.Interactables
     public class GunSeat : AbstractNetworkSeat
     {
         [SerializeField] private GameObject weapon;
+        [SerializeField] private GameObject weaponSlot;
 
         protected override void TakeSeat(Interactor interactor)
         {
@@ -23,7 +24,7 @@ namespace SeizeCommand.Interactions.Interactables
             attackManager.CurrentWeapon = gun;
             gun.Sender = interactor.Player;
 
-            PlayerAim aim = weapon.GetComponentInParent<PlayerAim>();
+            MouseAim aim = weaponSlot.GetComponent<MouseAim>();
             aim.enabled = true;
         }
 
@@ -34,7 +35,7 @@ namespace SeizeCommand.Interactions.Interactables
             AttackManager playerAttack = interactor.Player.GetComponent<AttackManager>();
             playerAttack.DefaultWeapon();
 
-            PlayerAim aim = weapon.GetComponentInParent<PlayerAim>();
+            MouseAim aim = weaponSlot.GetComponent<MouseAim>();
             aim.enabled = false;
         }
     }
