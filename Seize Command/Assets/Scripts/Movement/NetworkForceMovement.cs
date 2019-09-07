@@ -17,38 +17,27 @@ namespace SeizeCommand.Movement
         [Header("Object References")]
         [SerializeField] private PilotSeat pilotSeat;
 
-        public GameObject Pilot
-        {
-            get { return pilot; }
-            set 
-            {
-                pilot = value;
-                if(pilot)
-                {
-                    networkIdentity = pilot.GetComponent<NetworkIdentity>();
-                }
-            }
-        }
-
-        private GameObject pilot;
         private NetworkIdentity networkIdentity;
+
+        public NetworkIdentity NetworkIdentity
+        {
+            get { return networkIdentity; }
+            set { networkIdentity = value; }
+        }
 
         protected override void Start()
         {  
             base.Start();
-            networkIdentity = null;
+            networkIdentity = GetComponent<NetworkIdentity>();
         }
 
         protected override void Update()
         {
-            if(pilot)
+            if(networkIdentity)
             {
-                if(networkIdentity)
+                if(networkIdentity.IsLocalPlayer)
                 {
-                    if(networkIdentity.IsLocalPlayer)
-                    {
-                        base.Update();
-                    }
+                    base.Update();
                 }
             }
         }

@@ -10,6 +10,12 @@ namespace SeizeCommand.Attack
     {
         private NetworkIdentity networkIdentity;
 
+        public NetworkIdentity NetworkIdentity
+        {
+            get { return networkIdentity; }
+            set { networkIdentity = value; }
+        }
+
         protected override void Start()
         {  
             base.Start();

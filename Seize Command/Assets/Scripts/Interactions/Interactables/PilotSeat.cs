@@ -7,6 +7,7 @@ using SeizeCommand.Aiming;
 using SeizeCommand.Interactions.Interactors;
 using SeizeCommand.Attack;
 using SeizeCommand.References;
+using SeizeCommand.Networking;
 
 namespace SeizeCommand.Interactions.Interactables
 {
@@ -21,13 +22,10 @@ namespace SeizeCommand.Interactions.Interactables
             GameObject otherSpaceShip = GetComponentInParent<GameObjectReference>().Reference;
 
             NetworkForceMovement movement = otherSpaceShip.GetComponent<NetworkForceMovement>();
-            movement.Pilot = CurrentInteractor.Player;
+            movement.NetworkIdentity = CurrentInteractor.Player.GetComponent<NetworkIdentity>();
 
             NetworkSlerpAim aim = otherSpaceShip.GetComponent<NetworkSlerpAim>();
-            aim.Pilot = CurrentInteractor.Player;
-
-            AttackManager playerAttack = interactor.Player.GetComponent<AttackManager>();
-            playerAttack.enabled = false;
+            aim.NetworkIdentity = CurrentInteractor.Player.GetComponent<NetworkIdentity>();
         }
 
         protected override void LeaveSeat(Interactor interactor)
@@ -39,13 +37,10 @@ namespace SeizeCommand.Interactions.Interactables
             GameObject otherSpaceShip = GetComponentInParent<GameObjectReference>().Reference;
 
             NetworkForceMovement movement = otherSpaceShip.GetComponent<NetworkForceMovement>();
-            movement.Pilot = null;
+            movement.NetworkIdentity = null;
 
             NetworkSlerpAim aim = otherSpaceShip.GetComponent<NetworkSlerpAim>();
-            aim.Pilot = null;
-
-            AttackManager playerAttack = interactor.Player.GetComponent<AttackManager>();
-            playerAttack.enabled = false;
+            aim.NetworkIdentity = null;
         }
     }
 }

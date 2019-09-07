@@ -13,27 +13,19 @@ namespace SeizeCommand.Aiming
         [Header("Data")]
         [SerializeField] [Range(1f, 10f)] private float intensity;
 
-        [Header("Object References")]
-        [SerializeField] private PilotSeat pilotSeat;
-
-        public GameObject Pilot
-        {
-            get { return pilot; }
-            set 
-            {
-                pilot = value;
-                networkIdentity = pilot ? pilot.GetComponent<NetworkIdentity>() : null;
-            }
-        }
-
-        private GameObject pilot;
         private NetworkIdentity networkIdentity;
         private Aim aimMessage;
         private float oldRotation;
 
+        public NetworkIdentity NetworkIdentity
+        {
+            get { return networkIdentity; }
+            set { networkIdentity = value; }
+        }
+
         private void Start()
         {
-            networkIdentity = null;
+            networkIdentity = GetComponent<NetworkIdentity>();
             aimMessage = new Aim();
             oldRotation = 0f;
         }

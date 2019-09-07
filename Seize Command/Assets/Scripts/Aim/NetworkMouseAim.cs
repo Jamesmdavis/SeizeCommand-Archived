@@ -13,6 +13,13 @@ namespace SeizeCommand.Aiming
         private Aim aimMessage;
         private float oldRotation;
 
+        public NetworkIdentity NetworkIdentity
+        {
+            get { return networkIdentity; }
+            set { networkIdentity = value; }
+        }
+
+
         private void Start()
         {
             networkIdentity = GetComponent<NetworkIdentity>();

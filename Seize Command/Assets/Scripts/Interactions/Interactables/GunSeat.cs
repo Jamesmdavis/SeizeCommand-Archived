@@ -4,39 +4,35 @@ using UnityEngine;
 
 using SeizeCommand.Interactions.Interactors;
 using SeizeCommand.Attack;
-using SeizeCommand.Weapon;
 using SeizeCommand.Aiming;
+using SeizeCommand.Networking;
 
 namespace SeizeCommand.Interactions.Interactables
 {
     public class GunSeat : AbstractNetworkSeat
     {
-        [SerializeField] private GameObject weapon;
         [SerializeField] private GameObject weaponSlot;
 
         protected override void TakeSeat(Interactor interactor)
         {
             base.TakeSeat(interactor);
 
-            AttackManager attackManager = interactor.Player.GetComponent<AttackManager>();
-            Gun gun = weapon.GetComponent<Gun>();
+            NetworkAttackManager attackManager = weaponSlot.GetComponent<NetworkAttackManager>();
+            attackManager.NetworkIdentity = CurrentInteractor.Player.GetComponent<NetworkIdentity>();
 
-            attackManager.CurrentWeapon = gun;
-            gun.Sender = interactor.Player;
-
-            MouseAim aim = weaponSlot.GetComponent<MouseAim>();
-            aim.enabled = true;
+            NetworkMouseAim aim = weaponSlot.GetComponent<NetworkMouseAim>();
+            aim.NetworkIdentity = CurrentInteractor.Player.GetComponent<NetworkIdentity>();
         }
 
         protected override void LeaveSeat(Interactor interactor)
         {
             base.LeaveSeat(interactor);
 
-            AttackManager playerAttack = interactor.Player.GetComponent<AttackManager>();
-            playerAttack.DefaultWeapon();
+            NetworkAttackManager attackManager = weaponSlot.GetComponent<NetworkAttackManager>();
+            attackManager.NetworkIdentity = null;
 
-            MouseAim aim = weaponSlot.GetComponent<MouseAim>();
-            aim.enabled = false;
+            NetworkMouseAim aim = weaponSlot.GetComponent<NetworkMouseAim>();
+            aim.NetworkIdentity = null;
         }
     }
 }

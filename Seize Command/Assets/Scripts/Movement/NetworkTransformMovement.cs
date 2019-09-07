@@ -20,6 +20,12 @@ namespace SeizeCommand.Movement
         private Coroutine coIdleSendData;
         private bool isColliding;
 
+        public NetworkIdentity NetworkIdentity
+        {
+            get { return networkIdentity; }
+            set { networkIdentity = value; }
+        }
+
         protected override void Start()
         {
             base.Start();
