@@ -9,6 +9,8 @@ namespace SeizeCommand.Movement
     {
         protected override void Move()
         {
+            base.Move();
+            
             //The Ship can only move on the y plane because of the thrusters in the back
             //-transform.up represents the direction the ship is moving
             //The ship moves in the direction it is facing with a speed

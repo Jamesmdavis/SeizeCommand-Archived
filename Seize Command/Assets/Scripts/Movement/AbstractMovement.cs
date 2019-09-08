@@ -8,11 +8,19 @@ namespace SeizeCommand.Movement
     {
         [Header("Data")]
         [SerializeField] protected float speed;
+        [SerializeField] private bool horizontal;
+        [SerializeField] private bool vertical;
 
         protected Rigidbody2D rb;
         protected bool isMoving;
         protected float x;
         protected float y;
+
+        public bool IsMoving
+        {
+            get { return isMoving; }
+            set { isMoving = value; }
+        }
 
         protected virtual void Start()
         {
@@ -27,20 +35,10 @@ namespace SeizeCommand.Movement
             }
         }
 
-        protected virtual void Update()
+        protected virtual void Move()
         {
-            CheckInput();
-        }
-
-        protected abstract void Move();
-
-        private void CheckInput()
-        {
-            isMoving = Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0
-                ? true : false;
-
-            x = Input.GetAxisRaw("Horizontal");
-            y = Input.GetAxisRaw("Vertical");
+            if(horizontal) x = Input.GetAxisRaw("Horizontal");
+            if(vertical)   y = Input.GetAxisRaw("Vertical");
         }
     }
 }

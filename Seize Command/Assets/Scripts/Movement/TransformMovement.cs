@@ -9,6 +9,8 @@ namespace SeizeCommand.Movement
     {
         protected override void Move()
         {
+            base.Move();
+
             transform.position += new Vector3(x, y, 0) * speed * Time.deltaTime;
         }
     }

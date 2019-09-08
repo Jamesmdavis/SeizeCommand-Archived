@@ -34,17 +34,6 @@ namespace SeizeCommand.Movement
             isMoving = false;
         }
 
-        protected override void Update()
-        {
-            if(networkIdentity)
-            {
-                if(networkIdentity.IsLocalPlayer)
-                {
-                    base.Update();
-                }
-            }
-        }
-
         protected override void FixedUpdate()
         {
             if(isMoving)
@@ -79,6 +68,8 @@ namespace SeizeCommand.Movement
          */
         protected override void Move()
         {
+            base.Move();
+
             float timeSent = Time.time;
 
             if(!isColliding)

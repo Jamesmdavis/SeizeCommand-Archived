@@ -12,37 +12,12 @@ namespace SeizeCommand.Attack
         [Header("Class References")]
         [SerializeField] protected AbstractGun gun;
 
-        public AbstractGun CurrentWeapon { get; set; }
-
         public event Action OnAttack;
 
-        protected virtual void Start()
+        public virtual void Attack()
         {
-            CurrentWeapon = gun;
-        }
-
-        protected virtual void Update()
-        {
-            CheckAttack();
-        }
-
-        protected virtual void Attack()
-        {
-            CurrentWeapon.Fire();
+            gun.Fire();
             if(OnAttack != null) OnAttack();
-        }
-
-        protected void CheckAttack()
-        {
-            if(Input.GetMouseButtonDown(0))
-            {
-                Attack();
-            }
-        }
-
-        public void DefaultWeapon()
-        {
-            CurrentWeapon = gun;
         }
     }
 }

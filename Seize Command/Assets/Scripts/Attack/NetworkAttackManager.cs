@@ -10,30 +10,12 @@ namespace SeizeCommand.Attack
     {
         private NetworkIdentity networkIdentity;
 
-        public NetworkIdentity NetworkIdentity
+        private void Start()
         {
-            get { return networkIdentity; }
-            set { networkIdentity = value; }
-        }
-
-        protected override void Start()
-        {  
-            base.Start();
             networkIdentity = GetComponent<NetworkIdentity>();
         }
 
-        protected override void Update()
-        {
-            if(networkIdentity)
-            {
-                if(networkIdentity.IsLocalPlayer)
-                {
-                    CheckAttack();
-                }
-            }
-        }
-
-        protected override void Attack()
+        public override void Attack()
         {
             base.Attack();
             networkIdentity.Socket.Emit("attack");
@@ -41,7 +23,7 @@ namespace SeizeCommand.Attack
 
         public void InduceAttack()
         {
-            CurrentWeapon.Fire();
+            gun.Fire();
         }
     }
 }

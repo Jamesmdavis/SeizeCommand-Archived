@@ -31,17 +31,6 @@ namespace SeizeCommand.Movement
             networkIdentity = GetComponent<NetworkIdentity>();
         }
 
-        protected override void Update()
-        {
-            if(networkIdentity)
-            {
-                if(networkIdentity.IsLocalPlayer)
-                {
-                    base.Update();
-                }
-            }
-        }
-
         protected override void FixedUpdate()
         {
             base.FixedUpdate();
@@ -57,6 +46,8 @@ namespace SeizeCommand.Movement
         //The ship moves in the direction it is facing with a speed
         protected override void Move()
         {
+            base.Move();
+
             Vector2 forceDirection = y * transform.up * speed;
             rb.AddForce(forceDirection);
         }
