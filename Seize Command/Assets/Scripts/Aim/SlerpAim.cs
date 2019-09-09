@@ -10,7 +10,7 @@ namespace SeizeCommand.Aiming
         [Header("Data")]
         [SerializeField] [Range(1f, 10f)] private float intensity;
 
-        protected override void Aim()
+        public override void Aim()
         {
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3 dif = mousePosition - transform.position;

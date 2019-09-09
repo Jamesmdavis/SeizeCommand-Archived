@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using SeizeCommand.Networking;
-using SeizeCommand.Interactions.Interactables;
+using SeizeCommand.Utility;
 
 namespace SeizeCommand.Movement
 {
@@ -14,21 +14,35 @@ namespace SeizeCommand.Movement
     //call it on the Javascript Server to verify correct positions
     public class NetworkForceMovement : AbstractMovement
     {
-        [Header("Object References")]
-        [SerializeField] private PilotSeat pilotSeat;
+        [SerializeField] private float thrust;
 
-        private NetworkIdentity networkIdentity;
+        protected NetworkIdentity networkIdentity;
 
-        public NetworkIdentity NetworkIdentity
+        public override InputManager Controller
         {
-            get { return networkIdentity; }
-            set { networkIdentity = value; }
+            get { return controller; }
+            set
+            {
+                controller = value;
+                networkIdentity = controller.GetComponent<NetworkIdentity>();
+            }
         }
 
         protected override void Start()
-        {  
+        {
             base.Start();
             networkIdentity = GetComponent<NetworkIdentity>();
+        }
+
+        //The Ship can only move on the y plane because of the thrusters in the back
+        //-transform.up represents the direction the ship is moving
+        //The ship moves in the direction it is facing with a speed
+        protected override void Move()
+        {
+            base.Move();
+
+            Vector2 forceDirection = y * transform.up * thrust;
+            rb.AddForce(forceDirection);
         }
 
         protected override void FixedUpdate()
@@ -39,17 +53,6 @@ namespace SeizeCommand.Movement
             {
                 SendData();
             }
-        }
-
-        //The Ship can only move on the y plane because of the thrusters in the back
-        //-transform.up represents the direction the ship is moving
-        //The ship moves in the direction it is facing with a speed
-        protected override void Move()
-        {
-            base.Move();
-
-            Vector2 forceDirection = y * transform.up * speed;
-            rb.AddForce(forceDirection);
         }
 
         private void SendData()

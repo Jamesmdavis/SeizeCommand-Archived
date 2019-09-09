@@ -6,6 +6,7 @@ using SeizeCommand.Interactions.Interactors;
 using SeizeCommand.Attack;
 using SeizeCommand.Aiming;
 using SeizeCommand.Networking;
+using SeizeCommand.Utility;
 
 namespace SeizeCommand.Interactions.Interactables
 {
@@ -17,22 +18,26 @@ namespace SeizeCommand.Interactions.Interactables
         {
             base.TakeSeat(interactor);
 
-            NetworkAttackManager attackManager = weaponSlot.GetComponent<NetworkAttackManager>();
-            attackManager.NetworkIdentity = CurrentInteractor.Player.GetComponent<NetworkIdentity>();
+            InputManager input = CurrentInteractor.Player.GetComponent<InputManager>();
 
-            NetworkMouseAim aim = weaponSlot.GetComponent<NetworkMouseAim>();
-            aim.NetworkIdentity = CurrentInteractor.Player.GetComponent<NetworkIdentity>();
+            AttackManager attackManager = weaponSlot.GetComponent<AttackManager>();
+            input.AttackScript = attackManager;
+
+            AbstractAim aim = weaponSlot.GetComponent<AbstractAim>();
+            input.AimScript = aim;
         }
 
         protected override void LeaveSeat(Interactor interactor)
         {
             base.LeaveSeat(interactor);
 
-            NetworkAttackManager attackManager = weaponSlot.GetComponent<NetworkAttackManager>();
-            attackManager.NetworkIdentity = null;
+            InputManager input = CurrentInteractor.Player.GetComponent<InputManager>();
 
-            NetworkMouseAim aim = weaponSlot.GetComponent<NetworkMouseAim>();
-            aim.NetworkIdentity = null;
+            AttackManager attackManager = CurrentInteractor.Player.GetComponent<AttackManager>();
+            input.AttackScript = attackManager;
+
+            AbstractAim aim = CurrentInteractor.Player.GetComponent<AbstractAim>();
+            input.AimScript = aim;
         }
     }
 }

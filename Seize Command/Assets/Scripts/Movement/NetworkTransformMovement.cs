@@ -4,12 +4,15 @@ using System.Linq;
 using UnityEngine;
 
 using SeizeCommand.Networking;
+using SeizeCommand.Utility;
 
 namespace SeizeCommand.Movement
 {
     //Multiplayer Version of TransformMovement
     public class NetworkTransformMovement : AbstractMovement
     {
+        [SerializeField] private float speed;
+        
         [Header("Networking Data")]
         [SerializeField] private bool clientPrediction;
         [SerializeField] private float correctionThreshold;
@@ -20,10 +23,14 @@ namespace SeizeCommand.Movement
         private Coroutine coIdleSendData;
         private bool isColliding;
 
-        public NetworkIdentity NetworkIdentity
+        public override InputManager Controller
         {
-            get { return networkIdentity; }
-            set { networkIdentity = value; }
+            get { return controller; }
+            set
+            {
+                controller = value;
+                networkIdentity = controller.GetComponent<NetworkIdentity>();
+            }
         }
 
         protected override void Start()

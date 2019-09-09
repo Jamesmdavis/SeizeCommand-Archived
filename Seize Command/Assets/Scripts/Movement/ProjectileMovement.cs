@@ -6,6 +6,8 @@ namespace SeizeCommand.Movement
 {
     public class ProjectileMovement : AbstractMovement
     {
+        [SerializeField] private float speed;
+        
         protected override void Start()
         {
             base.Start();

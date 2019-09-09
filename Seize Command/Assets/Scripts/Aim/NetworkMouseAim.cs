@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using SeizeCommand.Networking;
+using SeizeCommand.Utility;
 
 namespace SeizeCommand.Aiming
 {
@@ -13,15 +14,19 @@ namespace SeizeCommand.Aiming
         private Aim aimMessage;
         private float oldRotation;
 
-        public NetworkIdentity NetworkIdentity
+        public override InputManager Controller
         {
-            get { return networkIdentity; }
-            set { networkIdentity = value; }
+            get { return controller; }
+            set
+            {
+                controller = value;
+                networkIdentity = controller.GetComponent<NetworkIdentity>();
+            }
         }
 
-
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
             networkIdentity = GetComponent<NetworkIdentity>();
             aimMessage = new Aim();
             oldRotation = 0f;
@@ -44,19 +49,8 @@ namespace SeizeCommand.Aiming
 
             oldRotation = currentRotation;
         }
-    
-        protected override void Update()
-        {
-            if(networkIdentity)
-            {
-                if(networkIdentity.IsLocalPlayer)
-                {
-                    Aim();
-                }
-            }
-        }
 
-        protected override void Aim()
+        public override void Aim()
         {
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3 dif = mousePosition - transform.position;

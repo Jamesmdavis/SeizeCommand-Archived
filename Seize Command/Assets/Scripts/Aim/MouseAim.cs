@@ -7,7 +7,7 @@ namespace SeizeCommand.Aiming
     //This Aiming script snaps the rotation to that of the mouse position
     public class MouseAim : AbstractAim
     {   
-        protected override void Aim()
+        public override void Aim()
         {
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3 dif = mousePosition - transform.position;

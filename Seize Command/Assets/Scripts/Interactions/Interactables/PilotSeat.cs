@@ -5,9 +5,9 @@ using UnityEngine;
 using SeizeCommand.Movement;
 using SeizeCommand.Aiming;
 using SeizeCommand.Interactions.Interactors;
-using SeizeCommand.Attack;
 using SeizeCommand.References;
 using SeizeCommand.Networking;
+using SeizeCommand.Utility;
 
 namespace SeizeCommand.Interactions.Interactables
 {
@@ -17,30 +17,34 @@ namespace SeizeCommand.Interactions.Interactables
         {
             base.TakeSeat(interactor);
 
+            InputManager input = CurrentInteractor.Player.GetComponent<InputManager>();
+
             //This grabs a reference to the dynamic version of the space ship
             //In other words the dynamic space ship is the one that moves and rotates
             GameObject otherSpaceShip = GetComponentInParent<GameObjectReference>().Reference;
 
-            NetworkForceMovement movement = otherSpaceShip.GetComponent<NetworkForceMovement>();
-            movement.NetworkIdentity = CurrentInteractor.Player.GetComponent<NetworkIdentity>();
+            AbstractMovement movement = otherSpaceShip.GetComponent<AbstractMovement>();
+            input.MovementScript = movement;
 
-            NetworkSlerpAim aim = otherSpaceShip.GetComponent<NetworkSlerpAim>();
-            aim.NetworkIdentity = CurrentInteractor.Player.GetComponent<NetworkIdentity>();
+            AbstractAim aim = otherSpaceShip.GetComponent<AbstractAim>();
+            input.AimScript = aim;
         }
 
         protected override void LeaveSeat(Interactor interactor)
         {
             base.LeaveSeat(interactor);
+
+            InputManager input = CurrentInteractor.Player.GetComponent<InputManager>();
             
             //This grabs a reference to the dynamic version of the space ship
             //In other words the dynamic space ship is the one that moves and rotates
             GameObject otherSpaceShip = GetComponentInParent<GameObjectReference>().Reference;
 
-            NetworkForceMovement movement = otherSpaceShip.GetComponent<NetworkForceMovement>();
-            movement.NetworkIdentity = null;
+            AbstractMovement movement = CurrentInteractor.Player.GetComponent<AbstractMovement>();
+            input.MovementScript = movement;
 
-            NetworkSlerpAim aim = otherSpaceShip.GetComponent<NetworkSlerpAim>();
-            aim.NetworkIdentity = null;
+            AbstractAim aim = CurrentInteractor.Player.GetComponent<AbstractAim>();
+            input.AimScript = aim;
         }
     }
 }

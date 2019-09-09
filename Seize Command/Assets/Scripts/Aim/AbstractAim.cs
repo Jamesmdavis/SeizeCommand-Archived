@@ -2,17 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using SeizeCommand.Utility;
+
 namespace SeizeCommand.Aiming
 {
     public abstract class AbstractAim : MonoBehaviour
     {
         protected const float BARREL_PIVOT_OFFSET = 90.0f;
 
-        protected virtual void Update()
+        protected InputManager controller;
+
+        public virtual InputManager Controller
         {
-            Aim();
+            get { return controller; }
+            set { controller = value; }
         }
 
-        protected abstract void Aim();
+        protected virtual void Start()
+        {
+            controller = GetComponent<InputManager>();
+        }
+
+        public abstract void Aim();
     }
 }

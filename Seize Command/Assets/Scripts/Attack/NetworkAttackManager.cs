@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using SeizeCommand.Networking;
+using SeizeCommand.Utility;
 
 namespace SeizeCommand.Attack
 {
@@ -10,8 +11,19 @@ namespace SeizeCommand.Attack
     {
         private NetworkIdentity networkIdentity;
 
-        private void Start()
+        public override InputManager Controller
         {
+            get { return controller; }
+            set
+            {
+                controller = value;
+                networkIdentity = controller.GetComponent<NetworkIdentity>();
+            }
+        }
+
+        protected override void Start()
+        {
+            base.Start();
             networkIdentity = GetComponent<NetworkIdentity>();
         }
 

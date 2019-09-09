@@ -19,25 +19,36 @@ namespace SeizeCommand.Utility
         public AbstractMovement MovementScript
         {
             get { return movementScript; }
-            set { movementScript = value; }
+            set
+            {
+                movementScript = value;
+                movementScript.Controller = this;
+            }
         }
 
         public AbstractAim AimScript
         {
             get { return aimScript; }
-            set { aimScript = value; }
+            set
+            {
+                aimScript = value;
+                aimScript.Controller = this;
+            }
         }
 
         public AttackManager AttackScript
         {
             get { return attackScript; }
-            set { attackScript = value; }
+            set
+            {
+                attackScript = value;
+                attackScript.Controller = this;
+            }
         }
 
         private void Start()
         {
             movementScript = GetComponent<AbstractMovement>();
-            aimScript = GetComponent<AbstractAim>();
             attackScript = GetComponent<AttackManager>();
             networkIdentity = GetComponent<NetworkIdentity>();
         }
@@ -57,21 +68,21 @@ namespace SeizeCommand.Utility
 
         private void CheckMovementInput()
         {
-            movementScript.IsMoving = Input.GetAxis("Horizontal") != 0
-                || Input.GetAxis("Vertical") != 0 ? true : false;
+            movementScript.IsMoving = Input.GetAxisRaw("Horizontal") != 0
+                || Input.GetAxisRaw("Vertical") != 0 ? true : false;
         }
 
         private void CheckAimInput()
         {
-
+            if(Input.GetAxisRaw("Mouse X") != 0 || Input.GetAxisRaw("Mouse Y") != 0)
+            {
+                aimScript.Aim();
+            }
         }
 
         private void CheckAttackInput()
         {
-            if(Input.GetMouseButton(0))
-            {
-                attackScript.Attack();
-            }
+            if(Input.GetMouseButton(0)) attackScript.Attack();
         }
     }
 }

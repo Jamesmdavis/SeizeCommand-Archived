@@ -14,18 +14,18 @@ namespace SeizeCommand.CameraUtilities
         [Header("Object References")]
         [SerializeField] private GameObject ship;
 
-        private Camera camera;
+        private Camera cam;
         private bool hasReturned;
 
         private void Start()
         {
-            camera = GetComponent<Camera>();
+            cam = GetComponent<Camera>();
             hasReturned = false;
         }
 
         private void Update()
         {
-            if(camera.orthographicSize <= cameraSize)
+            if(cam.orthographicSize <= cameraSize)
             {
                 Quaternion currentRotation = transform.rotation;
                 Quaternion endRotation = ship.transform.rotation;

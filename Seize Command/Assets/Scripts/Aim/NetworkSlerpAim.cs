@@ -23,22 +23,12 @@ namespace SeizeCommand.Aiming
             set { networkIdentity = value; }
         }
 
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
             networkIdentity = GetComponent<NetworkIdentity>();
             aimMessage = new Aim();
             oldRotation = 0f;
-        }
-
-        protected override void Update()
-        {
-            if(networkIdentity)
-            {
-                if(networkIdentity.IsLocalPlayer)
-                {
-                    base.Update();
-                }
-            }
         }
 
         private void SendData(float rot)
@@ -58,7 +48,7 @@ namespace SeizeCommand.Aiming
             oldRotation = currentRotation;
         }
 
-        protected override void Aim()
+        public override void Aim()
         {
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3 dif = mousePosition - transform.position;
