@@ -120,39 +120,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &101449457 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1981921145870156255, guid: 4b3b7c6c29928c2418ef7bc4b2f51df7,
-    type: 3}
-  m_PrefabInstance: {fileID: 1981921145970425646}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &101449464
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101449457}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7b7009febab18949badbc017190bccb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &101449465
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 101449457}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 410309189b940e04690678d3111e0147, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cameraSize: 25
-  intensity: 5
-  ship: {fileID: 2142066136}
 --- !u!1001 &190072769
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -333,11 +300,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
-    - target: {fileID: 7467648130001947003, guid: 66120ceca7edff14d90dba175c390020,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7467648130001946983, guid: 66120ceca7edff14d90dba175c390020,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -450,19 +412,9 @@ PrefabInstance:
       objectReference: {fileID: 190072770}
     - target: {fileID: 7467648129732208467, guid: 66120ceca7edff14d90dba175c390020,
         type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Play
-      objectReference: {fileID: 0}
-    - target: {fileID: 7467648129732208467, guid: 66120ceca7edff14d90dba175c390020,
-        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 190072770}
-    - target: {fileID: 7467648129732208467, guid: 66120ceca7edff14d90dba175c390020,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: DeactivateMainMenu
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 66120ceca7edff14d90dba175c390020, type: 3}
 --- !u!4 &1304939370 stripped
@@ -544,21 +496,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1981921145870156249, guid: 4b3b7c6c29928c2418ef7bc4b2f51df7,
-        type: 3}
-      propertyPath: scrollInLimit
-      value: 17
-      objectReference: {fileID: 0}
-    - target: {fileID: 1981921145870156249, guid: 4b3b7c6c29928c2418ef7bc4b2f51df7,
-        type: 3}
-      propertyPath: scrollOutLimit
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 1981921145870156249, guid: 4b3b7c6c29928c2418ef7bc4b2f51df7,
-        type: 3}
-      propertyPath: intensity
-      value: 2.5
-      objectReference: {fileID: 0}
+    - target: {fileID: 101449465, guid: 4b3b7c6c29928c2418ef7bc4b2f51df7, type: 3}
+      propertyPath: ship
+      value: 
+      objectReference: {fileID: 2142066136}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b3b7c6c29928c2418ef7bc4b2f51df7, type: 3}
 --- !u!1001 &4620960919129777598

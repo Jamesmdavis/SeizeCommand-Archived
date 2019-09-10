@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 1981921145870156252}
   - component: {fileID: 1981921145870156253}
   - component: {fileID: 1981921145870156249}
+  - component: {fileID: 101449464}
+  - component: {fileID: 101449465}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -98,6 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9a1571c3c6de1043b816da3563318d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  reference: {fileID: 0}
 --- !u!114 &1981921145870156253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,7 +113,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3681b769a6d4d22468ed327ff771e01a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zCameraOffset: -20
 --- !u!114 &1981921145870156249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,6 +125,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c96a053fd53e8ab4994d921e2e3eeb4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scrollInLimit: 8
-  scrollOutLimit: 30
+  scrollInLimit: 17
+  scrollOutLimit: 50
   intensity: 2.5
+--- !u!114 &101449464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1981921145870156255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b7009febab18949badbc017190bccb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &101449465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1981921145870156255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 410309189b940e04690678d3111e0147, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraSize: 25
+  intensity: 5
+  ship: {fileID: 0}
