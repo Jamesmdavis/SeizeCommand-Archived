@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 410309189b940e04690678d3111e0147, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraSize: 17
+  cameraSize: 25
   intensity: 5
   ship: {fileID: 2142066136}
 --- !u!1001 &190072769
@@ -547,7 +547,7 @@ PrefabInstance:
     - target: {fileID: 1981921145870156249, guid: 4b3b7c6c29928c2418ef7bc4b2f51df7,
         type: 3}
       propertyPath: scrollInLimit
-      value: 8
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 1981921145870156249, guid: 4b3b7c6c29928c2418ef7bc4b2f51df7,
         type: 3}
@@ -627,16 +627,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4602753737258220519, guid: 8b5fb0cb4e616c24f97979adff35902b,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3360016581337623252, guid: 8b5fb0cb4e616c24f97979adff35902b,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b5fb0cb4e616c24f97979adff35902b, type: 3}

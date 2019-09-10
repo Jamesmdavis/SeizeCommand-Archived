@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using SeizeCommand.Networking;
-using SeizeCommand.Interactions.Interactables;
+using SeizeCommand.Utility;
 
 namespace SeizeCommand.Aiming
 {
@@ -17,10 +17,14 @@ namespace SeizeCommand.Aiming
         private Aim aimMessage;
         private float oldRotation;
 
-        public NetworkIdentity NetworkIdentity
+        public override InputManager Controller
         {
-            get { return networkIdentity; }
-            set { networkIdentity = value; }
+            get { return controller; }
+            set
+            {
+                controller = value;
+                networkIdentity = controller.GetComponent<NetworkIdentity>();
+            }
         }
 
         protected override void Start()
@@ -48,14 +52,14 @@ namespace SeizeCommand.Aiming
             oldRotation = currentRotation;
         }
 
-        public override void Aim()
+        protected override void Aim()
         {
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3 dif = mousePosition - transform.position;
             dif.Normalize();
             float rot = Mathf.Atan2(dif.y, dif.x) * Mathf.Rad2Deg;
 
-            float endRotationFloat = rot + BARREL_PIVOT_OFFSET + 180f;
+            float endRotationFloat = rot + barrelOffset;
 
             Quaternion currentRotation = transform.rotation;
             Quaternion endRotation = Quaternion.Euler(0, 0, endRotationFloat);

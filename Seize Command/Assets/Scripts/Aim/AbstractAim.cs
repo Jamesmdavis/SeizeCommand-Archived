@@ -8,7 +8,7 @@ namespace SeizeCommand.Aiming
 {
     public abstract class AbstractAim : MonoBehaviour
     {
-        protected const float BARREL_PIVOT_OFFSET = 90.0f;
+        [SerializeField] protected float barrelOffset;
 
         protected InputManager controller;
 
@@ -23,6 +23,11 @@ namespace SeizeCommand.Aiming
             controller = GetComponent<InputManager>();
         }
 
-        public abstract void Aim();
+        protected abstract void Aim();
+
+        public virtual void CheckInput()
+        {
+            Aim();
+        }
     }
 }

@@ -13,16 +13,19 @@ namespace SeizeCommand.Weapon
 
         public override void Fire()
         {
-            Transform projectileParent = sender.transform.parent.parent;
-            GameObject proj = Instantiate(projectile, projectileSpawnPoint.position,
-                projectileSpawnPoint.rotation, projectileParent);
+            GameObject proj;
 
-            Collider2D[] colls = ignoreCollisionsInChildren.GetComponentsInChildren<Collider2D>();
+            //If projectileParent variable is not null, instantiate it underneath the parent
+            //otherwise instantiate it normally
+            proj = projectileParent ? Instantiate(projectile, projectileSpawnPoint.position,
+                projectileSpawnPoint.rotation, projectileParent) : Instantiate(projectile,
+                projectileSpawnPoint.position, projectileSpawnPoint.rotation);
+
             Collider2D projColl = proj.GetComponent<Collider2D>();
 
-            for(int i = 0; i < colls.Length; i++)
+            for(int i = 0; i < ignoreCollisions.Length; i++)
             {
-                Physics2D.IgnoreCollision(projColl, colls[i]);
+                Physics2D.IgnoreCollision(projColl, ignoreCollisions[i]);
             }
 
             DamageSender damageSender = proj.GetComponent<DamageSender>();

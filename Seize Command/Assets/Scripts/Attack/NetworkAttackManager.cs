@@ -27,7 +27,7 @@ namespace SeizeCommand.Attack
             networkIdentity = GetComponent<NetworkIdentity>();
         }
 
-        public override void Attack()
+        protected override void Attack()
         {
             base.Attack();
             networkIdentity.Socket.Emit("attack");

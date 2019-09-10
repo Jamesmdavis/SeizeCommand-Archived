@@ -65,7 +65,7 @@ namespace SeizeCommand.Interactions.Interactables
         {
             currentInteractor = null;
             interactor.CurrentInteractable = null;
-
+            
             Collider2D playerColl = interactor.Player.GetComponent<Collider2D>();
             Collider2D seatColl = GetComponent<Collider2D>();
 

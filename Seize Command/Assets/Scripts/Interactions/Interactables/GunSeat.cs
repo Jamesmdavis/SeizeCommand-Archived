@@ -5,8 +5,8 @@ using UnityEngine;
 using SeizeCommand.Interactions.Interactors;
 using SeizeCommand.Attack;
 using SeizeCommand.Aiming;
-using SeizeCommand.Networking;
 using SeizeCommand.Utility;
+using SeizeCommand.References;
 
 namespace SeizeCommand.Interactions.Interactables
 {
@@ -29,15 +29,16 @@ namespace SeizeCommand.Interactions.Interactables
 
         protected override void LeaveSeat(Interactor interactor)
         {
-            base.LeaveSeat(interactor);
-
             InputManager input = CurrentInteractor.Player.GetComponent<InputManager>();
 
             AttackManager attackManager = CurrentInteractor.Player.GetComponent<AttackManager>();
             input.AttackScript = attackManager;
 
-            AbstractAim aim = CurrentInteractor.Player.GetComponent<AbstractAim>();
+            AbstractAim aim = CurrentInteractor.Player.GetComponent<GameObjectReference>()
+                .Reference.GetComponent<AbstractAim>();
             input.AimScript = aim;
+
+            base.LeaveSeat(interactor);
         }
     }
 }

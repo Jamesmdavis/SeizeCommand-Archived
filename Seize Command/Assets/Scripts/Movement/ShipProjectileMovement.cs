@@ -4,14 +4,17 @@ using UnityEngine;
 
 namespace SeizeCommand.Movement
 {
-    public class ProjectileMovement : AbstractMovement
+    public class ShipProjectileMovement : AbstractMovement
     {
         [SerializeField] private float speed;
         [SerializeField] private float direction;
+
+        private Rigidbody2D shipRb;
         
         protected override void Start()
         {
             base.Start();
+            shipRb = GetComponentInParent<Rigidbody2D>();
             Move();
         }
 
@@ -19,7 +22,7 @@ namespace SeizeCommand.Movement
 
         protected override void Move()
         {
-            rb.velocity = transform.up * direction * speed;
+            rb.velocity = shipRb.velocity + (Vector2)transform.up * direction * speed;
         }
     }
 }

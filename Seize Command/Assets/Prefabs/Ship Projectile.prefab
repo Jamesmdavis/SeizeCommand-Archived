@@ -10,12 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 2615617232349740550}
   - component: {fileID: 3628034258356920542}
-  - component: {fileID: 5950235899340820700}
+  - component: {fileID: 5944178329796231075}
   - component: {fileID: 3292704900090578385}
   - component: {fileID: 697058044737448192}
   - component: {fileID: 406961023169275212}
   - component: {fileID: 2143072966207994972}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Ship Projectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
---- !u!114 &5950235899340820700
+--- !u!114 &5944178329796231075
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -58,10 +58,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 7089310609625167223}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d23ed3ed21531443b742468c1372063, type: 3}
+  m_Script: {fileID: 11500000, guid: 8721539c90209054087d210202a078dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 15
+  horizontal: 0
+  vertical: 0
+  speed: 30
+  direction: 1
 --- !u!114 &3292704900090578385
 MonoBehaviour:
   m_ObjectHideFlags: 0

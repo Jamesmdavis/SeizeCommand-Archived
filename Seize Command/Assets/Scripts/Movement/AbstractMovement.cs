@@ -24,12 +24,6 @@ namespace SeizeCommand.Movement
             set { controller = value; }
         }
 
-        public bool IsMoving
-        {
-            get { return isMoving; }
-            set { isMoving = value; }
-        }
-
         protected virtual void Start()
         {
             rb = GetComponent<Rigidbody2D>();
@@ -48,6 +42,12 @@ namespace SeizeCommand.Movement
         {
             if(horizontal) x = Input.GetAxisRaw("Horizontal");
             if(vertical)   y = Input.GetAxisRaw("Vertical");
+        }
+
+        public virtual void CheckInput()
+        {
+            isMoving = Input.GetAxisRaw("Horizontal") != 0
+                || Input.GetAxisRaw("Vertical") != 0 ? true : false;
         }
     }
 }

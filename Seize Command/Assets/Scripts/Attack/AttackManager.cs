@@ -28,10 +28,15 @@ namespace SeizeCommand.Attack
             controller = GetComponent<InputManager>();
         }
 
-        public virtual void Attack()
+        protected virtual void Attack()
         {
             gun.Fire();
             if(OnAttack != null) OnAttack();
+        }
+
+        public virtual void CheckInput()
+        {
+            if(Input.GetMouseButtonDown(0)) Attack();
         }
     }
 }

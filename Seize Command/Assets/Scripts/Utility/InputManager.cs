@@ -49,6 +49,7 @@ namespace SeizeCommand.Utility
         private void Start()
         {
             movementScript = GetComponent<AbstractMovement>();
+            aimScript = GetComponent<AbstractAim>();
             attackScript = GetComponent<AttackManager>();
             networkIdentity = GetComponent<NetworkIdentity>();
         }
@@ -59,30 +60,11 @@ namespace SeizeCommand.Utility
             {
                 if(networkIdentity.IsLocalPlayer)
                 {
-                    CheckMovementInput();
-                    CheckAimInput();
-                    CheckAttackInput();
+                    if(movementScript)  movementScript.CheckInput();
+                    if(aimScript)       aimScript.CheckInput();
+                    if(attackScript)    attackScript.CheckInput();
                 }
             }
-        }
-
-        private void CheckMovementInput()
-        {
-            movementScript.IsMoving = Input.GetAxisRaw("Horizontal") != 0
-                || Input.GetAxisRaw("Vertical") != 0 ? true : false;
-        }
-
-        private void CheckAimInput()
-        {
-            if(Input.GetAxisRaw("Mouse X") != 0 || Input.GetAxisRaw("Mouse Y") != 0)
-            {
-                aimScript.Aim();
-            }
-        }
-
-        private void CheckAttackInput()
-        {
-            if(Input.GetMouseButton(0)) attackScript.Attack();
         }
     }
 }

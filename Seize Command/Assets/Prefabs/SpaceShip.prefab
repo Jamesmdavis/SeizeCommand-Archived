@@ -207,6 +207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aff0a1e8ab8a324438b2d018509e8af6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  barrelOffset: -90
 --- !u!114 &4032145460549236806
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -346,6 +347,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aff0a1e8ab8a324438b2d018509e8af6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  barrelOffset: 0
 --- !u!114 &7082892452321970862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -457,8 +459,19 @@ MonoBehaviour:
   projectile: {fileID: 7089310609625167223, guid: 63fc4e29a9512744c95950a3790b47f9,
     type: 3}
   projectileSpawnPoint: {fileID: 2007338136}
-  sender: {fileID: 0}
-  ignoreCollisionsInChildren: {fileID: 4620960920115785433}
+  projectileParent: {fileID: 0}
+  sender: {fileID: 4620960920361470611}
+  ignoreCollisions:
+  - {fileID: 8844993094023279690}
+  - {fileID: 9068987871903079503}
+  - {fileID: 4620960920675352456}
+  - {fileID: 4620960919027086650}
+  - {fileID: 4620960920540165423}
+  - {fileID: 4620960918949819014}
+  - {fileID: 4620960919448565241}
+  - {fileID: 4620960919912509676}
+  - {fileID: 4620960919783173214}
+  - {fileID: 4620960918882153331}
 --- !u!1 &4620960918761007618
 GameObject:
   m_ObjectHideFlags: 0
@@ -1309,13 +1322,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4620960920115785433}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5104bc1ec33fd6d409473539b5ab8f12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  pilotSeat: {fileID: 8844993094023279691}
+  horizontal: 1
+  vertical: 1
+  thrust: 20
 --- !u!114 &3360016581337623252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1323,11 +1337,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4620960920115785433}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dd14cbadd278fe44fadc2315e0741c76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  barrelOffset: -90
   intensity: 5
 --- !u!1 &4620960920188899613
 GameObject:
@@ -1963,8 +1978,9 @@ MonoBehaviour:
   projectile: {fileID: 7089310609625167223, guid: 63fc4e29a9512744c95950a3790b47f9,
     type: 3}
   projectileSpawnPoint: {fileID: 8760863761126093388}
+  projectileParent: {fileID: 0}
   sender: {fileID: 0}
-  ignoreCollisionsInChildren: {fileID: 4620960920115785433}
+  ignoreCollisions: []
 --- !u!1 &6162815202637787291
 GameObject:
   m_ObjectHideFlags: 0
@@ -2061,6 +2077,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aff0a1e8ab8a324438b2d018509e8af6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  barrelOffset: 0
 --- !u!114 &4520291868637247776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2245,7 +2262,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f869228faf07c2d4c980a9abe57540f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeValue: 17
+  fadeValue: 25
   fadeInLimit: 0
   fadeOutLimit: 1
   intensity: 5
@@ -2609,8 +2626,9 @@ MonoBehaviour:
   projectile: {fileID: 7089310609625167223, guid: 63fc4e29a9512744c95950a3790b47f9,
     type: 3}
   projectileSpawnPoint: {fileID: 6554864097928859067}
+  projectileParent: {fileID: 0}
   sender: {fileID: 0}
-  ignoreCollisionsInChildren: {fileID: 4620960920115785433}
+  ignoreCollisions: []
 --- !u!1 &9200313707937472118
 GameObject:
   m_ObjectHideFlags: 0
@@ -2716,15 +2734,9 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 6855886914820748718}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8844993094023279691 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2709683219097829861, guid: d02460d1ae2f3524fbc6391afa06ce27,
+--- !u!61 &8844993094023279690 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 2709683219097829860, guid: d02460d1ae2f3524fbc6391afa06ce27,
     type: 3}
   m_PrefabInstance: {fileID: 6855886914820748718}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8fa0f1fb74cab7a4e924a8091c768223, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

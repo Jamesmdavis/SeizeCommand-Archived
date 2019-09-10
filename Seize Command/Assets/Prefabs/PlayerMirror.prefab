@@ -123,6 +123,7 @@ GameObject:
   - component: {fileID: 6000927030508797817}
   - component: {fileID: -4490093631590326078}
   - component: {fileID: -1313797637426352208}
+  - component: {fileID: 3272463793089363534}
   - component: {fileID: 4260321530512263707}
   - component: {fileID: 6000927030508797798}
   m_Layer: 0
@@ -173,6 +174,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reference: {fileID: 0}
+--- !u!114 &3272463793089363534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6000927030508797799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe4f6d25947424c4d8eefc2057fc79bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &4260321530512263707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,7 +198,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aff0a1e8ab8a324438b2d018509e8af6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
+  barrelOffset: 90
 --- !u!114 &6000927030508797798
 MonoBehaviour:
   m_ObjectHideFlags: 0

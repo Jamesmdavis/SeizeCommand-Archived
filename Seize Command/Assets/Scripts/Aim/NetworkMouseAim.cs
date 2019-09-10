@@ -50,16 +50,24 @@ namespace SeizeCommand.Aiming
             oldRotation = currentRotation;
         }
 
-        public override void Aim()
+        protected override void Aim()
         {
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3 dif = mousePosition - transform.position;
             dif.Normalize();
             float rot = Mathf.Atan2(dif.y, dif.x) * Mathf.Rad2Deg;
 
-            float currentRotation = rot + BARREL_PIVOT_OFFSET;
+            float currentRotation = rot + barrelOffset;
             
             CheckForChangeInRotation(currentRotation);
+        }
+
+        public override void CheckInput()
+        {
+            if(Input.GetAxisRaw("Mouse X") != 0 || Input.GetAxisRaw("Mouse Y") != 0)
+            {
+                Aim();
+            }
         }
     }
 
