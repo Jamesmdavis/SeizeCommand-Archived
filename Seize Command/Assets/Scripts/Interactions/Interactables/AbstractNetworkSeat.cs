@@ -28,7 +28,7 @@ namespace SeizeCommand.Interactions.Interactables
             if(networkIdentity.IsLocalPlayer)
             {
                 SeatMove seatMove = new SeatMove();
-                seatMove.position = new Position();
+                seatMove.position = new Vector2Data();
                 seatMove.position.x = transform.position.x;
                 seatMove.position.y = transform.position.y;
                 seatMove.rotation = 180f;

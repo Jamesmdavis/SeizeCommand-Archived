@@ -1,35 +1,42 @@
 var io = require('socket.io')(process.env.PORT || 52300);
 
 //Custom Classes
-var Player = require('./Classes/Player.js');
+var ServerObject = require('./Classes/ServerObject.js');
 var Ship = require('./Classes/Ship.js');
 var TakeDamage = require('./Classes/TakeDamage.js');
 var Move = require('./Classes/Move.js');
 var CollisionMove = require('./Classes/CollisionMove.js');
-var ShipMove = require('./Classes/ShipMove.js');
+var forceMove = require('./Classes/ForceMove.js');
 var Aim = require('./Classes/Aim.js');
 var SeatMove = require('./Classes/SeatMove.js');
 var Vector2 = require('./Classes/Vector2.js');
+var Velocity2D = require('./Classes/Velocity2D.js');
 
-var players = [];
+var serverObjects = [];
 var ships = [];
 var sockets = [];
 //var spawnPoints = [[0, 0], [-15, 5], [8, 11], [12, -7], [-16, -6], [0, -12]];
 var spawnPoints = [[0, 0]];
 
-console.log('Server has started');
+var masterSocket = 0;
 
-var ship = new Ship();
+console.log('Server has started');
 
 io.on('connection', function(socket) {
     console.log('Connection Made!');
 
-    var player = new Player();
+    var player = new ServerObject('Player');
 
     var thisPlayerID = player.id;
 
-    players[thisPlayerID] = player;
+    serverObjects[thisPlayerID] = player;
     sockets[thisPlayerID] = socket;
+
+    //If This is connection is the first player, assign them as the master User
+    //This allows us to designate this player as the one who's messages we trust
+    if(sockets.length == 1) {
+        masterSocket = socket;
+    }
 
     //Random Spawn Point for Player
     //var num = Math.floor((Math.random() * 6));
@@ -39,16 +46,27 @@ io.on('connection', function(socket) {
 
     //Tell the client that this is our id for the server
     socket.emit('register', {id: thisPlayerID});
+
+    if(ships.length == 0) {
+        var ship = new Ship('SpaceShip');
+        var thisShipID = ship.id;
+        serverObjects[thisShipID] = ship;
+
+        socket.emit('serverSpawn', ship);
+        socket.broadcast.emit('serverSpawn', ship);
+    }
+
     //Tell myself that I have spawned
-    socket.emit('spawn', player);
+    socket.emit('serverSpawn', player);
     //Tell others that I have spawned
-    socket.broadcast.emit('spawn', player);
+    socket.broadcast.emit('serverSpawn', player);
 
     //Tell myself about everyone else in the game
-    for(var playerID in players) {
-        if(playerID != thisPlayerID)
-        {
-            socket.emit('spawn', players[playerID]);
+    for(var key in serverObjects) {
+        if(serverObjects[key].name == 'Player') {
+            if(key != thisPlayerID) {
+                socket.emit('serverSpawn', serverObjects[key]);
+            }
         }
     }
 
@@ -98,7 +116,30 @@ io.on('connection', function(socket) {
         socket.broadcast.emit('collisionMove', collisionMove);
     });
 
-    socket.on('shipMove', function(data) {
+    socket.on('forceMove', function(data) {
+        var ship = serverObjects[data.id];
+
+        var velocity = new Vector2();
+        velocity.x = data.velocity.x;
+        velocity.y = data.velocity.y;
+
+        var thrust = data.thrust;
+        var deltaTime = data.deltaTime;
+
+        var dV = velocity * deltaTime * thrust;
+        velocity += dV;
+
+        var package = new forceMove(id);
+        package.velocity.x = velocity.x;
+        package.velocity.y = velocity.y;
+
+        ship.velocity.x = velocity.x;
+        ship.velocity.y = velocity.y;
+
+        socket.emit('forceMove', package);
+        socket.broadcast.emit('forceMove', package);
+        
+        /*
         var clientPosition = new Vector2(data.x, data.y);
         ship.position = clientPosition;
 
@@ -106,6 +147,26 @@ io.on('connection', function(socket) {
         shipMove.position = ship.position;
 
         socket.broadcast.emit('shipMove', shipMove);
+        */
+    });
+
+    socket.on('updateVelocity', function(data) {
+        if(sockets[thisPlayerID] == socket) {
+            var thisShipID = data.id;
+            var velocity = new Vector2();
+            velocity.x = data.velocity.x;
+            velocity.y = data.velocity.y;
+    
+            var ship = serverObjects[thisShipID];
+            ship.velocity.x = velocity.x;
+            ship.velocity.y = velocity.y;
+    
+            var package = new Velocity2D(thisShipID);
+            package.velocity.x = velocity.x;
+            package.velocity.y = velocity.y;
+    
+            socket.broadcast.emit('updateVelocity', package);
+        }
     });
 
     socket.on('aim', function(data) {
@@ -170,14 +231,32 @@ io.on('connection', function(socket) {
         var num = Math.floor((Math.random() * 6));
         player.position.x = spawnPoints[num][0];
         player.position.y = spawnPoints[num][1];
-
         socket.emit('respawn', player);
         socket.broadcast.emit('respawn', player);
     });
 
+    socket.on('serverSpawn', function(data) {
+        var position = new Vector2();
+        position.x = data.position.x;
+        position.y = data.position.y;
+
+        var parent = new Vector2();
+        parent.x = data.parent.x;
+        parent.y = data.parent.y;
+
+        var spawn = new Spawn();
+        spawn.name = data.name;
+        spawn.position = position;
+        spawn.rotation = data.rotation;
+        spawn.parent = data.parent;
+
+        socket.emit('serverSpawn', spawn);
+        socket.broadcast.emit('serverSpawn', spawn);
+    });
+
+
     socket.on('disconnect', function() {
         console.log('A player has disconnected');
-        delete players[thisPlayerID];
         delete sockets[thisPlayerID];
         socket.broadcast.emit('disconnected', player);
     });

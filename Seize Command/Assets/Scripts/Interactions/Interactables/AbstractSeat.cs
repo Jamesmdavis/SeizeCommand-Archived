@@ -52,10 +52,11 @@ namespace SeizeCommand.Interactions.Interactables
             AttackManager playerAttack = interactor.Player.GetComponent<AttackManager>();
             playerAttack.enabled = false;
 
-            GameObjectReference staticPlayerReference = 
-                interactor.Player.GetComponent<GameObjectReference>();
+            References<GameObject> references = interactor.Player
+                .GetComponent<References<GameObject>>();
+            GameObject otherPlayer = references.GetReferenceByName("Other Player");
 
-            AbstractAim playerAim = staticPlayerReference.Reference.GetComponent<AbstractAim>();
+            AbstractAim playerAim = otherPlayer.GetComponent<AbstractAim>();
             playerAim.enabled = false;
 
             Debug.Log("Take Seat");
@@ -77,10 +78,11 @@ namespace SeizeCommand.Interactions.Interactables
             AttackManager playerAttack = interactor.Player.GetComponent<AttackManager>();
             playerAttack.enabled = true;
 
-            GameObjectReference staticPlayerReference = 
-                interactor.Player.GetComponent<GameObjectReference>();
+            References<GameObject> references = interactor.Player
+                .GetComponent<References<GameObject>>();
+            GameObject otherPlayer = references.GetReferenceByName("Other Player");
 
-            AbstractAim playerAim = staticPlayerReference.Reference.GetComponent<AbstractAim>();
+            AbstractAim playerAim = otherPlayer.GetComponent<AbstractAim>();
             playerAim.enabled = true;
 
             Debug.Log("Leave Seat");

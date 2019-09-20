@@ -13,14 +13,16 @@ namespace SeizeCommand.Utility
 
         public void CreateMirrorProjectile(GameObject proj)
         {
-            Transform projTransform = proj.transform;
-            GameObject mirrorProj = Instantiate(mirrorProjectile, projTransform.position,
-                projTransform.rotation, mirrorProjectileParent);
+            Vector2 projPositionData = proj.transform.position;
+            Quaternion projRotationData = proj.transform.rotation;
 
-            GameObjectReference mirrorProjRef = mirrorProj.GetComponent<GameObjectReference>();
-            mirrorProjRef.Reference = proj;
+            GameObject spawnedObject = Instantiate(mirrorProjectile, projPositionData,
+                projRotationData, mirrorProjectileParent);
 
-            MirrorTransform mirrorScript = mirrorProj.GetComponent<MirrorTransform>();
+            References<Transform> references = spawnedObject.GetComponent<References<Transform>>();
+            references.AddReference("Mirror Target", spawnedObject.transform);
+
+            MirrorTransform mirrorScript = spawnedObject.GetComponent<MirrorTransform>();
             mirrorScript.StartMirroring();
         }
     }

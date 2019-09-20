@@ -6,7 +6,7 @@ using SeizeCommand.References;
 
 namespace SeizeCommand.CameraUtilities
 {
-    public class CameraFollowPlayer : MonoBehaviour, IReferenceable
+    public class CameraFollowPlayer : MonoBehaviour, IReferenceable<Transform>
     {
         private Transform playerTranform;
         private Vector3 newCameraPosition;
@@ -27,9 +27,9 @@ namespace SeizeCommand.CameraUtilities
             }
         }
 
-        public void SetReference(GameObject reference)
+        public void SetReference(ReferenceData<Transform> referenceData)
         {
-            playerTranform = reference.transform;
+            playerTranform = referenceData.Reference;
         }
     }
 }

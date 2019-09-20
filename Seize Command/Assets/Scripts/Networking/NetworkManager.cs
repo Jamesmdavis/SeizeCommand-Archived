@@ -11,6 +11,7 @@ using SeizeCommand.Movement;
 using SeizeCommand.Interactions.Interactors;
 using SeizeCommand.Utility;
 using SeizeCommand.References;
+using SeizeCommand.Scriptable;
 
 namespace SeizeCommand.Networking
 {
@@ -18,12 +19,9 @@ namespace SeizeCommand.Networking
     {
         [Header("Network Client")]
         [SerializeField] private Transform networkContainer;
-        [SerializeField] private Transform playerMirrorParent;
 
         [Header("Object References")]
-        [SerializeField] private GameObject player;
-        [SerializeField] private GameObject playerMirror;
-        [SerializeField] private GameObject dynamicShip;
+        [SerializeField] private ServerObjects serverSpawnables;
 
         private Dictionary<string, NetworkIdentity> serverObjects;
 
@@ -76,75 +74,6 @@ namespace SeizeCommand.Networking
                 Debug.LogFormat("Our Client's ID ({0})", ClientID);
             });
 
-            On("spawn", (E) => {
-                string id = E.data["id"].ToString().Trim('"');
-                float x = E.data["position"]["x"].f;
-                float y = E.data["position"]["y"].f;
-                float rotation = E.data["rotation"].f;
-
-
-                //These next few lines instantiate the player
-                Vector3 pPosition = new Vector3(x, y, 0);
-                Quaternion eulerRotation = Quaternion.Euler(0, 0, rotation);
-
-                GameObject p = Instantiate(player, networkContainer, false);
-                p.transform.localPosition = pPosition;
-                p.transform.rotation = eulerRotation;
-
-
-                //These next few lines instantiate the mirrored player
-                //This is the player the camera follows and is located on the Dynamic Space Ship
-                Vector3 pMirrorPosition = p.transform.localPosition;
-
-                GameObject pMirror = Instantiate(playerMirror, pMirrorPosition,
-                    eulerRotation, playerMirrorParent);
-
-                
-                //These GameObjectReference scripts allow the two versions of the player to communicate
-                //with each other
-                GameObjectReference pReference = p.GetComponent<GameObjectReference>();
-                GameObjectReference pMirrorReference = pMirror.GetComponent<GameObjectReference>(); 
-
-                pReference.Reference = pMirror;
-                pMirrorReference.Reference = p;
-
-
-                //Begin Mirroring the Transforms
-                MirrorTransform mirrorTransform1 = p.GetComponent<MirrorTransform>();
-                MirrorTransform mirrorTransform2 = pMirror.GetComponent<MirrorTransform>();
-
-                mirrorTransform1.StartMirroring();
-                mirrorTransform2.StartMirroring();
-
-
-                
-                p.name = string.Format("Player ({0})", id);
-
-
-                //These next few lines set up the localPlayer checks and ID checks
-                //These checks make sure that the local player cannot control other players
-                NetworkIdentity pNetworkIdentity = p.GetComponent<NetworkIdentity>();
-                NetworkIdentity pMirrorNetworkIdentity = pMirror.GetComponent<NetworkIdentity>();
-                pNetworkIdentity.SetControllerID(id);
-                pMirrorNetworkIdentity.SetControllerID(id);  
-                pNetworkIdentity.SetSocketReference(this);
-                pMirrorNetworkIdentity.SetSocketReference(this);
-
-                serverObjects.Add(id, pNetworkIdentity);
-
-                if(pNetworkIdentity.IsLocalPlayer)
-                {
-                    Camera mainCamera = Camera.main;
-                    GameObjectReference camPlayerReference = mainCamera.GetComponent<GameObjectReference>();
-                    camPlayerReference.Reference = pMirror;
-                }
-                else
-                {
-                    CircleCollider2D coll = p.GetComponent<CircleCollider2D>();
-                    coll.isTrigger = true;
-                }
-            });
-
             On("respawn", (E) => {
                 string id = E.data["id"].ToString().Trim('"');
                 float x = E.data["position"]["x"].f;
@@ -190,13 +119,16 @@ namespace SeizeCommand.Networking
                 ni.transform.localPosition = position;
             });
 
-            On("shipMove", (E) => {
-                Debug.Log("Ship Move");
-                float x = E.data["position"]["x"].f;
-                float y = E.data["position"]["y"].f;
+            On("forceMove", (E) => {
+                string id = E.data["id"].ToString().Trim('"');
+                float x = E.data["velocity"]["x"].f;
+                float y = E.data["velocity"]["y"].f;
 
-                Vector3 position = new Vector3(x, y, 0);
-                dynamicShip.transform.position = position;
+                NetworkIdentity ni = serverObjects[id];
+                Vector2 velocity = new Vector2(x, y);
+
+                Rigidbody2D rb = ni.GetComponent<Rigidbody2D>();
+                rb.velocity = velocity;
             });
 
             On("aim", (E) => {
@@ -207,13 +139,15 @@ namespace SeizeCommand.Networking
 
                 //We Don't set the main players rotation because it is the mirrored player
                 //that controls the aiming because it is the player the camera views
-                Transform otherPlayer = ni.GetComponent<GameObjectReference>().Reference.transform;
+                References<Transform> playerReferences = ni.GetComponent<References<Transform>>();
+                Transform otherPlayer = 
+                    playerReferences.GetReferenceByName("Mirror Target");
                 otherPlayer.rotation = Quaternion.Euler(0, 0, rotation);
             });
 
             On("shipAim", (E) => {
                 float rotation = E.data["rotation"].f;
-                dynamicShip.transform.rotation = Quaternion.Euler(0, 0, rotation);
+                //dynamicShip.transform.rotation = Quaternion.Euler(0, 0, rotation);
             });
 
             On("seatMove", (E) => {
@@ -256,6 +190,118 @@ namespace SeizeCommand.Networking
 
                 healthManager.InduceDamage(damage);
             });
+
+            On("serverSpawn", (E) => {
+                string id = E.data["id"].ToString().Trim('"');
+                string name = E.data["name"].str;
+                float x = E.data["position"]["x"].f;
+                float y = E.data["position"]["y"].f;
+                float rotation = E.data["rotation"].f;
+
+                Vector2 positionData = new Vector2(x, y);
+                Quaternion rotationData = Quaternion.Euler(0, 0, rotation);
+
+                if(!serverObjects.ContainsKey(id))
+                {
+                    ServerObjectData sod = serverSpawnables.GetObjectByName(name);
+                    GameObject spawnedObject = Instantiate(sod.prefab, positionData, rotationData,
+                        networkContainer);
+
+                    NetworkIdentity ni = spawnedObject.GetComponent<NetworkIdentity>();
+                    ni.SetControllerID(id);
+                    ni.SetSocketReference(this);
+
+                    if(name == "Player")
+                    {
+                        //Set the Player to the correct position in the ship hierarchy
+                        SpawnParents spawnParents = GetComponentInParent<SpawnParents>();
+                        spawnedObject.transform.parent = spawnParents.GetParentByName("Static Deck");
+
+
+                        //These next few lines instantiate the mirrored player
+                        //This is the player the camera follows and is located on the Dynamic Space Ship
+                        ServerObjectData sod2 = serverSpawnables.GetObjectByName("PlayerMirror");
+                        Transform playerMirrorParent = spawnParents.GetParentByName("Dynamic Deck");
+                        GameObject spawnedObject2 = Instantiate(sod2.prefab, 
+                            positionData, rotationData, playerMirrorParent);
+
+
+
+
+                        
+                        //These Reference scripts allow the two versions of the player to communicate
+                        //These sets of lines sets up a transform reference to each of the two Players
+                        References<Transform> transformReferences = 
+                            spawnedObject.GetComponent<References<Transform>>();
+                        References<Transform> mirrorTransformReferences = 
+                            spawnedObject2.GetComponent<References<Transform>>();    
+                        transformReferences.AddReference("Mirror Target", spawnedObject2.transform);
+                        mirrorTransformReferences.AddReference("Mirror Target", spawnedObject.transform);
+
+                       //These sets of lines sets up a gameobject reference to each of the two Players
+                        References<GameObject> gameObjectReferences =
+                            spawnedObject.GetComponent<References<GameObject>>();
+                        References<GameObject> mirrorGameObjectReferences =
+                            spawnedObject2.GetComponent<References<GameObject>>();
+                        gameObjectReferences.AddReference("Other Player", spawnedObject2);
+                        mirrorGameObjectReferences.AddReference("Other Player", spawnedObject);
+
+                        //These sets of lines sets up a gameobject reference to the ships
+                        //The Static Player creates a reference to the Static Space Ship
+                        //The Dynamic Player creates a reference to the Dynamic Space Ship
+                        GameObject staticSpaceShip = UtilityMethods.FindGameObjectInParentByName
+                            ("Static Space Ship", spawnedObject.transform);
+                        gameObjectReferences.AddReference("Static Space Ship", staticSpaceShip);
+                        GameObject dynamicSpaceShip = UtilityMethods.FindGameObjectInParentByName
+                            ("Dynamic Space Ship", spawnedObject2.transform);
+                        mirrorGameObjectReferences.AddReference("Dynamic Space Ship", dynamicSpaceShip);
+
+
+
+
+
+                        //Begin Mirroring the Transforms
+                        MirrorTransform mirrorTransform1 = spawnedObject.GetComponent<MirrorTransform>();
+                        MirrorTransform mirrorTransform2 = spawnedObject2.GetComponent<MirrorTransform>();
+
+                        mirrorTransform1.StartMirroring();
+                        mirrorTransform2.StartMirroring();
+
+
+                        
+                        spawnedObject.name = string.Format("Player ({0})", id);
+
+
+                        //These next few lines set up the localPlayer checks and ID checks for the mirrored Player
+                        //These checks make sure that the local player cannot control other players
+                        NetworkIdentity playerMirrorNetworkIdentity = spawnedObject2.GetComponent<NetworkIdentity>();
+                        playerMirrorNetworkIdentity.SetControllerID(id);  
+                        playerMirrorNetworkIdentity.SetSocketReference(this);
+
+                        if(ni.IsLocalPlayer)
+                        {
+                            //Camera follow the Local Player.  This sets up the reference
+                            Camera mainCamera = Camera.main;
+                            References<Transform> camReferences = 
+                                mainCamera.GetComponent<References<Transform>>();
+
+                            camReferences.AddReference("Player", spawnedObject2.transform);
+                        }
+                        else
+                        {
+                            //Non Local Players don't really need Collision Detection
+                            CircleCollider2D coll = spawnedObject.GetComponent<CircleCollider2D>();
+                            coll.isTrigger = true;
+                        }
+                    }
+
+                    serverObjects.Add(id, ni);
+                }
+            });
+
+            On("serverDespawn", (E) => {
+                string id = E.data["id"].ToString().Trim('"');
+            });
         }
     }
 
@@ -263,31 +309,56 @@ namespace SeizeCommand.Networking
     public class Player
     {
         public string id;
-        public Position position;
+        public Vector2Data position;
         public float rotation;
     }
 
     [Serializable]
-    public class Position
+    public class SpawnData
+    {
+        public string id;
+        public string name;
+        public Vector2Data position;
+        public float rotation;
+        public Vector2Data parent;
+    }
+
+    [Serializable]
+    public class Vector2Data
     {
         public float x;
         public float y;
     }
 
     [Serializable]
+    public class Velocity2D
+    {
+        public string id;
+        public Vector2Data velocity;
+    }
+
+    [Serializable]
     public class Move
     {
-        public Position clientInputs;
+        public Vector2Data clientInputs;
         public float speed;
         public float deltaTime;
         public float timeSent;
     }
 
     [Serializable]
+    public class ForceMove
+    {
+        public Vector2Data velocity;
+        public float thrust;
+        public float deltaTime;
+    }
+
+    [Serializable]
     public class CollisionMove
     {
-        public Position clientInputs;
-        public Position clientPosition;
+        public Vector2Data clientInputs;
+        public Vector2Data clientPosition;
         public float speed;
         public float deltaTime;
     }
@@ -302,7 +373,7 @@ namespace SeizeCommand.Networking
     [Serializable]
     public class SeatMove
     {
-        public Position position;
+        public Vector2Data position;
         public float rotation;
     }
 

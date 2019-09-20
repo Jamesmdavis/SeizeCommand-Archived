@@ -21,12 +21,17 @@ namespace SeizeCommand.Interactions.Interactables
 
             //This grabs a reference to the dynamic version of the space ship
             //In other words the dynamic space ship is the one that moves and rotates
-            GameObject otherSpaceShip = GetComponentInParent<GameObjectReference>().Reference;
+            References<GameObject> playerReferences = CurrentInteractor.Player
+                .GetComponent<References<GameObject>>();
+            GameObject staticShip = playerReferences.GetReferenceByName("Static Space Ship");
 
-            AbstractMovement movement = otherSpaceShip.GetComponent<AbstractMovement>();
+            References<GameObject> staticShipReferences = staticShip.GetComponent<References<GameObject>>();
+            GameObject dynamicShip = staticShipReferences.GetReferenceByName("Dynamic Space Ship");
+
+            AbstractMovement movement = dynamicShip.GetComponent<AbstractMovement>();
             input.MovementScript = movement;
 
-            AbstractAim aim = otherSpaceShip.GetComponent<AbstractAim>();
+            AbstractAim aim = dynamicShip.GetComponent<AbstractAim>();
             input.AimScript = aim;
         }
 
@@ -37,8 +42,10 @@ namespace SeizeCommand.Interactions.Interactables
             AbstractMovement movement = CurrentInteractor.Player.GetComponent<AbstractMovement>();
             input.MovementScript = movement;
 
-            AbstractAim aim = CurrentInteractor.Player.GetComponent<GameObjectReference>()
-                .Reference.GetComponent<AbstractAim>();
+            References<GameObject> references = CurrentInteractor.Player.GetComponent<References<GameObject>>();
+            GameObject otherPlayer = references.GetReferenceByName("Other Player");
+
+            AbstractAim aim = otherPlayer.GetComponent<AbstractAim>();
             input.AimScript = aim;
             
             base.LeaveSeat(interactor);

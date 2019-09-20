@@ -7,7 +7,7 @@ using SeizeCommand.References;
 namespace SeizeCommand.Utility
 {
     //This script Mirrors the Dynamic Players Movement and Rotation
-    [RequireComponent(typeof(GameObjectReference))]
+    [RequireComponent(typeof(References<Transform>))]
     public class MirrorTransform : MonoBehaviour
     {
         [SerializeField] private bool mirrorPosition;
@@ -44,7 +44,8 @@ namespace SeizeCommand.Utility
 
         public void StartMirroring()
         {
-            mirrorTarget = GetComponent<GameObjectReference>().Reference.transform;
+            References<Transform> references = GetComponent<References<Transform>>();
+            mirrorTarget = references.GetReferenceByName("Mirror Target");
             coMirrorTransform = StartCoroutine(CoMirrorTransform());
         }
 

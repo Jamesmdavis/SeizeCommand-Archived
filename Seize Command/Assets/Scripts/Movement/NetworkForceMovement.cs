@@ -18,16 +18,6 @@ namespace SeizeCommand.Movement
 
         protected NetworkIdentity networkIdentity;
 
-        public override InputManager Controller
-        {
-            get { return controller; }
-            set
-            {
-                controller = value;
-                networkIdentity = controller.GetComponent<NetworkIdentity>();
-            }
-        }
-
         protected override void Start()
         {
             base.Start();
@@ -41,27 +31,44 @@ namespace SeizeCommand.Movement
         {
             base.Move();
 
+            SendInputData();
+            /*
             Vector2 forceDirection = y * transform.up * thrust;
             rb.AddForce(forceDirection);
+            */
         }
 
         protected override void FixedUpdate()
         {
             base.FixedUpdate();
 
+            /*
             if(rb.velocity != Vector2.zero)
             {
                 SendData();
             }
+            */
         }
 
-        private void SendData()
+        private void SendInputData()
         {
-            Position package = new Position();
+            ForceMove package = new ForceMove();
+            package.velocity = new Vector2Data();
+            package.velocity.x = rb.velocity.x;
+            package.velocity.y = rb.velocity.y;
+            package.thrust = thrust;
+            package.deltaTime = Time.deltaTime;
+
+            NetworkIdentity ni = controller.GetComponent<NetworkIdentity>();
+            ni.Socket.Emit("forceMove", new JSONObject(JsonUtility.ToJson(package)));
+
+            /*
+            Vector2Data package = new Vector2Data();
             package.x = transform.position.x;
             package.y = transform.position.y;
 
             networkIdentity.Socket.Emit("shipMove", new JSONObject(JsonUtility.ToJson(package)));
+            */
         }
     }
 }

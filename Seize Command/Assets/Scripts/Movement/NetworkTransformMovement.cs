@@ -101,7 +101,7 @@ namespace SeizeCommand.Movement
         private void SendData(float x, float y, float timeSent)
         {
             Move package = new Move();
-            package.clientInputs = new Position();
+            package.clientInputs = new Vector2Data();
             package.clientInputs.x = x;
             package.clientInputs.y = y;
             package.speed = speed;
@@ -118,8 +118,8 @@ namespace SeizeCommand.Movement
         private void SendCollisionData(float x, float y)
         {   
             CollisionMove package = new CollisionMove();
-            package.clientInputs = new Position();
-            package.clientPosition = new Position();
+            package.clientInputs = new Vector2Data();
+            package.clientPosition = new Vector2Data();
             package.clientInputs.x = x;
             package.clientInputs.y = y;
             package.speed = speed;
