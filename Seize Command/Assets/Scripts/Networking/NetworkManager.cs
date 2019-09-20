@@ -10,7 +10,7 @@ using SeizeCommand.Health;
 using SeizeCommand.Movement;
 using SeizeCommand.Interactions.Interactors;
 using SeizeCommand.Utility;
-using SeizeCommand.References;
+using SeizeCommand.Referencing;
 using SeizeCommand.Scriptable;
 
 namespace SeizeCommand.Networking

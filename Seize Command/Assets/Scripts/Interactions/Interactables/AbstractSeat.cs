@@ -6,7 +6,7 @@ using SeizeCommand.Interactions.Interactors;
 using SeizeCommand.Movement;
 using SeizeCommand.Aiming;
 using SeizeCommand.Attack;
-using SeizeCommand.References;
+using SeizeCommand.Referencing;
 
 namespace SeizeCommand.Interactions.Interactables
 {

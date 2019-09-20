@@ -5,7 +5,7 @@ using UnityEngine;
 
 using SeizeCommand.Utility;
 
-namespace SeizeCommand.References
+namespace SeizeCommand.Referencing
 {
     //This class is an event subscriber
     //This class sets the player reference for all of the scripts on the camera that need to know

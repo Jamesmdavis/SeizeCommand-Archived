@@ -5,7 +5,7 @@ using UnityEngine;
 using SeizeCommand.Movement;
 using SeizeCommand.Aiming;
 using SeizeCommand.Interactions.Interactors;
-using SeizeCommand.References;
+using SeizeCommand.Referencing;
 using SeizeCommand.Networking;
 using SeizeCommand.Utility;
 

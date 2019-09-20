@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace SeizeCommand.References
+namespace SeizeCommand.Referencing
 {
     public interface IReferenceable<T>
     {

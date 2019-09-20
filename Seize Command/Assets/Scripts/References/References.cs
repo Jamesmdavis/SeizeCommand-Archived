@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SeizeCommand.References
+namespace SeizeCommand.Referencing
 {
     public class References<T> : MonoBehaviour
     { 
