@@ -17,6 +17,8 @@ var ships = [];
 var sockets = [];
 //var spawnPoints = [[0, 0], [-15, 5], [8, 11], [12, -7], [-16, -6], [0, -12]];
 var spawnPoints = [[0, 0]];
+var playerXBoundaries = [-2, 2];
+var playerYBoundaries = [-2, 2];
 
 var masterSocket = 0;
 
@@ -48,7 +50,7 @@ io.on('connection', function(socket) {
     socket.emit('register', {id: thisPlayerID});
 
     if(ships.length == 0) {
-        var ship = new Ship('SpaceShip');
+        var ship = new Ship('Space Ship');
         var thisShipID = ship.id;
         serverObjects[thisShipID] = ship;
 
@@ -70,50 +72,32 @@ io.on('connection', function(socket) {
         }
     }
 
-    //Update the Player's Position based on the Inputs received from the client
-    socket.on('move', function(data) {
+    //Update the Transforms Position based on the Inputs received from the client
+    socket.on('transformMove', function(data) {
         var clientInputs = new Vector2(data.clientInputs.x, data.clientInputs.y);
         var speed = data.speed;
         var deltaTime = data.deltaTime;
-        var timeSent = data.timeSent;
 
-        //The amount of change the position will undergo
-        var newDeltaPositions = new Vector2(clientInputs.x * speed * deltaTime, 
+        var newDeltaPosition = new Vector2(clientInputs.x * speed * deltaTime,
             clientInputs.y * speed * deltaTime);
 
-        player.position.x += newDeltaPositions.x;
-        player.position.y += newDeltaPositions.y;
+        var newPosition = new Vector2(player.position.x + newDeltaPosition.x,
+            player.position.y + newDeltaPosition.y);
+        
+        if(isInBounds(newPosition)) {
+            player.position.x = newPosition.x;
+            player.position.y = newPosition.y;
 
-        //Round to two decimal places
-        player.position.x = Math.round(player.position.x * 100) / 100;
-        player.position.y = Math.round(player.position.y * 100) / 100;
+            //Round to two decimal places
+            player.position.x = Math.round(player.position.x * 100) / 100;
+            player.position.y = Math.round(player.position.y * 100) / 100;
 
-        //Creates a Move Message to be sent to the clients
-        var move = new Move(thisPlayerID, timeSent, player.position);
+            //Creates a Move Message to be sent to the clients
+            var package = new Move(thisPlayerID, player.position);
 
-        socket.broadcast.emit('move', move);
-        socket.emit('move', move);
-    });
-
-    socket.on('collisionMove', function(data) {
-        var clientInputs = new Vector2(data.clientInputs.x, data.clientInputs.y);
-        var clientPosition = new Vector2(data.clientPosition.x, data.clientPosition.y);
-        var speed = data.speed;
-        var deltaTime = data.deltaTime;
-
-        var deltaXPosition = clientInputs.x * speed * deltaTime;
-        var deltaYPosition = clientInputs.y * speed * deltaTime;
-
-        var xRange = new Vector2(player.position.x - deltaXPosition, player.position.x + deltaXPosition);
-        var yRange = new Vector2(player.position.y - deltaYPosition, player.position.y + deltaYPosition);
-
-        player.position.x = clientPosition.x;
-        player.position.y = clientPosition.y;
-
-        var collisionMove = new CollisionMove(thisPlayerID);
-        collisionMove.position = player.position;
-
-        socket.broadcast.emit('collisionMove', collisionMove);
+            socket.broadcast.emit('transformMove', package);
+            socket.emit('transformMove', package);
+        }
     });
 
     socket.on('forceMove', function(data) {
@@ -261,3 +245,12 @@ io.on('connection', function(socket) {
         socket.broadcast.emit('disconnected', player);
     });
 });
+
+function isInBounds(position) {
+    if((position.x >= playerXBoundaries[0] || position.x <= playerXBoundaries[1])
+        || (position.y >= playerYBoundaries[0] || position.y <= playerYBoundaries[1])) {
+        return true;
+    }
+
+    return false;
+}
