@@ -95,59 +95,33 @@ namespace SeizeCommand.Networking
                 serverObjects.Remove(id);   //Remove from memory
             });
 
-            On("move", (E) => {
+            On("changePosition", (E) => {
                 string id = E.data["id"].ToString().Trim('"');
-                float x = E.data["position"]["x"].f;
-                float y = E.data["position"]["y"].f;
-                float timeSent = E.data["timeSent"].f;
-
-                NetworkIdentity ni = serverObjects[id];
-                NetworkTransformMovement movement = ni.GetComponent<NetworkTransformMovement>();
-                Vector3 position = new Vector3(x, y, 0);
-
-                movement.CorrectPosition(timeSent, position);
-            });
-
-            On("collisionMove", (E) => {
-                string id = E.data["id"].ToString().Trim('"');
-                float x = E.data["position"]["x"].f;
-                float y = E.data["position"]["y"].f;
+                float x = E.data["vector2"]["x"].f;
+                float y = E.data["vector2"]["y"].f;
 
                 NetworkIdentity ni = serverObjects[id];
                 Vector3 position = new Vector3(x, y, 0);
-
                 ni.transform.localPosition = position;
             });
 
-            On("forceMove", (E) => {
+            On("changeVelocity", (E) => {
                 string id = E.data["id"].ToString().Trim('"');
-                float x = E.data["velocity"]["x"].f;
-                float y = E.data["velocity"]["y"].f;
+                float x = E.data["vector2"]["x"].f;
+                float y = E.data["vector2"]["y"].f;
 
                 NetworkIdentity ni = serverObjects[id];
                 Vector2 velocity = new Vector2(x, y);
-
                 Rigidbody2D rb = ni.GetComponent<Rigidbody2D>();
                 rb.velocity = velocity;
             });
 
-            On("aim", (E) => {
+            On("changeRotation", (E) => {
                 string id = E.data["id"].ToString().Trim('"');
                 float rotation = E.data["rotation"].f;
 
                 NetworkIdentity ni = serverObjects[id];
-
-                //We Don't set the main players rotation because it is the mirrored player
-                //that controls the aiming because it is the player the camera views
-                References<Transform> playerReferences = ni.GetComponent<References<Transform>>();
-                Transform otherPlayer = 
-                    playerReferences.GetReferenceByName("Mirror Target");
-                otherPlayer.rotation = Quaternion.Euler(0, 0, rotation);
-            });
-
-            On("shipAim", (E) => {
-                float rotation = E.data["rotation"].f;
-                //dynamicShip.transform.rotation = Quaternion.Euler(0, 0, rotation);
+                ni.transform.localRotation = Quaternion.Euler(0, 0, rotation);
             });
 
             On("seatMove", (E) => {
@@ -211,20 +185,26 @@ namespace SeizeCommand.Networking
                     ni.SetControllerID(id);
                     ni.SetSocketReference(this);
 
+                    serverObjects.Add(id, ni);
+
                     if(name == "Player")
                     {
-                        //Set the Player to the correct position in the ship hierarchy
-                        SpawnParents spawnParents = GetComponentInParent<SpawnParents>();
-                        spawnedObject.transform.parent = spawnParents.GetParentByName("Static Deck");
+                        string mirrorID = E.data["mirrorID"].ToString().Trim('"');
+                        string mirrorName = E.data["mirrorName"].str;
 
-
-                        //These next few lines instantiate the mirrored player
+                        //These next few lines instantiate the Mirrored Player
                         //This is the player the camera follows and is located on the Dynamic Space Ship
-                        ServerObjectData sod2 = serverSpawnables.GetObjectByName("PlayerMirror");
-                        Transform playerMirrorParent = spawnParents.GetParentByName("Dynamic Deck");
+                        ServerObjectData sod2 = serverSpawnables.GetObjectByName(mirrorName);
                         GameObject spawnedObject2 = Instantiate(sod2.prefab, 
-                            positionData, rotationData, playerMirrorParent);
+                            positionData, rotationData, networkContainer);
 
+
+
+
+                        //Set the Player to the correct position in the ship hierarchy
+                        References<Transform> parentReferences = GetComponentInParent<References<Transform>>();
+                        spawnedObject.transform.parent = parentReferences.GetReferenceByName("Static Ship");
+                        spawnedObject2.transform.parent = parentReferences.GetReferenceByName("Dynamic Ship");
 
 
 
@@ -259,7 +239,6 @@ namespace SeizeCommand.Networking
 
 
 
-
                         //Begin Mirroring the Transforms
                         MirrorTransform mirrorTransform1 = spawnedObject.GetComponent<MirrorTransform>();
                         MirrorTransform mirrorTransform2 = spawnedObject2.GetComponent<MirrorTransform>();
@@ -268,15 +247,13 @@ namespace SeizeCommand.Networking
                         mirrorTransform2.StartMirroring();
 
 
-                        
-                        spawnedObject.name = string.Format("Player ({0})", id);
 
 
                         //These next few lines set up the localPlayer checks and ID checks for the mirrored Player
                         //These checks make sure that the local player cannot control other players
-                        NetworkIdentity playerMirrorNetworkIdentity = spawnedObject2.GetComponent<NetworkIdentity>();
-                        playerMirrorNetworkIdentity.SetControllerID(id);  
-                        playerMirrorNetworkIdentity.SetSocketReference(this);
+                        NetworkIdentity playerMirrorNI = spawnedObject2.GetComponent<NetworkIdentity>();
+                        playerMirrorNI.SetControllerID(mirrorID);  
+                        playerMirrorNI.SetSocketReference(this);
 
                         if(ni.IsLocalPlayer)
                         {
@@ -285,7 +262,7 @@ namespace SeizeCommand.Networking
                             References<Transform> camReferences = 
                                 mainCamera.GetComponent<References<Transform>>();
 
-                            camReferences.AddReference("Player", spawnedObject2.transform);
+                            camReferences.AddReference("Player Mirror", spawnedObject2.transform);
                         }
                         else
                         {
@@ -293,9 +270,13 @@ namespace SeizeCommand.Networking
                             CircleCollider2D coll = spawnedObject.GetComponent<CircleCollider2D>();
                             coll.isTrigger = true;
                         }
-                    }
 
-                    serverObjects.Add(id, ni);
+                        //Sets the name of the Player to the ID
+                        spawnedObject.name = string.Format("Player ({0})", id);
+                        spawnedObject2.name = string.Format("Player ({0})", mirrorID);
+
+                        serverObjects.Add(mirrorID, playerMirrorNI);
+                    }
                 }
             });
 
@@ -331,41 +312,16 @@ namespace SeizeCommand.Networking
     }
 
     [Serializable]
-    public class Velocity2D
+    public class Vector2Package
     {
         public string id;
-        public Vector2Data velocity;
+        public Vector2Data vector2;
     }
 
     [Serializable]
-    public class Move
+    public class RotationPackage
     {
-        public Vector2Data clientInputs;
-        public float speed;
-        public float deltaTime;
-        public float timeSent;
-    }
-
-    [Serializable]
-    public class ForceMove
-    {
-        public Vector2Data velocity;
-        public float thrust;
-        public float deltaTime;
-    }
-
-    [Serializable]
-    public class CollisionMove
-    {
-        public Vector2Data clientInputs;
-        public Vector2Data clientPosition;
-        public float speed;
-        public float deltaTime;
-    }
-
-    [Serializable]
-    public class Aim
-    {
+        public string id;
         public float rotation;
     }
 

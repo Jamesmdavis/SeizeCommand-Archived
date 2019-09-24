@@ -16,7 +16,7 @@ namespace SeizeCommand.Movement
     {
         [SerializeField] private float thrust;
 
-        protected NetworkIdentity networkIdentity;
+        private NetworkIdentity networkIdentity;
 
         protected override void Start()
         {
@@ -30,45 +30,20 @@ namespace SeizeCommand.Movement
         protected override void Move()
         {
             base.Move();
-
-            SendInputData();
-            /*
-            Vector2 forceDirection = y * transform.up * thrust;
+            Vector2 forceDirection = inputs.y * transform.up * thrust;
             rb.AddForce(forceDirection);
-            */
+            SendData();
         }
 
-        protected override void FixedUpdate()
+        private void SendData()
         {
-            base.FixedUpdate();
+            Vector2Package package = new Vector2Package();
+            package.id = networkIdentity.ID;
+            package.vector2 = new Vector2Data();
+            package.vector2.x = rb.velocity.x;
+            package.vector2.y = rb.velocity.y;
 
-            /*
-            if(rb.velocity != Vector2.zero)
-            {
-                SendData();
-            }
-            */
-        }
-
-        private void SendInputData()
-        {
-            ForceMove package = new ForceMove();
-            package.velocity = new Vector2Data();
-            package.velocity.x = rb.velocity.x;
-            package.velocity.y = rb.velocity.y;
-            package.thrust = thrust;
-            package.deltaTime = Time.deltaTime;
-
-            NetworkIdentity ni = controller.GetComponent<NetworkIdentity>();
-            ni.Socket.Emit("forceMove", new JSONObject(JsonUtility.ToJson(package)));
-
-            /*
-            Vector2Data package = new Vector2Data();
-            package.x = transform.position.x;
-            package.y = transform.position.y;
-
-            networkIdentity.Socket.Emit("shipMove", new JSONObject(JsonUtility.ToJson(package)));
-            */
+            networkIdentity.Socket.Emit("changeVelocity", new JSONObject(JsonUtility.ToJson(package)));
         }
     }
 }

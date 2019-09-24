@@ -1,11 +1,9 @@
 var shortID = require('shortid');
-var Vector2 = require('./Vector2.js');
+var ServerObject = require('./ServerObject.js');
 
-module.exports = class Player {
-    constructor(rot = 0) {
-        this.username = '';
-        this.id = shortID.generate();
-        this.position = new Vector2();
-        this.rotation = rot;
+module.exports = class Player extends ServerObject {
+    constructor(MirrorName = '') {
+        this.mirrorName = MirrorName;
+        this.mirrorID = shortID.generate();
     }
 }

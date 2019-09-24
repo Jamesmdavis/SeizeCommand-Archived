@@ -14,42 +14,11 @@ namespace SeizeCommand.Aiming
         [SerializeField] [Range(1f, 10f)] private float intensity;
 
         private NetworkIdentity networkIdentity;
-        private Aim aimMessage;
-        private float oldRotation;
-
-        public override InputManager Controller
-        {
-            get { return controller; }
-            set
-            {
-                controller = value;
-                networkIdentity = controller.GetComponent<NetworkIdentity>();
-            }
-        }
 
         protected override void Start()
         {
             base.Start();
             networkIdentity = GetComponent<NetworkIdentity>();
-            aimMessage = new Aim();
-            oldRotation = 0f;
-        }
-
-        private void SendData(float rot)
-        {
-            aimMessage.rotation = rot;
-            networkIdentity.Socket.Emit("shipAim", new JSONObject(JsonUtility.ToJson(aimMessage)));
-        }
-
-        private void CheckForChangeInRotation(float currentRotation)
-        {
-            if(currentRotation != oldRotation)
-            {
-                transform.rotation = Quaternion.Euler(0, 0, currentRotation);
-                SendData(currentRotation);
-            }
-
-            oldRotation = currentRotation;
         }
 
         protected override void Aim()
@@ -68,7 +37,17 @@ namespace SeizeCommand.Aiming
                 intensity * Time.deltaTime);
 
             float newZRotation = newRotation.eulerAngles.z;
-            CheckForChangeInRotation(newZRotation);
+
+            SendData(newZRotation);
+        }
+
+        private void SendData(float currentRotation)
+        {
+            RotationPackage package = new RotationPackage();
+            package.id = networkIdentity.ID;
+            package.rotation = currentRotation;
+            
+            networkIdentity.Socket.Emit("changeRotation", new JSONObject(JsonUtility.ToJson(package)));
         }
     }
 }

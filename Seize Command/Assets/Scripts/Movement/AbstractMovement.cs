@@ -15,8 +15,7 @@ namespace SeizeCommand.Movement
         protected Rigidbody2D rb;
         protected InputManager controller;
         protected bool isMoving;
-        protected float x;
-        protected float y;
+        protected Vector3 inputs;
 
         public virtual InputManager Controller
         {
@@ -28,6 +27,7 @@ namespace SeizeCommand.Movement
         {
             rb = GetComponent<Rigidbody2D>();
             controller = GetComponent<InputManager>();
+            inputs = new Vector3();
         }
 
         protected virtual void FixedUpdate()
@@ -40,8 +40,11 @@ namespace SeizeCommand.Movement
 
         protected virtual void Move()
         {
-            if(horizontal) x = Input.GetAxisRaw("Horizontal");
-            if(vertical)   y = Input.GetAxisRaw("Vertical");
+            float xInput = horizontal ? Input.GetAxisRaw("Horizontal") : 0;
+            float yInput = vertical ?   Input.GetAxisRaw("Vertical") : 0;
+
+            inputs.x = xInput;
+            inputs.y = yInput;
         }
 
         public virtual void CheckInput()
