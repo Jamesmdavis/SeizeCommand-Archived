@@ -1,14 +1,14 @@
 var io = require('socket.io')(process.env.PORT || 52300);
 
 //Custom Classes
-var ServerObject =      require('./Classes/ServerObject.js');
-var Player =            require('./Classes/Player.js');
-var Ship =              require('./Classes/Ship.js');
-var TakeDamage =        require('./Classes/TakeDamage.js');
-var RotationPackage =   require('./Classes/RotationPackage.js');
-var SeatMove =          require('./Classes/SeatMove.js');
-var Vector2Package =    require('./Classes/Vector2Package.js');
-var Vector2 =           require('./Classes/Vector2.js');
+var ServerObject =          require('./Classes/ServerObject.js');
+var Player =                require('./Classes/Player.js');
+var Ship =                  require('./Classes/Ship.js');
+var TakeDamage =            require('./Classes/TakeDamage.js');
+var RotationPackage =       require('./Classes/RotationPackage.js');
+var Vector2Package =        require('./Classes/Vector2Package.js');
+var Vector2 =               require('./Classes/Vector2.js');
+var SendReceivePackage =    require('./Classes/SendReceivePackage.js');
 
 var serverObjects = [];
 var ships = [];
@@ -95,31 +95,17 @@ io.on('connection', function(socket) {
         socket.broadcast.emit('changeRotation', package);
     });
 
-    socket.on('seatMove', function(data) {
-        var x = data.position.x;
-        var y = data.position.y;
-        var rotation = data.rotation;
-
-        player.position.x = x;
-        player.position.y = y;
-        player.rotation = rotation;
-
-        var seatMove = new SeatMove();
-        seatMove.id = thisPlayerID;
-        seatMove.position.x = x;
-        seatMove.position.y = y;
-        seatMove.rotation = rotation;
-
-        socket.broadcast.emit('seatMove', seatMove);
-        socket.emit('seatMove', seatMove);
-    });
-
     socket.on('attack', function() {
         socket.broadcast.emit('attack', {id: thisPlayerID});
     });
 
-    socket.on('interact', function() {
-        socket.broadcast.emit('interact', {id: thisPlayerID});
+    socket.on('interact', function(data) {
+        var senderID = data.senderID;
+        var receiverID = data.receiverID;
+
+        var package = new SendReceivePackage(senderID, receiverID);
+
+        socket.broadcast.emit('interact', package);
     });
 
     socket.on('takeDamage', function(data) {
@@ -175,12 +161,3 @@ io.on('connection', function(socket) {
         socket.broadcast.emit('disconnected', player);
     });
 });
-
-function isInBounds(position) {
-    if((position.x >= playerXBoundaries[0] || position.x <= playerXBoundaries[1])
-        || (position.y >= playerYBoundaries[0] || position.y <= playerYBoundaries[1])) {
-        return true;
-    }
-
-    return false;
-}

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using SeizeCommand.Interactions.Interactables;
+using SeizeCommand.Utility;
 
 namespace SeizeCommand.Interactions.Interactors
 {
@@ -11,6 +12,10 @@ namespace SeizeCommand.Interactions.Interactors
     {
         [Header("Object References")]
         [SerializeField] private GameObject player;
+
+        private IInteractable currentInteractable;
+        protected List<IInteractable> interactables;
+        protected InputManager controller;
 
         public GameObject Player
         {
@@ -23,20 +28,18 @@ namespace SeizeCommand.Interactions.Interactors
             set { currentInteractable = value; }
         }
 
-        public event Action OnInteract;
+        public virtual InputManager Controller
+        {
+            get { return controller; }
+            set { controller = value; }
+        }
 
-        protected List<IInteractable> interactables;
-        private IInteractable currentInteractable;
+        public event Action OnInteract;
 
         private void Start()
         {
             player = player == null ? gameObject : player;
             interactables = new List<IInteractable>();
-        }
-
-        protected virtual void Update()
-        {
-            CheckInteract();
         }
 
         private void OnTriggerEnter2D(Collider2D coll)
@@ -65,21 +68,21 @@ namespace SeizeCommand.Interactions.Interactors
             }
         }
 
-        protected virtual void Interact()
+        protected virtual void Interact(IInteractable interactable)
         {  
-            currentInteractable.Interact(this);
+            interactable.Interact(this);
             if(OnInteract != null) OnInteract();
         }
 
-        protected void CheckInteract()
+        public virtual void CheckInput()
         {
             if(Input.GetKeyDown(KeyCode.E))
             {
-                if(currentInteractable != null) Interact();
+                if(currentInteractable != null) Interact(currentInteractable);
                 else if(interactables.Count != 0)
                 {
                     currentInteractable = interactables[0];
-                    Interact();
+                    Interact(currentInteractable);
                 }
             }
         }

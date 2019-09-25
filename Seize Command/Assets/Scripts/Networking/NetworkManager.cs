@@ -9,6 +9,7 @@ using SeizeCommand.Attack;
 using SeizeCommand.Health;
 using SeizeCommand.Movement;
 using SeizeCommand.Interactions.Interactors;
+using SeizeCommand.Interactions.Interactables;
 using SeizeCommand.Utility;
 using SeizeCommand.Referencing;
 using SeizeCommand.Scriptable;
@@ -147,12 +148,15 @@ namespace SeizeCommand.Networking
             });
 
             On("interact", (E) => {
-                string id = E.data["id"].ToString().Trim('"');
+                string senderID = E.data["senderID"].ToString().Trim('"');
+                string receiverID = E.data["receiverID"].ToString().Trim('"');
 
-                NetworkIdentity ni = serverObjects[id];
-                NetworkInteractor interactor = ni.GetComponentInChildren<NetworkInteractor>();
-
-                interactor.InduceInteract();
+                NetworkIdentity senderNI = serverObjects[senderID];
+                NetworkIdentity receiverNI = serverObjects[receiverID];
+                NetworkInteractor senderInteractor = senderNI.GetComponentInChildren<NetworkInteractor>();
+                IInteractable receiverInteractable = receiverNI.GetComponent<IInteractable>();
+                
+                senderInteractor.RPCInteract(receiverInteractable);
             });
 
             On("takeDamage", (E) => {
@@ -325,19 +329,18 @@ namespace SeizeCommand.Networking
         public float rotation;
     }
 
-    // This Serializable Class is used for messages that involve Taking and Leaving Seats
-    [Serializable]
-    public class SeatMove
-    {
-        public Vector2Data position;
-        public float rotation;
-    }
-
     [Serializable]
     public class Damage
     {
         public string senderID;
         public string receiverID;
         public float damage;
+    }
+
+    [Serializable]
+    public class SendReceivePackage
+    {
+        public string senderID;
+        public string receiverID;
     }
 }

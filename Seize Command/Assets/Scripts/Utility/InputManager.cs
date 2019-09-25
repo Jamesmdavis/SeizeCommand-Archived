@@ -5,6 +5,7 @@ using UnityEngine;
 using SeizeCommand.Movement;
 using SeizeCommand.Aiming;
 using SeizeCommand.Attack;
+using SeizeCommand.Interactions.Interactors;
 using SeizeCommand.Networking;
 
 namespace SeizeCommand.Utility
@@ -14,6 +15,7 @@ namespace SeizeCommand.Utility
         private AbstractMovement movementScript;
         private AbstractAim aimScript;
         private AttackManager attackScript;
+        [SerializeField] private Interactor interactorScript;
         private NetworkIdentity networkIdentity;
 
         public AbstractMovement MovementScript
@@ -46,6 +48,16 @@ namespace SeizeCommand.Utility
             }
         }
 
+        public Interactor InteractorScript
+        {
+            get { return interactorScript; }
+            set
+            {
+                interactorScript = value;
+                interactorScript.Controller = this;
+            }
+        }
+
         private void Start()
         {
             movementScript = GetComponent<AbstractMovement>();
@@ -60,9 +72,10 @@ namespace SeizeCommand.Utility
             {
                 if(networkIdentity.IsLocalPlayer)
                 {
-                    if(movementScript)  movementScript.CheckInput();
-                    if(aimScript)       aimScript.CheckInput();
-                    if(attackScript)    attackScript.CheckInput();
+                    if(movementScript)      movementScript.CheckInput();
+                    if(aimScript)           aimScript.CheckInput();
+                    if(attackScript)        attackScript.CheckInput();
+                    if(interactorScript)    interactorScript.CheckInput();
                 }
             }
         }
