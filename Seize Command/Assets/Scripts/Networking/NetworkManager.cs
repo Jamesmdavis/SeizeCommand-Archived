@@ -26,7 +26,7 @@ namespace SeizeCommand.Networking
 
         private Dictionary<string, NetworkIdentity> serverObjects;
 
-        public static string ClientID { get; private set; }
+        public static ClientIDS LocalPlayers;
 
         public override void Start()
         {
@@ -61,6 +61,7 @@ namespace SeizeCommand.Networking
         private void Initialize()
         {
             serverObjects = new Dictionary<string, NetworkIdentity>();
+            LocalPlayers.id = new string[2];
         }
 
         private void SetupEvents()
@@ -70,9 +71,8 @@ namespace SeizeCommand.Networking
             });
 
             On("register", (E) => {
-                ClientID = E.data["id"].ToString().Trim('"');
-
-                Debug.LogFormat("Our Client's ID ({0})", ClientID);
+                LocalPlayers.id[0] = E.data["id1"].ToString().Trim('"');
+                LocalPlayers.id[1] = E.data["id2"].ToString().Trim('"');
             });
 
             On("respawn", (E) => {
@@ -336,5 +336,10 @@ namespace SeizeCommand.Networking
     {
         public string senderID;
         public string receiverID;
+    }
+
+    public class ClientIDS
+    {
+        public string[] id;
     }
 }

@@ -2,7 +2,6 @@ var io = require('socket.io')(process.env.PORT || 52300);
 
 //Custom Classes
 var ServerObject =          require('./Classes/ServerObject.js');
-var Player =                require('./Classes/Player.js');
 var Ship =                  require('./Classes/Ship.js');
 var MirroredPairPackage =   require('./Classes/MirroredPairPackage.js/index.js');
 var TakeDamage =            require('./Classes/TakeDamage.js');
@@ -15,24 +14,32 @@ var serverObjects = [];
 var ships = [];
 var sockets = [];
 
+var maxPlayersPerShip = 3;
+
 console.log('Server has started');
 
 io.on('connection', function(socket) {
     console.log('Connection Made!');
 
-    var player = new Player('Player', 'Player Mirror');
+    var player = new ServerObject('Player');
+    var playerMirror = new ServerObject('Player Mirror');
     var thisPlayerID = player.id;
+    var thisPlayerMirrorID = playerMirror.id;
 
     serverObjects[thisPlayerID] = player;
+    serverObjects[thisPlayerMirrorID] = playerMirror;
     sockets[thisPlayerID] = socket;
 
     //Tell the client that this is our id for the server
-    socket.emit('register', {id: thisPlayerID});
+    socket.emit('register', {   id1: thisPlayerID,
+                                id2: thisPlayerMirrorID });
 
     if(ships.length == 0) {
         var ship = new Ship('Space Ship');
         var thisShipID = ship.id;
+
         serverObjects[thisShipID] = ship;
+        ships[thisShipID] = ship;
 
         socket.emit('serverSpawn', ship);
         socket.broadcast.emit('serverSpawn', ship);

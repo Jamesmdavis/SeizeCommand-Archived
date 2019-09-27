@@ -29,7 +29,8 @@ namespace SeizeCommand.Networking
         public void SetControllerID(string ID)
         {
             id = ID;
-            isLocalPlayer = (NetworkManager.ClientID == ID) ? true : false;
+            isLocalPlayer = (NetworkManager.LocalPlayers.id[0] == ID ||
+                NetworkManager.LocalPlayers.id[1] == ID) ? true : false;
         }
 
         public void SetSocketReference(SocketIOComponent Socket)
