@@ -1,14 +1,15 @@
 var io = require('socket.io')(process.env.PORT || 52300);
 
 //Custom Classes
-var ServerObject =      require('./Classes/ServerObject.js');
-var Player =            require('./Classes/Player.js');
-var Ship =              require('./Classes/Ship.js');
-var TakeDamage =        require('./Classes/TakeDamage.js');
-var RotationPackage =   require('./Classes/RotationPackage.js');
-var SeatMove =          require('./Classes/SeatMove.js');
-var Vector2Package =    require('./Classes/Vector2Package.js');
-var Vector2 =           require('./Classes/Vector2.js');
+var ServerObject =          require('./Classes/ServerObject.js');
+var Player =                require('./Classes/Player.js');
+var Ship =                  require('./Classes/Ship.js');
+var MirroredPairPackage =   require('./Classes/MirroredPairPackage.js/index.js');
+var TakeDamage =            require('./Classes/TakeDamage.js');
+var RotationPackage =       require('./Classes/RotationPackage.js');
+var Vector2Package =        require('./Classes/Vector2Package.js');
+var Vector2 =               require('./Classes/Vector2.js');
+var SendReceivePackage =    require('./Classes/SendReceivePackage.js');
 
 var serverObjects = [];
 var ships = [];
@@ -95,31 +96,17 @@ io.on('connection', function(socket) {
         socket.broadcast.emit('changeRotation', package);
     });
 
-    socket.on('seatMove', function(data) {
-        var x = data.position.x;
-        var y = data.position.y;
-        var rotation = data.rotation;
-
-        player.position.x = x;
-        player.position.y = y;
-        player.rotation = rotation;
-
-        var seatMove = new SeatMove();
-        seatMove.id = thisPlayerID;
-        seatMove.position.x = x;
-        seatMove.position.y = y;
-        seatMove.rotation = rotation;
-
-        socket.broadcast.emit('seatMove', seatMove);
-        socket.emit('seatMove', seatMove);
-    });
-
     socket.on('attack', function() {
         socket.broadcast.emit('attack', {id: thisPlayerID});
     });
 
-    socket.on('interact', function() {
-        socket.broadcast.emit('interact', {id: thisPlayerID});
+    socket.on('interact', function(data) {
+        var senderID = data.senderID;
+        var receiverID = data.receiverID;
+
+        var package = new SendReceivePackage(senderID, receiverID);
+
+        socket.broadcast.emit('interact', package);
     });
 
     socket.on('takeDamage', function(data) {
@@ -150,23 +137,43 @@ io.on('connection', function(socket) {
     });
 
     socket.on('serverSpawn', function(data) {
-        var position = new Vector2();
-        position.x = data.position.x;
-        position.y = data.position.y;
-
-        var parent = new Vector2();
-        parent.x = data.parent.x;
-        parent.y = data.parent.y;
-
-        var spawn = new Spawn();
-        spawn.name = data.name;
-        spawn.position = position;
+        var name = data.name;
+        
+        var spawn = new ServerObject(name);
+        spawn.position = new Vector2(data.position.x, data.position.y);
         spawn.rotation = data.rotation;
-        spawn.parent = data.parent;
+
+        var thisSpawnID = spawn.id;
+        serverObjects[thisSpawnID] = spawn;
 
         socket.emit('serverSpawn', spawn);
         socket.broadcast.emit('serverSpawn', spawn);
     });
+
+    socket.on('serverSpawnMirroredPair', function(data) {
+        var name = data.name;
+        var position = new Vector2(data.position.x, data.position.y);
+        var rotation = data.rotation;
+
+        var spawn1 = new ServerObject(name);
+        var spawn2 = new ServerObject(name + " Mirror");
+        spawn1.position = position;
+        spawn2.position = position;
+        spawn1.rotation = rotation;
+        spawn2.rotation = rotation;
+
+        serverObjects[spawn1.id] = spawn1;
+        serverObjects[spawn2.id] = spawn2;
+
+        var package = new MirroredPairPackage(name);
+        package.spawn1ID = spawn1.id;
+        package.spawn2ID = spawn2.id;
+        package.position = position;
+        package.rotation = rotation;
+
+        socket.emit('serverSpawnMirroredPair', package);
+        socket.broadcast.emit('serverSpawnMirroredPair', package);
+    })
 
 
     socket.on('disconnect', function() {
@@ -175,12 +182,3 @@ io.on('connection', function(socket) {
         socket.broadcast.emit('disconnected', player);
     });
 });
-
-function isInBounds(position) {
-    if((position.x >= playerXBoundaries[0] || position.x <= playerXBoundaries[1])
-        || (position.y >= playerYBoundaries[0] || position.y <= playerYBoundaries[1])) {
-        return true;
-    }
-
-    return false;
-}

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using SeizeCommand.Networking;
+using SeizeCommand.Interactions.Interactables;
 
 namespace SeizeCommand.Interactions.Interactors
 {
@@ -11,28 +12,28 @@ namespace SeizeCommand.Interactions.Interactors
     public class NetworkInteractor : Interactor
     {
         [SerializeField] private NetworkIdentity networkIdentity;
-
-        protected override void Update()
-        {
-            if(networkIdentity)
-            {
-                if(networkIdentity.IsLocalPlayer)
-                {
-                    CheckInteract();
-                }
-            }
-        }
         
-        protected override void Interact()
+        protected override void Interact(IInteractable interactable)
         {
-            base.Interact();
-            networkIdentity.Socket.Emit("interact");
+            base.Interact(interactable);
+            SendData(interactable);
         }
 
-        public void InduceInteract()
+        public void RPCInteract(IInteractable interactable)
         {
-            //For Future Use
-            //base.Interact();
+            base.Interact(interactable);
+        }
+
+        private void SendData(IInteractable interactable)
+        {
+            NetworkIdentity receiverNetworkIdentity = 
+                (interactable as MonoBehaviour).GetComponent<NetworkIdentity>();
+
+            SendReceivePackage package = new SendReceivePackage();
+            package.senderID = networkIdentity.ID;
+            package.receiverID = receiverNetworkIdentity.ID;
+
+            networkIdentity.Socket.Emit("interact", new JSONObject(JsonUtility.ToJson(package)));
         }
     }
 }
