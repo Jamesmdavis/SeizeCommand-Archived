@@ -30,7 +30,7 @@ namespace SeizeCommand.Attack
         protected override void Attack()
         {
             base.Attack();
-            networkIdentity.Socket.Emit("attack");
+            //networkIdentity.Socket.Emit("attack");
         }
 
         public void InduceAttack()

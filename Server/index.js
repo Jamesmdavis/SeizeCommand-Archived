@@ -4,6 +4,7 @@ var io = require('socket.io')(process.env.PORT || 52300);
 var ServerObject =          require('./Classes/ServerObject.js');
 var Player =                require('./Classes/Player.js');
 var Ship =                  require('./Classes/Ship.js');
+var MirroredPairPackage =   require('./Classes/MirroredPairPackage.js/index.js');
 var TakeDamage =            require('./Classes/TakeDamage.js');
 var RotationPackage =       require('./Classes/RotationPackage.js');
 var Vector2Package =        require('./Classes/Vector2Package.js');
@@ -136,23 +137,43 @@ io.on('connection', function(socket) {
     });
 
     socket.on('serverSpawn', function(data) {
-        var position = new Vector2();
-        position.x = data.position.x;
-        position.y = data.position.y;
-
-        var parent = new Vector2();
-        parent.x = data.parent.x;
-        parent.y = data.parent.y;
-
-        var spawn = new Spawn();
-        spawn.name = data.name;
-        spawn.position = position;
+        var name = data.name;
+        
+        var spawn = new ServerObject(name);
+        spawn.position = new Vector2(data.position.x, data.position.y);
         spawn.rotation = data.rotation;
-        spawn.parent = data.parent;
+
+        var thisSpawnID = spawn.id;
+        serverObjects[thisSpawnID] = spawn;
 
         socket.emit('serverSpawn', spawn);
         socket.broadcast.emit('serverSpawn', spawn);
     });
+
+    socket.on('serverSpawnMirroredPair', function(data) {
+        var name = data.name;
+        var position = new Vector2(data.position.x, data.position.y);
+        var rotation = data.rotation;
+
+        var spawn1 = new ServerObject(name);
+        var spawn2 = new ServerObject(name + " Mirror");
+        spawn1.position = position;
+        spawn2.position = position;
+        spawn1.rotation = rotation;
+        spawn2.rotation = rotation;
+
+        serverObjects[spawn1.id] = spawn1;
+        serverObjects[spawn2.id] = spawn2;
+
+        var package = new MirroredPairPackage(name);
+        package.spawn1ID = spawn1.id;
+        package.spawn2ID = spawn2.id;
+        package.position = position;
+        package.rotation = rotation;
+
+        socket.emit('serverSpawnMirroredPair', package);
+        socket.broadcast.emit('serverSpawnMirroredPair', package);
+    })
 
 
     socket.on('disconnect', function() {
