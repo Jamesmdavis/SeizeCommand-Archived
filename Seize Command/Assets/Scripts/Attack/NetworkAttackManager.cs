@@ -11,6 +11,16 @@ namespace SeizeCommand.Attack
     {
         private NetworkIdentity networkIdentity;
 
+        public override InputManager Controller
+        {
+            get { return controller; }
+            set
+            {
+                controller = value;
+                networkIdentity = controller.GetComponent<NetworkIdentity>();
+            }
+        }
+
         protected override void Start()
         {
             base.Start();
@@ -20,6 +30,7 @@ namespace SeizeCommand.Attack
         protected override void Attack()
         {
             base.Attack();
+            networkIdentity.Socket.Emit("attack");
         }
 
         public void InduceAttack()

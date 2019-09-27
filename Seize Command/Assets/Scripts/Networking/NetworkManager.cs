@@ -187,15 +187,6 @@ namespace SeizeCommand.Networking
 
                     serverObjects.Add(id, ni);
 
-                    if(name == "Projectile")
-                    {
-                        string mirrorID = E.data["mirrorID"].ToString().Trim('"');
-                        string mirrorName = E.data["mirrorName"].str;
-
-                        ServerObjectData sod2 = serverSpawnables.GetObjectByName(mirrorName);
-                        GameObject spawnedObject2 = Instantiate(sod2.prefab,
-                            positionData, rotationData, networkContainer);
-                    }
                     if(name == "Player")
                     {
                         string mirrorID = E.data["mirrorID"].ToString().Trim('"');
@@ -310,7 +301,7 @@ namespace SeizeCommand.Networking
         public string name;
         public Vector2Data position;
         public float rotation;
-        public bool spawnMirror;
+        public Vector2Data parent;
     }
 
     [Serializable]

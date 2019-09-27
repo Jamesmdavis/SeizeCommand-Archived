@@ -16,6 +16,7 @@ namespace SeizeCommand.Weapon
             networkIdentity = GetComponentInParent<NetworkIdentity>();
             bulletData = new SpawnData();
             bulletData.position = new Vector2Data();
+            bulletData.parent = new Vector2Data();
         }
 
         public override void Fire()
@@ -24,7 +25,8 @@ namespace SeizeCommand.Weapon
             bulletData.position.x = projectileSpawnPoint.position.x;
             bulletData.position.y = projectileSpawnPoint.position.y;
             bulletData.rotation = projectileSpawnPoint.rotation.z;
-            bulletData.spawnMirror = true;
+            bulletData.parent.x = projectileParent.position.x;
+            bulletData.parent.y = projectileParent.position.y;
 
             networkIdentity.Socket.Emit("serverSpawn", new JSONObject(JsonUtility.ToJson(bulletData)));
         }

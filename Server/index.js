@@ -2,7 +2,7 @@ var io = require('socket.io')(process.env.PORT || 52300);
 
 //Custom Classes
 var ServerObject =      require('./Classes/ServerObject.js');
-var MirrorObject =      require('./Classes/MirrorObject.js');
+var Player =            require('./Classes/Player.js');
 var Ship =              require('./Classes/Ship.js');
 var TakeDamage =        require('./Classes/TakeDamage.js');
 var RotationPackage =   require('./Classes/RotationPackage.js');
@@ -19,7 +19,7 @@ console.log('Server has started');
 io.on('connection', function(socket) {
     console.log('Connection Made!');
 
-    var player = new MirrorObject('Player', 'Player Mirror');
+    var player = new Player('Player', 'Player Mirror');
     var thisPlayerID = player.id;
 
     serverObjects[thisPlayerID] = player;
@@ -150,30 +150,13 @@ io.on('connection', function(socket) {
     });
 
     socket.on('serverSpawn', function(data) {
-        var objectName = data.name;
+        var position = new Vector2();
+        position.x = data.position.x;
+        position.y = data.position.y;
 
-        var position = new Vector2(data.position.x, data.position.y);
-        var rotation = data.rotation;
-
-        var shouldMirrorBeSpawned = data.spawnMirror;
-        if(shouldMirrorBeSpawned) {
-            var mirrorObjectName = objectName + ' Mirror';
-            var package = new MirrorObject(objectName, mirrorObjectName);
-            package.position.x = position.x;
-            package.position.y = position.y;
-            package.rotation = rotation;
-
-            socket.emit('serverSpawn', package);
-            socket.broadcast.emit('serverSpawn', package);
-        } else {
-            var package = new ServerObject(objectName);
-            package.position.x = position.x;
-            package.position.y = position.y;
-            package.rotation = rotation;
-
-            socket.emit('serverSpawn', package);
-            socket.broadcast.emit('serverSpawn', package);
-        }
+        var parent = new Vector2();
+        parent.x = data.parent.x;
+        parent.y = data.parent.y;
 
         var spawn = new Spawn();
         spawn.name = data.name;
