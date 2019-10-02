@@ -1,5 +1,3 @@
-using UnityEngine;
-
 using SeizeCommand.Interactions.Interactors;
 
 namespace SeizeCommand.Interactions.Interactables

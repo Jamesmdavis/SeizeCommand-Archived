@@ -6,11 +6,12 @@ using SeizeCommand.Interactions.Interactors;
 using SeizeCommand.Movement;
 using SeizeCommand.Aiming;
 using SeizeCommand.Attack;
+using SeizeCommand.Networking;
 using SeizeCommand.Referencing;
 
 namespace SeizeCommand.Interactions.Interactables
 {
-    public abstract class AbstractSeat : MonoBehaviour, IInteractable
+    public abstract class AbstractSeat : MonoBehaviour, IInteractable, INetworkInteractable
     {
         [SerializeField] protected Transform leaveSeatPosition;
 
@@ -23,17 +24,12 @@ namespace SeizeCommand.Interactions.Interactables
 
         public void Interact(Interactor interactor)
         {
-            if(currentInteractor)
-            {
-                if(currentInteractor == interactor)
-                {
-                    LeaveSeat(interactor);
-                }
-            }
-            else
-            {
-                TakeSeat(interactor);
-            }
+            ProcessInteract(interactor);
+        }
+
+        public void RPCInteract(Interactor interactor)
+        {
+            RPCProcessInteract(interactor);
         }
 
         protected virtual void TakeSeat(Interactor interactor)
@@ -86,6 +82,59 @@ namespace SeizeCommand.Interactions.Interactables
             playerAim.enabled = true;
 
             Debug.Log("Leave Seat");
+        }
+
+        private void ProcessInteract(Interactor interactor)
+        {
+            if(currentInteractor)
+            {
+                if(currentInteractor == interactor)
+                {
+                    LeaveSeat(interactor);
+                    SendData(interactor, leaveSeatPosition.position);
+                }
+            }
+            else
+            {
+                TakeSeat(interactor);
+                SendData(interactor, transform.position);
+            }
+        }
+
+        private void RPCProcessInteract(Interactor interactor)
+        {
+            if(currentInteractor)
+            {
+                if(currentInteractor == interactor)
+                {
+                    LeaveSeat(interactor);
+                }
+            }
+            else
+            {
+                TakeSeat(interactor);
+            }
+        }
+
+        private void SendData(Interactor interactor, Vector3 position)
+        {
+            NetworkIdentity networkIdentity = interactor.Player.GetComponent<NetworkIdentity>();
+
+            Vector2Package changePositionPackage = new Vector2Package();
+            changePositionPackage.id = networkIdentity.ID;
+            changePositionPackage.vector2 = new Vector2Data();
+            changePositionPackage.vector2.x = position.x;
+            changePositionPackage.vector2.y = position.y;
+
+            RotationPackage changeRotationPackage = new RotationPackage();
+            changeRotationPackage.id = networkIdentity.ID;
+            changeRotationPackage.rotation = 180f;
+
+            networkIdentity.Socket.Emit("changePosition", 
+                new JSONObject(JsonUtility.ToJson(changePositionPackage)));
+
+            networkIdentity.Socket.Emit("changeRotation",
+                new JSONObject(JsonUtility.ToJson(changeRotationPackage)));
         }
     }
 }

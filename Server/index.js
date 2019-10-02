@@ -38,6 +38,15 @@ io.on('connection', function(socket) {
         var ship = new Ship('Space Ship');
         var thisShipID = ship.id;
 
+        var pilotSeat = ship.pilotSeat;
+        var gunSeat = ship.gunSeat;
+
+        var pilotSeatID = pilotSeat.id;
+        var gunSeatID = gunSeat.id;
+
+        serverObjects[pilotSeatID] = pilotSeat;
+        serverObjects[gunSeatID] = gunSeat;
+
         serverObjects[thisShipID] = ship;
         ships[thisShipID] = ship;
 

@@ -71,6 +71,11 @@ namespace SeizeCommand.Interactions.Interactors
         protected virtual void Interact(IInteractable interactable)
         {  
             interactable.Interact(this);
+            CallOnInteract();
+        }
+
+        protected void CallOnInteract()
+        {
             if(OnInteract != null) OnInteract();
         }
 

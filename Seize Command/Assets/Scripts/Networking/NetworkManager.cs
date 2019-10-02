@@ -154,7 +154,7 @@ namespace SeizeCommand.Networking
                 NetworkIdentity senderNI = serverObjects[senderID];
                 NetworkIdentity receiverNI = serverObjects[receiverID];
                 NetworkInteractor senderInteractor = senderNI.GetComponentInChildren<NetworkInteractor>();
-                IInteractable receiverInteractable = receiverNI.GetComponent<IInteractable>();
+                INetworkInteractable receiverInteractable = receiverNI.GetComponent<INetworkInteractable>();
                 
                 senderInteractor.RPCInteract(receiverInteractable);
             });
@@ -190,6 +190,28 @@ namespace SeizeCommand.Networking
                     ni.SetSocketReference(this);
 
                     serverObjects.Add(id, ni);
+
+                    if(name == "Space Ship")
+                    {
+                        string pilotSeatID = E.data["pilotSeat"]["id"].ToString().Trim('"');
+                        string gunSeatID = E.data["gunSeat"]["id"].ToString().Trim('"');
+
+                        References<GameObject> objectReferences = spawnedObject
+                            .GetComponent<References<GameObject>>();
+                        GameObject pilotSeat = objectReferences.GetReferenceByName("Pilot Seat");
+                        GameObject gunSeat = objectReferences.GetReferenceByName("Gun Seat");
+
+                        NetworkIdentity pilotSeatNI = pilotSeat.GetComponent<NetworkIdentity>();
+                        NetworkIdentity gunSeatNI = gunSeat.GetComponent<NetworkIdentity>();
+
+                        pilotSeatNI.SetControllerID(pilotSeatID);
+                        gunSeatNI.SetControllerID(gunSeatID);
+                        pilotSeatNI.SetSocketReference(this);
+                        gunSeatNI.SetSocketReference(this);
+
+                        serverObjects.Add(pilotSeatID, pilotSeatNI);
+                        serverObjects.Add(gunSeatID, gunSeatNI);
+                    }
                 }
             });
 
@@ -205,7 +227,7 @@ namespace SeizeCommand.Networking
 
                 Vector2 positionData = new Vector2(x, y);
                 Quaternion rotationData = Quaternion.Euler(0, 0, rotation);
-
+                
                 if(!serverObjects.ContainsKey(spawn1ID) && !serverObjects.ContainsKey(spawn2ID))
                 {
                     ServerObjectData sod1 = serverSpawnables.GetObjectByName(spawn1Name);

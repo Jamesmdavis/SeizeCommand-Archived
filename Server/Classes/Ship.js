@@ -6,5 +6,7 @@ module.exports = class Ship extends ServerObject {
         super(NAME);
         this.velocity = new Vector2();
         this.players = [];
+        this.pilotSeat = new ServerObject('Pilot Seat');
+        this.gunSeat = new ServerObject('Gun Seat');
     }
 }

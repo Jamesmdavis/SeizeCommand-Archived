@@ -19,9 +19,10 @@ namespace SeizeCommand.Interactions.Interactors
             SendData(interactable);
         }
 
-        public void RPCInteract(IInteractable interactable)
+        public void RPCInteract(INetworkInteractable interactable)
         {
-            base.Interact(interactable);
+            interactable.RPCInteract(this);
+            CallOnInteract();
         }
 
         private void SendData(IInteractable interactable)
