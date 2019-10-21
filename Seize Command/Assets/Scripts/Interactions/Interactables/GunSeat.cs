@@ -35,8 +35,8 @@ namespace SeizeCommand.Interactions.Interactables
             AttackManager attackManager = CurrentInteractor.Player.GetComponent<AttackManager>();
             input.AttackScript = attackManager;
 
-            References<GameObject> references = CurrentInteractor.Player
-                .GetComponent<References<GameObject>>();
+            References references = CurrentInteractor.Player
+                .GetComponent<References>();
             GameObject otherPlayer = references.GetReferenceByName("Other Player");
 
             AbstractAim aim = otherPlayer.GetComponent<AbstractAim>();

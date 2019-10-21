@@ -3,7 +3,7 @@ var io = require('socket.io')(process.env.PORT || 52300);
 //Custom Classes
 var ServerObject =          require('./Classes/ServerObject.js');
 var Ship =                  require('./Classes/Ship.js');
-var MirroredPairPackage =   require('./Classes/MirroredPairPackage.js/index.js');
+var MirroredPairPackage =   require('./Classes/MirroredPairPackage.js');
 var TakeDamage =            require('./Classes/TakeDamage.js');
 var RotationPackage =       require('./Classes/RotationPackage.js');
 var Vector2Package =        require('./Classes/Vector2Package.js');
@@ -13,6 +13,8 @@ var SendReceivePackage =    require('./Classes/SendReceivePackage.js');
 var serverObjects = [];
 var ships = [];
 var sockets = [];
+
+var mainshipId = 0;
 
 var maxPlayersPerShip = 3;
 
@@ -35,6 +37,7 @@ io.on('connection', function(socket) {
                                 id2: thisPlayerMirrorID });
 
     if(ships.length == 0) {
+        console.log('Spawn Ship');
         var ship = new Ship('Space Ship');
         var thisShipID = ship.id;
 
@@ -52,12 +55,19 @@ io.on('connection', function(socket) {
 
         socket.emit('serverSpawn', ship);
         socket.broadcast.emit('serverSpawn', ship);
+
+        mainshipId = thisShipID;
     }
 
+    var playerPackage = new MirroredPairPackage('Player');
+    playerPackage.spawn1ID = thisPlayerID;
+    playerPackage.spawn2ID = thisPlayerMirrorID;
+    playerPackage.parentID = mainshipId;
+
     //Tell myself that I have spawned
-    socket.emit('serverSpawn', player);
+    socket.emit('serverSpawnMirroredPair', playerPackage);
     //Tell others that I have spawned
-    socket.broadcast.emit('serverSpawn', player);
+    socket.broadcast.emit('serverSpawnMirroredPair', playerPackage);
 
     //Tell myself about everyone else in the game
     for(var key in serverObjects) {

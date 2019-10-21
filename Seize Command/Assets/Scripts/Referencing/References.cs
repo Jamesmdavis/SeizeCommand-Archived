@@ -6,54 +6,50 @@ using UnityEngine;
 
 namespace SeizeCommand.Referencing
 {
-    public class References<T> : MonoBehaviour
+    public class References : MonoBehaviour
     { 
-        [SerializeField] private List<ReferenceData<T>> Objects;
+        [SerializeField] private List<ReferenceData> Objects;
 
-        public event Action<ReferenceData<T>> OnReferenceChange;
+        public event Action<ReferenceData> OnReferenceChange;
 
-        public void AddReference(string name, T reference)
+        public void AddReference(string name, GameObject reference)
         {
-            ReferenceData<T> referenceData = new ReferenceData<T>(name, reference);
+            ReferenceData referenceData = new ReferenceData(name, reference);
             Objects.Add(referenceData);
-            OnReferenceChange(referenceData);
+            if(OnReferenceChange != null) OnReferenceChange(referenceData);
         }
 
         public void RemoveReference(string name)
         {
-            ReferenceData<T> referenceData = Objects.FirstOrDefault(x => x.Name == name);
+            ReferenceData referenceData = Objects.FirstOrDefault(x => x.Name == name);
             Objects.Remove(referenceData);
-            OnReferenceChange(referenceData);
         }
 
         public void ChangeNameOfReference(string name, string newName)
         {
-            ReferenceData<T> referenceData = Objects.FirstOrDefault(x => x.Name == name);
+            ReferenceData referenceData = Objects.FirstOrDefault(x => x.Name == name);
             referenceData.Name = newName;
-            OnReferenceChange(referenceData);
         }
 
-        public void ChangeReferenceOfReference(string name, T reference)
+        public void ChangeReferenceOfReference(string name, GameObject reference)
         {
-            ReferenceData<T> referenceData = Objects.FirstOrDefault(x => x.Name == name);
+            ReferenceData referenceData = Objects.FirstOrDefault(x => x.Name == name);
             referenceData.Reference = reference;
-            OnReferenceChange(referenceData);
         }
 
-        public T GetReferenceByName(string name)
+        public GameObject GetReferenceByName(string name)
         {
             return Objects.FirstOrDefault(x => x.Name == name).Reference;
         }
-
     }
 
     [Serializable]
-    public class ReferenceData<T>
+    public class ReferenceData
     {
         [SerializeField] private string name;
-        [SerializeField] private T reference;
+        [SerializeField] private GameObject reference;
 
-        public ReferenceData(string N, T R)
+        public ReferenceData(string N, GameObject R)
         {
             name = N;
             reference = R;
@@ -65,7 +61,7 @@ namespace SeizeCommand.Referencing
             set { name = value; }
         }
 
-        public T Reference
+        public GameObject Reference
         {
             get { return reference; }
             set { reference = value; }

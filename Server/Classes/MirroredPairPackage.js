@@ -6,6 +6,7 @@ module.exports = class MirroredPairPackage {
         this.spawn2Name = NAME + " Mirror";
         this.spawn1ID = 0;
         this.spawn2ID = 0;
+        this.parentID = 0;
         this.position = new Vector2();
         this.rotation = 0;
     }

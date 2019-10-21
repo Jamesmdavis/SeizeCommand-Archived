@@ -48,8 +48,8 @@ namespace SeizeCommand.Interactions.Interactables
             AttackManager playerAttack = interactor.Player.GetComponent<AttackManager>();
             playerAttack.enabled = false;
 
-            References<GameObject> references = interactor.Player
-                .GetComponent<References<GameObject>>();
+            References references = interactor.Player
+                .GetComponent<References>();
             GameObject otherPlayer = references.GetReferenceByName("Other Player");
 
             AbstractAim playerAim = otherPlayer.GetComponent<AbstractAim>();
@@ -74,8 +74,8 @@ namespace SeizeCommand.Interactions.Interactables
             AttackManager playerAttack = interactor.Player.GetComponent<AttackManager>();
             playerAttack.enabled = true;
 
-            References<GameObject> references = interactor.Player
-                .GetComponent<References<GameObject>>();
+            References references = interactor.Player
+                .GetComponent<References>();
             GameObject otherPlayer = references.GetReferenceByName("Other Player");
 
             AbstractAim playerAim = otherPlayer.GetComponent<AbstractAim>();

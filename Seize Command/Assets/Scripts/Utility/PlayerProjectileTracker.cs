@@ -19,8 +19,8 @@ namespace SeizeCommand.Utility
             GameObject spawnedObject = Instantiate(mirrorProjectile, projPositionData,
                 projRotationData, mirrorProjectileParent);
 
-            References<Transform> references = spawnedObject.GetComponent<References<Transform>>();
-            references.AddReference("Mirror Target", spawnedObject.transform);
+            References references = spawnedObject.GetComponent<References>();
+            references.AddReference("Mirror Target", spawnedObject);
 
             MirrorTransform mirrorScript = spawnedObject.GetComponent<MirrorTransform>();
             mirrorScript.StartMirroring();

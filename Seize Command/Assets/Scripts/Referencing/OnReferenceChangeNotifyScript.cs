@@ -11,14 +11,14 @@ namespace SeizeCommand.Referencing
     //This class sets the player reference for all of the scripts on the camera that need to know
     //about the player
     //I am using an Interface call IReferenceable to allow me to use the same method for multiple scripts
-    public class OnReferenceChangeNotifyScript<T> : AbstractEventSubscriber<References<T>>
+    public class OnReferenceChangeNotifyScript : AbstractEventSubscriber<References>
     {
-        private IReferenceable<T>[] scripts;
+        private IReferenceable[] scripts;
 
         protected override void Awake()
         {
             base.Awake();
-            scripts = GetComponentsInParent<IReferenceable<T>>();
+            scripts = GetComponentsInParent<IReferenceable>();
         }
 
         private void OnEnable()
@@ -31,9 +31,9 @@ namespace SeizeCommand.Referencing
             item.OnReferenceChange -= NotifyScripts;
         }
 
-        private void NotifyScripts(ReferenceData<T> referenceData)
+        private void NotifyScripts(ReferenceData referenceData)
         {
-            foreach(IReferenceable<T> script in scripts)
+            foreach(IReferenceable script in scripts)
             {
                 script.SetReference(referenceData);
             }

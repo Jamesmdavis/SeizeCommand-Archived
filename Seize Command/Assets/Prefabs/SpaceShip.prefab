@@ -478,7 +478,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4620960918761007619}
-  - component: {fileID: 4620960918761007616}
+  - component: {fileID: 7380981755367579438}
   - component: {fileID: 1844943971}
   m_Layer: 0
   m_Name: Space Ship Static
@@ -502,7 +502,7 @@ Transform:
   m_Father: {fileID: 4620960920361470608}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4620960918761007616
+--- !u!114 &7380981755367579438
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -511,10 +511,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4620960918761007618}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9a1571c3c6de1043b816da3563318d1, type: 3}
+  m_Script: {fileID: 11500000, guid: 204facfdc1ea265428ebc3193c17d751, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reference: {fileID: 4620960920115785433}
+  Objects: []
 --- !u!114 &1844943971
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1114,7 +1114,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4620960920115785428}
   - component: {fileID: 4620960920115785431}
-  - component: {fileID: 753113611183980192}
+  - component: {fileID: 5476641384759544575}
   - component: {fileID: 5307492902974300120}
   - component: {fileID: 4602753737258220519}
   - component: {fileID: 3360016581337623252}
@@ -1163,7 +1163,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &753113611183980192
+--- !u!114 &5476641384759544575
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1172,10 +1172,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4620960920115785433}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9a1571c3c6de1043b816da3563318d1, type: 3}
+  m_Script: {fileID: 11500000, guid: 204facfdc1ea265428ebc3193c17d751, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reference: {fileID: 4620960918761007618}
+  Objects: []
 --- !u!114 &5307492902974300120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1335,7 +1335,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4620960920361470608}
-  - component: {fileID: 1121980479512795413}
+  - component: {fileID: 5490488960133313475}
+  - component: {fileID: 1643169186701260521}
   m_Layer: 0
   m_Name: SpaceShip
   m_TagString: Untagged
@@ -1359,7 +1360,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1121980479512795413
+--- !u!114 &5490488960133313475
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1368,14 +1369,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 4620960920361470611}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f51b8ca83e5071f41926782e57642535, type: 3}
+  m_Script: {fileID: 11500000, guid: 204facfdc1ea265428ebc3193c17d751, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Objects:
   - name: Static Deck
-    parent: {fileID: 8804527438999446618}
+    reference: {fileID: 8224837481106179041}
   - name: Dynamic Deck
-    parent: {fileID: 9034472846752515209}
+    reference: {fileID: 7202658705544487715}
+--- !u!114 &1643169186701260521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4620960920361470611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4582d4b7012221747b61d4869ec61e8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4620960920540165424
 GameObject:
   m_ObjectHideFlags: 0
@@ -2646,15 +2659,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d02460d1ae2f3524fbc6391afa06ce27, type: 3}
---- !u!61 &8844993094023279690 stripped
-BoxCollider2D:
-  m_CorrespondingSourceObject: {fileID: 2709683219097829860, guid: d02460d1ae2f3524fbc6391afa06ce27,
-    type: 3}
-  m_PrefabInstance: {fileID: 6855886914820748718}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8844993094023279668 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2709683219097829786, guid: d02460d1ae2f3524fbc6391afa06ce27,
+    type: 3}
+  m_PrefabInstance: {fileID: 6855886914820748718}
+  m_PrefabAsset: {fileID: 0}
+--- !u!61 &8844993094023279690 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 2709683219097829860, guid: d02460d1ae2f3524fbc6391afa06ce27,
     type: 3}
   m_PrefabInstance: {fileID: 6855886914820748718}
   m_PrefabAsset: {fileID: 0}

@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace SeizeCommand.Referencing
 {
-    public interface IReferenceable<T>
+    public interface IReferenceable
     {
-        void SetReference(ReferenceData<T> reference);
+        void SetReference(ReferenceData reference);
     }
 }

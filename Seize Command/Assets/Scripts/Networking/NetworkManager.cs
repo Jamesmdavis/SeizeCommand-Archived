@@ -61,6 +61,7 @@ namespace SeizeCommand.Networking
         private void Initialize()
         {
             serverObjects = new Dictionary<string, NetworkIdentity>();
+            LocalPlayers = new ClientIDS();
             LocalPlayers.id = new string[2];
         }
 
@@ -170,6 +171,7 @@ namespace SeizeCommand.Networking
             });
 
             On("serverSpawn", (E) => {
+                Debug.Log("Spawning Ship");
                 string id = E.data["id"].ToString().Trim('"');
                 string name = E.data["name"].str;
                 float x = E.data["position"]["x"].f;
@@ -196,8 +198,8 @@ namespace SeizeCommand.Networking
                         string pilotSeatID = E.data["pilotSeat"]["id"].ToString().Trim('"');
                         string gunSeatID = E.data["gunSeat"]["id"].ToString().Trim('"');
 
-                        References<GameObject> objectReferences = spawnedObject
-                            .GetComponent<References<GameObject>>();
+                        References objectReferences = spawnedObject
+                            .GetComponent<References>();
                         GameObject pilotSeat = objectReferences.GetReferenceByName("Pilot Seat");
                         GameObject gunSeat = objectReferences.GetReferenceByName("Gun Seat");
 
@@ -234,17 +236,12 @@ namespace SeizeCommand.Networking
                     ServerObjectData sod2 = serverSpawnables.GetObjectByName(spawn2Name);
 
                     NetworkIdentity parentNI = serverObjects[parentID];
-                    References<GameObject> parentReferences = parentNI.GetComponent<References<GameObject>>();
+                    References parentReferences = parentNI.GetComponent<References>();
                     Transform staticObjectParent = parentReferences.GetReferenceByName("Static Deck").transform;
                     Transform dynamicObjectParent = parentReferences.GetReferenceByName("Dynamic Deck").transform;
 
-                    GameObject spawnedObject1 = staticObjectParent ? Instantiate(sod1.prefab, positionData,
-                        rotationData, staticObjectParent) : Instantiate(sod1.prefab, positionData,
-                        rotationData, networkContainer);
-
-                    GameObject spawnedObject2 = dynamicObjectParent ? Instantiate(sod2.prefab, positionData,
-                        rotationData, dynamicObjectParent) : Instantiate(sod2.prefab, positionData,
-                        rotationData, networkContainer);
+                    GameObject spawnedObject1 = Instantiate(sod1.prefab, staticObjectParent, false);
+                    GameObject spawnedObject2 = Instantiate(sod2.prefab, dynamicObjectParent, false);
 
                     NetworkIdentity networkIdentity1 = spawnedObject1.GetComponent<NetworkIdentity>();
                     NetworkIdentity networkIdentity2 = spawnedObject2.GetComponent<NetworkIdentity>();
@@ -256,10 +253,10 @@ namespace SeizeCommand.Networking
                     serverObjects.Add(spawn1ID, networkIdentity1);
                     serverObjects.Add(spawn2ID, networkIdentity2);
 
-                    References<GameObject> object1Refereces = spawnedObject1
-                        .GetComponent<References<GameObject>>();
-                    References<GameObject> object2Refereces = spawnedObject2
-                        .GetComponent<References<GameObject>>();
+                    References object1Refereces = spawnedObject1
+                        .GetComponent<References>();
+                    References object2Refereces = spawnedObject2
+                        .GetComponent<References>();
 
                     object1Refereces.AddReference("Mirror Target", spawnedObject2);
                     object2Refereces.AddReference("Mirror Target", spawnedObject1);
@@ -283,10 +280,10 @@ namespace SeizeCommand.Networking
                         {
                             //Camera follow the Local Player.  This sets up the reference
                             Camera mainCamera = Camera.main;
-                            References<Transform> camReferences = 
-                                mainCamera.GetComponent<References<Transform>>();
+                            References camReferences = 
+                                mainCamera.GetComponent<References>();
 
-                            camReferences.AddReference("Player Mirror", spawnedObject2.transform);
+                            camReferences.AddReference("Player Mirror", spawnedObject2);
                         }
                         else
                         {
@@ -320,6 +317,7 @@ namespace SeizeCommand.Networking
     public class SpawnPackage
     {
         public string name;
+        public string parentID;
         public Vector2Data position;
         public float rotation;
     }

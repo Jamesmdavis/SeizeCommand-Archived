@@ -16,12 +16,12 @@ MonoBehaviour:
   - name: Projectile
     prefab: {fileID: 7298299477646362231, guid: 4a0296134aad57c49beb12e885ddf996,
       type: 3}
-  - name: SpaceShip
+  - name: Space Ship
     prefab: {fileID: 4620960920361470611, guid: 8b5fb0cb4e616c24f97979adff35902b,
       type: 3}
   - name: Player
     prefab: {fileID: 2536958507248721030, guid: f610e9f9c9a7db0409f174a570482297,
       type: 3}
-  - name: PlayerMirror
+  - name: Player Mirror
     prefab: {fileID: 6000927030508797799, guid: 8fe75d24018b7d84cac7e55302b5a311,
       type: 3}
